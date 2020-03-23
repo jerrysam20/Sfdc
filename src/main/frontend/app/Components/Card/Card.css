@@ -1,0 +1,4 @@
+.card .card-image-holder {
+    min-height: 220px;
+    max-height: 15rem;
+}

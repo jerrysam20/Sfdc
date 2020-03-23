@@ -1,0 +1,12 @@
+*.class
+.directory
+.classpath
+.project
+node_modules/
+**/.settings
+**/.idea/*
+/target/
+/package-lock.json
+/ReportingTool.iml
+/src/main/frontend/package-lock.json
+/src/main/resources/reports/temp/

@@ -1,0 +1,9 @@
+.body-container {
+  padding: 0 100px;
+  margin-top: 100px !important;
+  min-height: 700px !important;
+}
+
+.error-icon {
+  height: 200px;
+}

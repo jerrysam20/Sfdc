@@ -1,0 +1,70 @@
+.summarypage_container {
+    background: #fff;
+    margin: 0 auto;
+    width: 800px;
+    text-align: center;
+    /* border-radius */
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    /* box-shadow */
+    -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px;
+    font-size: 15px;
+    margin-top: 10rem;
+    margin-bottom: 10rem;
+    position: relative;
+    height: 30rem;
+}
+
+.chart_section {
+    position: absolute;
+    width: 100%;
+}
+
+.list_section {
+    float: right;
+    width: 50%;
+    margin-top: 20px;
+}
+
+.report_header {
+    height: 5rem;
+}
+
+.download_section {
+    position: absolute;
+    margin: 0 auto;
+    width: 800px;
+    bottom: 20px;
+    left: 80px;
+}
+
+.greenDot {
+    height: 25px;
+    width: 25px;
+    background-color: #28bb2c;
+    border-radius: 50%;
+    float: left;
+}
+
+.redDot {
+    height: 25px;
+    width: 25px;
+    background-color: #bb0f14;
+    border-radius: 50%;
+    float: left;
+}
+
+
+
+.listContent {
+    float: left;
+    width: 70%;
+    margin-bottom: 5px;
+}
+
+.listSection {
+    margin-top: 30px;
+}

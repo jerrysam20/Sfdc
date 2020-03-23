@@ -1,0 +1,58 @@
+.body-container {
+  margin-top: 150px;
+}
+
+.body-container .jumbotron {
+  background-color: white;
+  padding: 80px;
+}
+
+.body-container .process-container {
+  padding: 40px 80px;
+  display: flex;
+  justify-content: center;
+}
+
+.body-container .jumbotron .padding-adder {
+  padding: 10px 0 !important;
+}
+
+.body-container .process-title {
+  padding: 0 80px;
+  text-align: center;
+}
+
+.body-container .process-container .card {
+  height: 350px;
+  border-radius: 5px;
+}
+
+.header-image {
+  height: 30px;
+}
+
+.body-container .process-container .card .card-header {
+  background-color: white;
+  border-bottom: 0;
+}
+
+.body-container .process-container .card .card-header,
+.card-body {
+  padding: 20px;
+}
+
+.body-container .process-container .components .card .card-image {
+  height: 120px;
+  min-height: 120px;
+  padding: 30px;
+}
+
+
+.body-container .process-container .arrow {
+  height: 270px;
+  width: 0;
+  height: 0;
+  border-top: 90px solid transparent;
+  border-bottom: 90px solid transparent;
+  border-left: 90px solid #333A40;
+}

@@ -1,0 +1,50 @@
+.header {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+}
+
+.header .navbar {
+  border-radius: 0;
+  position: fixed;
+  width: 100%;
+  background-color: black;
+}
+
+.header .navbar .row {
+  width: 100%;
+}
+
+.header .navbar .nav-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+}
+
+.header .navbar .nav-buttons .navbar-nav {
+  margin: 0 !important;
+}
+
+.header .navbar .nav-buttons .navbar-nav .nav-link:hover {
+  font-weight: 400;
+}
+
+.header .deloitte {
+  font-weight: bolder;
+  font-size: 26px;
+}
+
+.header .deloitte-dot {
+  background-color: #86bc24;
+  height: 5px;
+  width: 5px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 2px;
+}
+
+.active-link {
+  color: white !important;
+  font-weight: 800;
+}
