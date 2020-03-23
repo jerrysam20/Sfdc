@@ -20,8 +20,7 @@ export default class HeaderComponent extends React.Component {
               <Navbar.Brand href="/">
                 {/* <span className="deloitte">Deloitte</span>
                 <span className="deloitte-dot" /> */}
-                <strong className="deloitte">Sfdc</strong>
-              <span className="deloitte-dot" />
+                <strong className="deloitte">SFDC Point & Click</strong>
               </Navbar.Brand>
             </Col>
             <Col sm={8} />
@@ -40,18 +39,6 @@ export default class HeaderComponent extends React.Component {
                   href="/documentation"
                 >
                   Documentation
-                </Nav.Link>
-                <Nav.Link
-                  className={`${pageLink === 'explore' ? 'active-link' : ''}`}
-                  href="/explore"
-                >
-                  Explore
-                </Nav.Link>
-                <Nav.Link
-                  className={`${pageLink === 'reports' ? 'active-link' : ''}`}
-                  href="/reports"
-                >
-                  Reports
                 </Nav.Link>
               </Nav>
             </Col>

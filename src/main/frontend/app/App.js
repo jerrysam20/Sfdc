@@ -12,6 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import FooterComponent from './Components/Footer/Footer';
 import HeaderComponent from './Components/Header/Header';
 import DocumentationPage from './Pages/Documentation/Documentation';
+import img1 from './assets/bg.jpg'
 
 function App() {
   const footerOptions = [
@@ -33,7 +34,7 @@ function App() {
     }
   ];
   return (
-    <div className="App">
+    <div className="App" style={{backgroundImage: "url(" + img1 + ")"}}>
       <HeaderComponent />
       <Router>
         <Switch>
