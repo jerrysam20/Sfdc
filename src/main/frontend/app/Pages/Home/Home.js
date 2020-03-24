@@ -20,7 +20,7 @@ const HomePage = () => (
             <div className="components col-sm-2">
                 <Card style={{ width: '18rem' }}>
                     <Card.Header as="h5">
-                        <img className="header-image" src={oneIcon} />
+                        <img className="header-image" />
                     </Card.Header>
                     <Card.Img variant="top" className="card-image" src={sfdcIcon} />
                     <Card.Body>
@@ -32,7 +32,7 @@ const HomePage = () => (
             <div className="components col-sm-offset-1 col-sm-2">
                 <Card style={{ width: '18rem' }}>
                     <Card.Header as="h5">
-                        <img className="header-image" src={twoIcon} />
+                        <img className="header-image" />
                     </Card.Header>
                     <Card.Img variant="top" className="card-image" src={sfdcIcon} />
                     <Card.Body>
@@ -45,7 +45,7 @@ const HomePage = () => (
             <div className="components col-sm-offset-1 col-sm-2">
                 <Card style={{ width: '18rem' }}>
                     <Card.Header as="h5">
-                        <img className="header-image" src={threeIcon} />
+                        <img className="header-image" />
                     </Card.Header>
                     <Card.Img variant="top" className="card-image" src={sfdcIcon} />
                     <Card.Body>
@@ -62,7 +62,7 @@ const HomePage = () => (
             <div className="components col-sm-2">
                 <Card style={{ width: '18rem' }}>
                     <Card.Header as="h5">
-                        <img className="header-image" src={oneIcon} />
+                        <img className="header-image" />
                     </Card.Header>
                     <Card.Img variant="top" className="card-image" src={sfdcIcon} />
                     <Card.Body>
@@ -74,7 +74,7 @@ const HomePage = () => (
             <div className="components col-sm-offset-1 col-sm-2">
                 <Card style={{ width: '18rem' }}>
                     <Card.Header as="h5">
-                        <img className="header-image" src={twoIcon} />
+                        <img className="header-image" />
                     </Card.Header>
                     <Card.Img variant="top" className="card-image" src={sfdcIcon} />
                     <Card.Body>
@@ -86,7 +86,7 @@ const HomePage = () => (
             <div className="components col-sm-offset-1 col-sm-2">
                 <Card style={{ width: '18rem' }}>
                     <Card.Header as="h5">
-                        <img className="header-image" src={threeIcon} />
+                        <img className="header-image"  />
                     </Card.Header>
                     <Card.Img variant="top" className="card-image" src={sfdcIcon} />
                     <Card.Body>
@@ -102,7 +102,7 @@ const HomePage = () => (
             <div className="components col-sm-2">
                 <Card style={{ width: '18rem' }}>
                     <Card.Header as="h5">
-                        <img className="header-image" src={oneIcon} />
+                        <img className="header-image" />
                     </Card.Header>
                     <Card.Img variant="top" className="card-image" src={sfdcIcon} />
                     <Card.Body>
@@ -114,7 +114,7 @@ const HomePage = () => (
             <div className="components col-sm-offset-1 col-sm-2">
                 <Card style={{ width: '18rem' }}>
                     <Card.Header as="h5">
-                        <img className="header-image" src={twoIcon} />
+                        <img className="header-image"  />
                     </Card.Header>
                     <Card.Img variant="top" className="card-image" src={sfdcIcon} />
                     <Card.Body>
