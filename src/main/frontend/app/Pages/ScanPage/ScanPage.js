@@ -19,32 +19,32 @@ export default class ScanPage extends React.Component {
       selectedFormattedDate: moment(new Date()).format('YYYYMMDD'),
       sourceOptionsData: [
         {
-          label: 'JDK6',
-          value: 'JDK-6',
+          label: 'Triggers',
+          value: 'Triggers',
           version: 6,
           source: 'sourceOption'
         },
         {
-          label: 'JDK7',
-          value: 'JDK-7',
+          label: 'Integration Callouts',
+          value: 'Integration Callouts',
           version: 7,
           source: 'sourceOption'
         },
         {
-          label: 'JDK8',
-          value: 'JDK-8',
+          label: 'Workflows',
+          value: 'Workflows',
           version: 8,
           source: 'sourceOption'
         },
         {
-          label: 'JDK9',
-          value: 'JDK-9',
+          label: 'Approval Process',
+          value: 'Approval Process',
           version: 9,
           source: 'sourceOption'
         },
         {
-          label: 'JDK10',
-          value: 'JDK-10',
+          label: 'Batch Class',
+          value: 'Batch Class',
           version: 10,
           source: 'sourceOption'
         }
@@ -97,65 +97,53 @@ export default class ScanPage extends React.Component {
       selectedSourceVersion: '',
       availableOptionsData: [
         {
-          label: 'JDK6',
-          value: 'JDK-6',
+          label: 'Triggers',
+          value: 'Triggers',
           version: 6,
           source: 'availableOption'
         },
         {
-          label: 'JDK7',
-          value: 'JDK-7',
+          label: 'Integration Callouts',
+          value: 'Integration Callouts',
           version: 7,
           source: 'availableOption'
         },
         {
-          label: 'JDK8',
-          value: 'JDK-8',
+          label: 'Workflows',
+          value: 'Workflows',
           version: 8,
           source: 'availableOption'
         },
         {
-          label: 'JDK9',
-          value: 'JDK-9',
+          label: 'Approval Process',
+          value: 'Approval Process',
           version: 9,
           source: 'availableOption'
         },
         {
-          label: 'JDK10',
-          value: 'JDK-10',
+          label: 'Batch Class',
+          value: 'Batch Class',
           version: 10,
           source: 'availableOption'
         }
       ],
       modifiedAvailableOptions: [
         {
-          label: 'JDK6',
-          value: 'JDK-6',
+          label: 'Objects',
+          value: 'Objects',
           version: 6,
           source: 'availableOption'
         },
         {
-          label: 'JDK7',
-          value: 'JDK-7',
+          label: 'Exception Handling',
+          value: 'Exception Handling',
           version: 7,
           source: 'availableOption'
         },
         {
-          label: 'JDK8',
-          value: 'JDK-8',
+          label: 'Field Updates',
+          value: 'Field Updates',
           version: 8,
-          source: 'availableOption'
-        },
-        {
-          label: 'JDK9',
-          value: 'JDK-9',
-          version: 9,
-          source: 'availableOption'
-        },
-        {
-          label: 'JDK10',
-          value: 'JDK-10',
-          version: 10,
           source: 'availableOption'
         }
       ],
@@ -242,7 +230,7 @@ export default class ScanPage extends React.Component {
       formData.append('reportId', this.state.reportId);
       formData.append('reportingType', this.state.mode);
     }
-    const endPoint = this.state.mode === 'log' ? '/readLogFile' : '/scan';
+    const endPoint = this.state.mode === 'log' ? '/readLogFile' : '/generateCode';
     fetch(endPoint, {
       method: 'post',
       body: formData
@@ -292,9 +280,11 @@ export default class ScanPage extends React.Component {
     return (
       <div className="body-container">
         <div className="scanpage-container">
+          <div className="animate-form">
           <div className="section">
             <div className="scanpage-form row">
               <div className="col-xs-24">
+                <h1 className="form-header">CODE GENERATION FORM</h1>
                 <div className="form-group">
                   <Form>
                     {mode === 'jdk' && (
@@ -343,73 +333,13 @@ export default class ScanPage extends React.Component {
                       </Form.Group>
                     )}
 
-                    {mode === 'log' && (
-                      <Form.Group as={Row} controlId="formPlaintextEmail">
-                        <Form.Label column sm="12">
-                          Select Environment
-                        </Form.Label>
-                        <Col sm="12">
-                          <SelectBox
-                            type="dropdown"
-                            options={this.state.logEnvironmentOptions}
-                            value={this.state.environment}
-                            onChange={this.handleOptionChange}
-                          />
-                        </Col>
-                      </Form.Group>
-                    )}
 
-                    {mode === 'log' && environment !== '' && (
-                      <Form.Group as={Row} controlId="formPlaintextEmail">
-                        <Form.Label column sm="12">
-                          Select Environment
-                        </Form.Label>
-                        <Col sm="12">
-                          <SelectBox
-                            type="dropdown"
-                            options={this.state.nodes[environment]}
-                            value={this.state.selectedNode}
-                            onChange={this.handleOptionChange}
-                          />
-                        </Col>
-                      </Form.Group>
-                    )}
 
-                    {mode === 'log' && (
-                      <Form.Group as={Row} controlId="formPlaintextEmail">
-                        <Form.Label column sm="12">
-                          Select Date
-                        </Form.Label>
-                        <Col sm="12">
-                          <DatePicker
-                            dateFormat="dd/MM/yyyy"
-                            selected={this.state.selectedDate}
-                            onChange={this.handleChange}
-                            isClearable
-                            placeholderText="Click to select"
-                          />
-                        </Col>
-                      </Form.Group>
-                    )}
-                    {mode === 'jdk' && (
-                      <Form.Group as={Row} controlId="formPlaintextPassword">
-                        <Form.Label column sm="12">
-                          Select Available Options
-                        </Form.Label>
-                        <Col sm="12">
-                          <SelectBox
-                            type="dropdown"
-                            options={this.state.modifiedAvailableOptions}
-                            value={this.state.availableOption}
-                            onChange={this.handleOptionChange}
-                          />
-                        </Col>
-                      </Form.Group>
-                    )}
+
                     {(mode === 'hybris' || mode === 'jdk') && (
                       <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Form.Label column sm="12">
-                          Browse project folder
+                          Browse input file
                         </Form.Label>
                         <Col sm="12">
                           <input
@@ -420,31 +350,18 @@ export default class ScanPage extends React.Component {
                       </Form.Group>
                     )}
 
-                    <Form.Group as={Row} controlId="formPlaintextPassword">
-                      <Form.Label column sm="12">
-                        Report ID
-                      </Form.Label>
-                      <Col sm="12">
-                        <Form.Control
-                          id="reportId"
-                          onChange={e => this.onChange(e, 'reportId')}
-                        />
-                      </Col>
-                    </Form.Group>
                   </Form>
-                  <Button
-                    variant="dark"
-                    size="lg"
-                    block
-                    onClick={this.handleSubmit}
-                  >
-                    Scan
-                  </Button>
+                  <p style={{ "text-align": 'center','margin-top': '40px'}}>
+                    <input className="login-button" type="submit" ></input>
+                  </p>
+
                 </div>
               </div>
             </div>
           </div>
+          </div>
         </div>
+
         {this.state.isLoading && (
           <div className="overlay">
             <Spinner animation="border" />
