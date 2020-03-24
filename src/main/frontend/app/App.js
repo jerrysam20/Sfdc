@@ -48,7 +48,6 @@ function App() {
           <Route component={ErrorPage} />
         </Switch>
       </Router>
-      <FooterComponent footerOptions={footerOptions} />
     </div>
   );
 }
