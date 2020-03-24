@@ -40,7 +40,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/explore" component={ExplorePage} />
-          <Route exact path="/scan/:id" component={ScanPage} />
+          <Route exact path="/generateCode" component={ScanPage} />
           <Route exact path="/summary" component={SummaryPage} />
           <Route exact path="/documentation" component={DocumentationPage} />
           <Route exact path="/reports" component={ReportHistory} />

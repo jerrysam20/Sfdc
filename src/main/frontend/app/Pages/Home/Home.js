@@ -51,7 +51,7 @@ const HomePage = () => (
                     <Card.Body>
                         <Card.Title>Workflows</Card.Title>
                         <Button variant="secondary" block onClick={() => {
-                            window.location.href = '/scan/jdk';
+                            window.location.href = '/generateCode';
                         }}>Go</Button>
                     </Card.Body>
                 </Card>

@@ -287,7 +287,6 @@ export default class ScanPage extends React.Component {
                 <h1 className="form-header">CODE GENERATION FORM</h1>
                 <div className="form-group">
                   <Form>
-                    {mode === 'jdk' && (
                       <Form.Group as={Row} controlId="formPlaintextEmail">
                         <Form.Label column sm="12">
                           Select Source Type
@@ -301,42 +300,7 @@ export default class ScanPage extends React.Component {
                           />
                         </Col>
                       </Form.Group>
-                    )}
-                    {mode === 'hybris' && (
-                      <Form.Group as={Row} controlId="formPlaintextEmail">
-                        <Form.Label column sm="12">
-                          Select Source Type
-                        </Form.Label>
-                        <Col sm="12">
-                          <SelectBox
-                            type="dropdown"
-                            options={this.state.sourceHybrisData}
-                            value={this.state.availableOption}
-                            onChange={this.handleOptionChange}
-                          />
-                        </Col>
-                      </Form.Group>
-                    )}
-                    {mode === 'hybris' && (
-                      <Form.Group as={Row} controlId="formPlaintextEmail">
-                        <Form.Label column sm="12">
-                          Select Source Type
-                        </Form.Label>
-                        <Col sm="12">
-                          <SelectBox
-                            type="dropdown"
-                            options={this.state.availableHybrisData}
-                            value={this.state.availableHybrisOption}
-                            onChange={this.handleOptionChange}
-                          />
-                        </Col>
-                      </Form.Group>
-                    )}
 
-
-
-
-                    {(mode === 'hybris' || mode === 'jdk') && (
                       <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Form.Label column sm="12">
                           Browse input file
@@ -348,7 +312,7 @@ export default class ScanPage extends React.Component {
                           ></input>
                         </Col>
                       </Form.Group>
-                    )}
+
 
                   </Form>
                   <p style={{ "text-align": 'center','margin-top': '40px'}}>
