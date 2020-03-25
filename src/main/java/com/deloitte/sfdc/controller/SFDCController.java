@@ -38,25 +38,6 @@ public class SFDCController {
 
 
 
-    String template2="<rules>\n" +
-            "        <fullName>[fullname]</fullName>\n" +
-            "        <actions>\n" +
-            "            <name>[actionname]</name>\n" +
-            "            <type>[actiontype]</type>\n" +
-            "        </actions>\n" +
-            "        <active>[active]</active>\n" +
-            "        <criteriaItems>\n" +
-            "            <field>[criteriafield]</field>\n" +
-            "            <operation>[criteriaoperation]</operation>\n" +
-            "        </criteriaItems>\n" +
-            "        <description>[workflowdescription]</description>\n" +
-            "        <triggerType>[triggertype]</triggerType>\n" +
-            "    </rules>\n" +
-            "    ";
-
-
-
-
     @PostMapping(value = "/generateCode", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Resource> uploadFile(@RequestParam MultipartFile file, @RequestParam String sourceOption) throws IOException {
        System.out.println(file);
@@ -179,41 +160,85 @@ public class SFDCController {
 
     private void createFile(ArrayList<SfdcUserInputObject> inputList) {
 
+        StringBuilder fieldsTemplate=new StringBuilder();
+        StringBuilder rulesTemplate=new StringBuilder();
+        StringBuilder overallTemplate=new StringBuilder();
 
-        StringBuilder s=new StringBuilder();
-        s.append(outputHeader);
-        s.append("\n");
         for(SfdcUserInputObject inputRow:inputList){
-            String template1="<fieldUpdates>\n" +
+            String fieldtemplate="<fieldUpdates>\n" +
                     "        <fullName>{fullname}</fullName>\n" +
                     "        <description>{description}</description>\n" +
                     "        <field>{field}</field>\n" +
                     "        <literalValue>{literalvalue}</literalValue>\n" +
+                    "        <formula>{formula}<formula>\n" +
                     "        <name>{name}</name>\n" +
                     "        <notifyAssignee>{notifyassignee}</notifyAssignee>\n" +
                     "        <operation>{operation}</operation>\n" +
                     "        <protected>{protected}</protected>\n" +
                     "    </fieldUpdates>";
-            template1=  template1.replaceFirst("\\{fullname}",inputRow.getUniqueName());
-            template1=  template1.replaceFirst("\\{description}",inputRow.getWorkflowDescription());
-            template1=  template1.replaceFirst("\\{field}",inputRow.getFieldToUpdate());
-            template1=  template1.replaceFirst("\\{literalvalue}",inputRow.getNewFieldValue());
-            template1= template1.replaceFirst("\\{name}",inputRow.getName());
-            template1= template1.replaceFirst("\\{notifyassignee}","false");
+
+            String ruleTemplate=" <rules>\n" +
+                    "        <fullName>{fullname}</fullName>\n" +
+                    "        <actions>\n" +
+                    "            <name>{actionname}</name>\n" +
+                    "            <type>{actiontype}</type>\n" +
+                    "        </actions>\n" +
+                    "        <active>{active}</active>\n" +
+                    "        <criteriaItems>\n" +
+                    "            <field>{criteriafield}</field>\n" +
+                    "            <operation>{criteriaoperation}</operation>\n" +
+                    "        </criteriaItems>\n" +
+                    "        <description>{workflowdescription}</description>\n" +
+                    "        <triggerType>{triggertype}</triggerType>\n" +
+                    "    </rules>\n" +
+                    "    ";
+            fieldtemplate=  fieldtemplate.replaceFirst("\\{fullname}",inputRow.getUniqueName());
+            fieldtemplate=  fieldtemplate.replaceFirst("\\{description}",inputRow.getWorkflowDescription());
+            fieldtemplate=  fieldtemplate.replaceFirst("\\{field}",inputRow.getFieldToUpdate());
+            fieldtemplate=  fieldtemplate.replaceFirst("\\{literalvalue}",inputRow.getNewFieldValue());
+            fieldtemplate=  fieldtemplate.replaceFirst("\\{formula}",inputRow.getFormulaEditor());
+            fieldtemplate= fieldtemplate.replaceFirst("\\{name}",inputRow.getName());
+            fieldtemplate= fieldtemplate.replaceFirst("\\{notifyassignee}","false");
             if(StringUtils.isNotEmpty(inputRow.getNewFieldValue())) {
-                template1=  template1.replaceFirst("\\{operation}", "Literal");
+                fieldtemplate=  fieldtemplate.replaceFirst("\\{operation}", "Literal");
             }
             else if(StringUtils.isNotEmpty(inputRow.getFormulaEditor())) {
-                template1=   template1.replaceFirst("\\{operation}", "Formula");
+                fieldtemplate=   fieldtemplate.replaceFirst("\\{operation}", "Formula");
             }
             else{
-                template1=   template1.replaceFirst("\\{operation}", "");
+                fieldtemplate=   fieldtemplate.replaceFirst("\\{operation}", "");
             }
-            template1= template1.replaceFirst("\\{protected}","false");
-            s.append(template1);
-            s.append("\n");
+            fieldtemplate= fieldtemplate.replaceFirst("\\{protected}","false");
+            fieldsTemplate.append(fieldtemplate);
+            fieldsTemplate.append("\n");
+            ruleTemplate=   ruleTemplate.replaceFirst("\\{fullname}",inputRow.getRuleName());
+            ruleTemplate=   ruleTemplate.replaceFirst("\\{actionname}",inputRow.getUniqueName());
+            ruleTemplate=   ruleTemplate.replaceFirst("\\{actiontype}","FieldUpdate");
+            ruleTemplate=   ruleTemplate.replaceFirst("\\{active}","true");
+            ruleTemplate=   ruleTemplate.replaceFirst("\\{criteriafield}",inputRow.getFieldToUpdate());
+            if(inputRow.getCriteria().contains("!=")){
+                ruleTemplate=   ruleTemplate.replaceFirst("\\{criteriaoperation}","notEqual");
+            }else {
+                ruleTemplate = ruleTemplate.replaceFirst("\\{criteriaoperation}", "equals");
+            }
+            ruleTemplate=   ruleTemplate.replaceFirst("\\{workflowdescription}",inputRow.getDescription());
+            if(inputRow.getEvalCriteria().equals("created")) {
+                ruleTemplate = ruleTemplate.replaceFirst("\\{triggertype}", "onCreateOnly");
+            }
+            else if(inputRow.getEvalCriteria().equals("created, and everytime it's edited")) {
+                ruleTemplate = ruleTemplate.replaceFirst("\\{triggertype}", "onAllChanges");
+            }
+            else if(inputRow.getEvalCriteria().equals("created, and any time it's edited to subsequently meet criteria")) {
+                ruleTemplate = ruleTemplate.replaceFirst("\\{triggertype}", "onCreateOrTriggeringUpdate");
+            }
+            rulesTemplate.append(ruleTemplate);
+            rulesTemplate.append("\n");
         }
-        s.append(outputFooter);
+        overallTemplate.append(outputHeader);
+        overallTemplate.append("\n");
+        overallTemplate.append(fieldsTemplate);
+        overallTemplate.append(rulesTemplate);
+        overallTemplate.append(outputFooter);
 
         try {
             File myObj = new File(OUTPUT_FILE_PATH);
@@ -223,7 +248,7 @@ public class SFDCController {
                 System.out.println("File already exists.");
             }
             FileWriter myWriter = new FileWriter(OUTPUT_FILE_PATH);
-            myWriter.write(s.toString());
+            myWriter.write(overallTemplate.toString());
             myWriter.close();
             System.out.println("Successfully wrote to the file.");
         } catch (IOException e) {
