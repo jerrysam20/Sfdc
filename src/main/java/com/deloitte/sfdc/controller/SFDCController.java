@@ -2,6 +2,7 @@ package com.deloitte.sfdc.controller;
 
 
 import com.deloitte.sfdc.dto.SfdcUserInputObject;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,34 +30,29 @@ import java.util.ArrayList;
 public class SFDCController {
 
     private static final String REPORT_FILE_PATH="src/main/resources/reports/output.txt";
-
-    String template1="<fieldUpdates>\n" +
-            "        <fullName>{{fullname}}</fullName>\n" +
-            "        <description>{{description}}</description>\n" +
-            "        <field>{{field}}</field>\n" +
-            "        <literalValue>{{literalvalue}}</literalValue>\n" +
-            "        <name>{{name}}</name>\n" +
-            "        <notifyAssignee>{{notifyassignee}}</notifyAssignee>\n" +
-            "        <operation>{{operation}}</operation>\n" +
-            "        <protected>{{protected}}</protected>\n" +
-            "    </fieldUpdates>" +
-            "";
+    private static final String OUTPUT_FILE_PATH="src/main/resources/reports/sample.txt";
+    private static final String outputHeader="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+            "<Workflow xmlns=\"http://soap.sforce.com/2006/04/metadata\">";
+    private static final String outputFooter="</Workflow>";
 
 
-    String template2=" <rules>\n" +
-            "        <fullName>{{fullname}}</fullName>\n" +
+
+
+    String template2="<rules>\n" +
+            "        <fullName>[fullname]</fullName>\n" +
             "        <actions>\n" +
-            "            <name>{{actionname}}</name>\n" +
-            "            <type>{{actiontype}}</type>\n" +
+            "            <name>[actionname]</name>\n" +
+            "            <type>[actiontype]</type>\n" +
             "        </actions>\n" +
-            "        <active>{{active}}</active>\n" +
+            "        <active>[active]</active>\n" +
             "        <criteriaItems>\n" +
-            "            <field>{{criteriafield}}</field>\n" +
-            "            <operation>{{criteriaoperation}}</operation>\n" +
+            "            <field>[criteriafield]</field>\n" +
+            "            <operation>[criteriaoperation]</operation>\n" +
             "        </criteriaItems>\n" +
-            "        <description>{{workflowdescription}}</description>\n" +
-            "        <triggerType>{{triggertype}}</triggerType>\n" +
-            "    </rules>";
+            "        <description>[workflowdescription]</description>\n" +
+            "        <triggerType>[triggertype]</triggerType>\n" +
+            "    </rules>\n" +
+            "    ";
 
 
 
@@ -117,15 +114,18 @@ public class SFDCController {
                             inputRow.setUniqueName(ce.getStringCellValue());
                         }
                         if (j == 11) {
-                            inputRow.setFieldToUpdate(ce.getStringCellValue());
-                        }
-                        if (j == 12) {
-                            inputRow.setReevaluateWorkflowOptions(ce.getStringCellValue());
+                            inputRow.setWorkflowDescription(ce.getStringCellValue());
                         }
                         if (j == 13) {
-                            inputRow.setNewFieldValue(ce.getStringCellValue());
+                            inputRow.setFieldToUpdate(ce.getStringCellValue());
                         }
                         if (j == 14) {
+                            inputRow.setReevaluateWorkflowOptions(ce.getStringCellValue());
+                        }
+                        if (j == 15) {
+                            inputRow.setNewFieldValue(ce.getStringCellValue());
+                        }
+                        if (j == 16) {
                             inputRow.setFormulaEditor(ce.getStringCellValue());
                         }
 
@@ -144,14 +144,17 @@ public class SFDCController {
         }
         System.out.println(inputList);
 
-        return generateFile();
+        return generateFile(inputList);
 
 
     }
 
 
-    public ResponseEntity<Resource> generateFile(){
-        File outputFile=new File(REPORT_FILE_PATH);
+    public ResponseEntity<Resource> generateFile(ArrayList<SfdcUserInputObject> inputList){
+
+
+        createFile(inputList);
+        File outputFile=new File(OUTPUT_FILE_PATH);
         String type=MediaType.TEXT_HTML_VALUE;
         HttpHeaders header = new HttpHeaders();
         header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=img.txt");
@@ -173,6 +176,63 @@ public class SFDCController {
                 .contentType(MediaType.parseMediaType(type))
                 .body(resource);
     }
+
+    private void createFile(ArrayList<SfdcUserInputObject> inputList) {
+
+
+        StringBuilder s=new StringBuilder();
+        s.append(outputHeader);
+        s.append("\n");
+        for(SfdcUserInputObject inputRow:inputList){
+            String template1="<fieldUpdates>\n" +
+                    "        <fullName>{fullname}</fullName>\n" +
+                    "        <description>{description}</description>\n" +
+                    "        <field>{field}</field>\n" +
+                    "        <literalValue>{literalvalue}</literalValue>\n" +
+                    "        <name>{name}</name>\n" +
+                    "        <notifyAssignee>{notifyassignee}</notifyAssignee>\n" +
+                    "        <operation>{operation}</operation>\n" +
+                    "        <protected>{protected}</protected>\n" +
+                    "    </fieldUpdates>";
+            template1=  template1.replaceFirst("\\{fullname}",inputRow.getUniqueName());
+            template1=  template1.replaceFirst("\\{description}",inputRow.getWorkflowDescription());
+            template1=  template1.replaceFirst("\\{field}",inputRow.getFieldToUpdate());
+            template1=  template1.replaceFirst("\\{literalvalue}",inputRow.getNewFieldValue());
+            template1= template1.replaceFirst("\\{name}",inputRow.getName());
+            template1= template1.replaceFirst("\\{notifyassignee}","false");
+            if(StringUtils.isNotEmpty(inputRow.getNewFieldValue())) {
+                template1=  template1.replaceFirst("\\{operation}", "Literal");
+            }
+            else if(StringUtils.isNotEmpty(inputRow.getFormulaEditor())) {
+                template1=   template1.replaceFirst("\\{operation}", "Formula");
+            }
+            else{
+                template1=   template1.replaceFirst("\\{operation}", "");
+            }
+            template1= template1.replaceFirst("\\{protected}","false");
+            s.append(template1);
+            s.append("\n");
+        }
+        s.append(outputFooter);
+
+        try {
+            File myObj = new File(OUTPUT_FILE_PATH);
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+            FileWriter myWriter = new FileWriter(OUTPUT_FILE_PATH);
+            myWriter.write(s.toString());
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+
 
 
 }

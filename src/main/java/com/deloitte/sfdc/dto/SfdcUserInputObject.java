@@ -6,6 +6,7 @@ public class SfdcUserInputObject {
 	private String object;
 	private String ruleName;
 	private String description;
+	private String workflowDescription;
 	private String evalCriteria;
 	private String ruleCriteria;
 	private String criteria;
@@ -18,6 +19,14 @@ public class SfdcUserInputObject {
 	private String reevaluateWorkflowOptions;
 	private String newFieldValue;
 	private String formulaEditor;
+
+	public String getWorkflowDescription() {
+		return workflowDescription;
+	}
+
+	public void setWorkflowDescription(String workflowDescription) {
+		this.workflowDescription = workflowDescription;
+	}
 
 	public String getObject() {
 		return object;
@@ -145,6 +154,7 @@ public class SfdcUserInputObject {
 				"object='" + object + '\'' +
 				", ruleName='" + ruleName + '\'' +
 				", description='" + description + '\'' +
+				", workflowDescription='" + workflowDescription + '\'' +
 				", evalCriteria='" + evalCriteria + '\'' +
 				", ruleCriteria='" + ruleCriteria + '\'' +
 				", criteria='" + criteria + '\'' +
