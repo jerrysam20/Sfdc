@@ -1,15 +1,7 @@
 import React from 'react';
 import './Home.css';
-import '../../css/demo.css';
-import '../../css/style.css';
-import '../../css/animate-custom.css';
 
-import reportIcon from '../../assets/report.svg';
-import processIcon from '../../assets/process.svg';
-import oneIcon from '../../assets/one.svg';
-import twoIcon from '../../assets/two.svg';
-import threeIcon from '../../assets/three.svg';
-import uploadIcon from '../../assets/upload-icon.svg';
+
 import sfdcIcon from '../../assets/sfdc1.jpeg';
 
 import { Jumbotron, Button, Card } from 'react-bootstrap';

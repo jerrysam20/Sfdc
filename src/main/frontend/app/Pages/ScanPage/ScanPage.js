@@ -49,48 +49,6 @@ export default class ScanPage extends React.Component {
           source: 'sourceOption'
         }
       ],
-      sourceHybrisData: [
-        {
-          label: 'Hybris 5.5',
-          value: 'hybris-5.5',
-          version: 5.5,
-          source: 'sourceHybrisOption'
-        },
-        {
-          label: 'Hybris 6.2',
-          value: 'hybris-6.2',
-          version: 6.2,
-          source: 'sourceHybrisOption'
-        },
-        {
-          label: 'Hybris 6.7',
-          value: 'hybris-6.7',
-          version: 6.7,
-          source: 'sourceHybrisOption'
-        }
-      ],
-      availableHybrisData: [
-        {
-          label: 'items.xml',
-          value: 'items.xml',
-          source: 'availableHybrisOption'
-        },
-        {
-          label: 'properties',
-          value: 'properties',
-          source: 'availableHybrisOption'
-        },
-        {
-          label: 'junit',
-          value: 'junit',
-          source: 'availableHybrisOption'
-        },
-        {
-          label: 'sonar',
-          value: 'sonar',
-          source: 'availableHybrisOption'
-        }
-      ],
       availableHybrisOption: '',
       sourceHybrisOption: '',
       value: '',
