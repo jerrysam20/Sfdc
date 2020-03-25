@@ -6,18 +6,28 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 
 @RestController
 public class SFDCController {
+
+    private static final String REPORT_FILE_PATH="src/main/resources/reports/output.txt";
 
     String template1="<fieldUpdates>\n" +
             "        <fullName>{{fullname}}</fullName>\n" +
@@ -51,7 +61,7 @@ public class SFDCController {
 
 
     @PostMapping(value = "/generateCode", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void uploadFile(@RequestParam MultipartFile file, @RequestParam String sourceOption) throws IOException {
+    public ResponseEntity<Resource> uploadFile(@RequestParam MultipartFile file, @RequestParam String sourceOption) throws IOException {
        System.out.println(file);
 
 
@@ -134,10 +144,35 @@ public class SFDCController {
         }
         System.out.println(inputList);
 
+        return generateFile();
+
 
     }
 
 
+    public ResponseEntity<Resource> generateFile(){
+        File outputFile=new File(REPORT_FILE_PATH);
+        String type=MediaType.TEXT_HTML_VALUE;
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=img.txt");
+        header.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        header.add("Pragma", "no-cache");
+        header.add("Expires", "0");
+
+        Path path = Paths.get(outputFile.getAbsolutePath());
+        ByteArrayResource resource = null;
+        try {
+            resource = new ByteArrayResource(Files.readAllBytes(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return ResponseEntity.ok()
+                .headers(header)
+                .contentLength(outputFile.length())
+                .contentType(MediaType.parseMediaType(type))
+                .body(resource);
+    }
 
 
 }

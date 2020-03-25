@@ -207,9 +207,7 @@ export default class ScanPage extends React.Component {
 
   // eslint-disable-next-line react/sort-comp
   handleSubmit = event => {
-    this.setState({
-      isLoading: true
-    });
+
     const formData = new FormData();
     if (this.state.mode === 'log') {
       formData.append('environment', this.state.environment);
@@ -235,39 +233,32 @@ export default class ScanPage extends React.Component {
       method: 'post',
       body: formData
     })
-      .then(res => res.json())
-      .then(
-        result => {
-          this.setState({
-            isLoaded: true,
-            items: result.items
-          });
-          if (this.state.mode === 'log') {
-            // this.props.history.push('/summary', {
-            //   reportData: result,
-            //   mode: this.state.mode
-            // });
-          } else {
-            // eslint-disable-next-line react/prop-types
-            this.props.history.push('/summary', {
-              reportData: result,
-              mode: this.state.mode
-            });
-          }
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        error => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-          window.location.href = '/error';
-        }
-      );
+        .then(res => res.blob())
+        .then(
+            result => {
+              this.setState({
+                isLoaded: true,
+              });
+              const element = document.createElement("a");
+              element.href = URL.createObjectURL(result);
+              element.download = "myFile.txt";
+              document.body.appendChild(element);
+              element.click();
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            error => {
+              this.setState({
+                isLoaded: true,
+              });
+              console.log(error);
+              window.location.href = '/error';
+            }
+        );
     event.preventDefault();
-  };
+  }
+
 
   //   onChange = e => this.setState({ file: e.target.files[0] });
   onChange1 = e => {
@@ -316,7 +307,7 @@ export default class ScanPage extends React.Component {
 
                   </Form>
                   <p style={{ "text-align": 'center','margin-top': '40px'}}>
-                    <input className="login-button" type="submit" ></input>
+                    <input className="login-button" type="submit"  onClick={e => this.handleSubmit(e)}></input>
                   </p>
 
                 </div>
