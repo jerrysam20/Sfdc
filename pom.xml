@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.deloitte.sfdc</groupId>
-    <artifactId>Sfdc</artifactId>
+    <artifactId>Radian</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Sfdc</name>
-    <description>Sfdc</description>
+    <name>Radian</name>
+    <description>Radian</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -20,7 +20,7 @@ export default class HeaderComponent extends React.Component {
               <Navbar.Brand href="/">
                 {/* <span className="deloitte">Deloitte</span>
                 <span className="deloitte-dot" /> */}
-                <strong className="deloitte">SFDC Point & Click</strong>
+                <strong className="deloitte">Radian Ergo</strong>
               </Navbar.Brand>
             </Col>
             <Col sm={8} />
@@ -34,11 +34,11 @@ export default class HeaderComponent extends React.Component {
                 </Nav.Link>
                 <Nav.Link
                   className={`${
-                    pageLink === 'documentation' ? 'active-link' : ''
+                    pageLink === 'Contact us' ? 'active-link' : ''
                   }`}
                   href="/documentation"
                 >
-                  Documentation
+                  Contact us
                 </Nav.Link>
               </Nav>
             </Col>
