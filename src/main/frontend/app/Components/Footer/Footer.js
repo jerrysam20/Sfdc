@@ -17,7 +17,7 @@ export default class FooterComponent extends React.Component {
               <div className="col-sm-12 col-md-6">
                 <h6>About</h6>
                 <p className="text-justify">
-                <strong>CritQ</strong>
+                <strong>Radian Ergo</strong>
                 </p>
               </div>
 

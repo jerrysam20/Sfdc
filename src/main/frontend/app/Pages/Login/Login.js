@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 const LoginForm = () => (
     <Container>
         <Segment.Group>
-    <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+    <Grid textAlign='center' style={{ height: '70vh' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 550 }}>
             <Header style={{ marginTop: -60 }} as='h2' color='red' textAlign='center'>
                 <Image src={logo}/> Log-in to your account

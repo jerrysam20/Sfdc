@@ -16,18 +16,18 @@ class OrderPage extends Component {
                     <div style={{ maxWidth: '100%',marginTop:'80px',marginBottom:'80px' }}>
                         <Menu pointing>
                             <Menu.Item
-                                name='home'
-                                active={activeItem === 'home'}
+                                name='Pending'
+                                active={activeItem === 'Pending'}
                                 onClick={this.handleItemClick}
                             />
                             <Menu.Item
-                                name='messages'
-                                active={activeItem === 'messages'}
+                                name='Completed'
+                                active={activeItem === 'Completed'}
                                 onClick={this.handleItemClick}
                             />
                             <Menu.Item
-                                name='friends'
-                                active={activeItem === 'friends'}
+                                name='Delivered'
+                                active={activeItem === 'Delivered'}
                                 onClick={this.handleItemClick}
                             />
                         </Menu>
@@ -35,12 +35,13 @@ class OrderPage extends Component {
                         <MaterialTable
                             columns={[
                                 { title: 'Name', field: 'name' },
-                                { title: 'SurName', field: 'surname' },
-                                { title: 'DOB', field: 'birthYear', type: 'numeric' },
-                                { title: 'City', field: 'birthCity', lookup: { 34: 'Chennai', 63: 'Mumbai' } }
+                                { title: 'Location', field: 'location' },
+                                { title: 'Model', field: 'model' },
+                                { title: 'Amount', field: 'amount', type: 'numeric' },
+                                { title: 'Status', field: 'status', lookup: { 1: 'Pending', 2: 'Completed', 3:"Delivered" } }
                             ]}
-                            data={[{ name: 'Jerry', surname: 'Sam', birthYear: 1991, birthCity: 63 },{ name: 'Anu', surname: 'Mathew', birthYear: 1987, birthCity: 34 },{ name: 'Vishnu', surname: 'prasad', birthYear: 1987, birthCity: 63 }]}
-                            title="Demo Title"
+                            data={[{ name: 'Jerry', location: 'Sarjapur',model: 'HB', amount: 5000, status: 1 },{ name: 'Anu', location: 'Sarjapur',model: 'LB', amount: 4000, status: 2 },{ name: 'Jijo', location: 'KR Puram',model: 'HB', amount: 5000, status: 3 },{ name: 'Justin', location: 'TC Palya',model: 'HB', amount: 7000, status: 3 }]}
+                            title="Orders"
                             editable={{
                                 isEditable: rowData => rowData.name === 'a', // only name(a) rows would be editable
                                 isEditHidden: rowData => rowData.name === 'x',
@@ -89,24 +90,12 @@ class OrderPage extends Component {
                             }}
                             // other props
                             options={{
-                                selection: true,
                                 exportButton: true
                             }}
-                            detailPanel={rowData => {
-                                return (
-                                    <iframe
-                                        width="100%"
-                                        height="315"
-                                        src="https://www.youtube.com/embed/C0DPdy98e4c"
-                                        frameborder="0"
-                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                        allowfullscreen
-                                    />
-                                )
-                            }}
-                            onRowClick={(event, rowData, togglePanel) => togglePanel()}
+
                         />
                         </Segment>
+
                     </div>
             </Container>
         )
