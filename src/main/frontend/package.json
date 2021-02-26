@@ -27,7 +27,6 @@
     "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.9.0",
     "react-bootstrap-table-next": "^4.0.3",
-    "semantic-react-datatable": "^0.3.3",
     "style-loader": "^0.13.0"
   },
   "dependencies": {

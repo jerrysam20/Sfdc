@@ -11,11 +11,16 @@ const styleLink = document.createElement('link');
 styleLink.rel = 'stylesheet';
 styleLink.href =
   'https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css';
-styleLink.href =
+
+
+const styleLink2 = document.createElement('link');
+styleLink2.rel = 'stylesheet';
+styleLink2.href =
     'https://fonts.googleapis.com/icon?family=Material+Icons';
 
 
 document.head.appendChild(styleLink);
+document.head.appendChild(styleLink2);
 
 ReactDOM.render(
   <BrowserRouter>
