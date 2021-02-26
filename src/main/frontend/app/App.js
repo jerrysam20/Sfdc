@@ -8,7 +8,7 @@ import ErrorPage from './Pages/Error/Error';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import HeaderComponent from './Components/Header/Header';
 import DocumentationPage from './Pages/Documentation/Documentation';
-import img1 from './assets/bg.jpg'
+import img1 from './assets/download.png'
 import LoginForm from "./Pages/Login/Login";
 
 function App() {
