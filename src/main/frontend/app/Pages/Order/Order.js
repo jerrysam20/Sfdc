@@ -7,7 +7,7 @@ class OrderPage extends Component {
     render() {
         return (
             <Container>
-                    <div style={{ maxWidth: '100%',marginTop:'80px' }}>
+                    <div style={{ maxWidth: '100%',marginTop:'80px',marginBottom:'80px' }}>
                         <MaterialTable
                             columns={[
                                 { title: 'Name', field: 'name' },
