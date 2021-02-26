@@ -14,6 +14,7 @@
   },
   "license": "ISC",
   "devDependencies": {
+    "@material-ui/data-grid": "^4.0.0-alpha.20",
     "babel-loader": "^7.1.5",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^0.23.1",
@@ -25,10 +26,13 @@
     "jquery": "^3.5.1",
     "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.9.0",
+    "react-bootstrap-table-next": "^4.0.3",
     "semantic-react-datatable": "^0.3.3",
     "style-loader": "^0.13.0"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
     "axios": "^0.9.1",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.3",
@@ -41,6 +45,7 @@
     "history": "^2.0.0",
     "i": "^0.3.6",
     "lodash": "^4.5.1",
+    "material-table": "^1.69.2",
     "mdbreact": "^5.0.1",
     "moment": "^2.24.0",
     "npm": "^6.13.4",
