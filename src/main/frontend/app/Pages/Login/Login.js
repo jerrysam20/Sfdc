@@ -1,7 +1,7 @@
 import React from 'react'
 import logo from '../../assets/logo.png';
 import {Button, Container, Form, Grid, Header, Image, Message, Segment} from 'semantic-ui-react'
-import Row from "react-bootstrap/Row";
+
 
 const LoginForm = () => (
     <Container>
