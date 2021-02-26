@@ -1,5 +1,6 @@
 import React from 'react';
 import { MDBDataTable } from 'mdbreact';
+import {Container, Segment} from "semantic-ui-react";
 
 const Order = () => {
     const data = {
@@ -502,12 +503,17 @@ const Order = () => {
     };
 
     return (
+        <Container style={{marginTop: '20vh' }}>
+            <Segment.Group>
         <MDBDataTable
+            responsive
             striped
             bordered
             small
             data={data}
         />
+            </Segment.Group>
+        </Container>
     );
 }
 
