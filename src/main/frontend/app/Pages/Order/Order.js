@@ -3,11 +3,35 @@ import ReactDOM from 'react-dom'
 import MaterialTable from 'material-table'
 import {Container, Segment} from "semantic-ui-react";
 
+import { Input, Menu } from 'semantic-ui-react'
+
+
 class OrderPage extends Component {
+    state = { activeItem: 'home' }
+    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
     render() {
+        const { activeItem } = this.state
         return (
             <Container>
                     <div style={{ maxWidth: '100%',marginTop:'80px',marginBottom:'80px' }}>
+                        <Menu pointing>
+                            <Menu.Item
+                                name='home'
+                                active={activeItem === 'home'}
+                                onClick={this.handleItemClick}
+                            />
+                            <Menu.Item
+                                name='messages'
+                                active={activeItem === 'messages'}
+                                onClick={this.handleItemClick}
+                            />
+                            <Menu.Item
+                                name='friends'
+                                active={activeItem === 'friends'}
+                                onClick={this.handleItemClick}
+                            />
+                        </Menu>
+                        <Segment>
                         <MaterialTable
                             columns={[
                                 { title: 'Name', field: 'name' },
@@ -82,6 +106,7 @@ class OrderPage extends Component {
                             }}
                             onRowClick={(event, rowData, togglePanel) => togglePanel()}
                         />
+                        </Segment>
                     </div>
             </Container>
         )
