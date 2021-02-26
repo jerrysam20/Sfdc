@@ -32,6 +32,7 @@ function App() {
   ];
   return (
     <div className="" style={{backgroundImage: "url(" + img1 + ")"}}>
+      <HeaderComponent/>
       <Router>
         <Switch>
           <Route exact path="/" component={LoginForm} />
