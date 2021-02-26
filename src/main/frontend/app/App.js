@@ -3,7 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 //import './App.css';
 import HomePage from './Pages/Home/Home';
-import ScanPage from './Pages/ScanPage/ScanPage';
+import OrderPage from './Pages/Order/Order';
 import ErrorPage from './Pages/Error/Error';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import HeaderComponent from './Components/Header/Header';
@@ -32,11 +32,10 @@ function App() {
   ];
   return (
     <div className="" style={{backgroundImage: "url(" + img1 + ")"}}>
-      <HeaderComponent />
       <Router>
         <Switch>
           <Route exact path="/" component={LoginForm} />
-          <Route exact path="/generateCode" component={ScanPage} />
+          <Route exact path="/orders" component={OrderPage} />
           <Route exact path="/documentation" component={DocumentationPage} />
           <Route path="/error" component={ErrorPage} />
           <Route component={ErrorPage} />

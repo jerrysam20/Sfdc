@@ -1,8 +1,11 @@
 import React from 'react'
 import logo from '../../assets/logo.png';
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import {Button, Container, Form, Grid, Header, Image, Message, Segment} from 'semantic-ui-react'
+import Row from "react-bootstrap/Row";
 
 const LoginForm = () => (
+    <Container>
+        <Segment.Group>
     <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 450 }}>
             <Header style={{ marginTop: -60 }} as='h2' color='red' textAlign='center'>
@@ -29,6 +32,9 @@ const LoginForm = () => (
             </Message>
         </Grid.Column>
     </Grid>
+        </Segment.Group>
+    </Container>
+
 )
 
 export default LoginForm

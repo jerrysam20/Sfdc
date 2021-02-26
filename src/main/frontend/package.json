@@ -22,8 +22,10 @@
     "eslint-plugin-react": "^4.2.3",
     "file-loader": "^5.0.2",
     "image-webpack-loader": "^6.0.0",
+    "jquery": "^3.5.1",
     "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.9.0",
+    "semantic-react-datatable": "^0.3.3",
     "style-loader": "^0.13.0"
   },
   "dependencies": {
@@ -39,10 +41,12 @@
     "history": "^2.0.0",
     "i": "^0.3.6",
     "lodash": "^4.5.1",
+    "mdbreact": "^5.0.1",
     "moment": "^2.24.0",
     "npm": "^6.13.4",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
+    "react-bootstrap-datatable": "^1.0.0",
     "react-data-table-component": "^6.0.4",
     "react-datepicker": "^2.11.0",
     "react-dom": "^16.12.0",
