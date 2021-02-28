@@ -3,6 +3,9 @@ package com.deloitte.sfdc.controller;
 
 import com.deloitte.sfdc.dto.SfdcUserInputObject;
 import com.deloitte.sfdc.dto.TemplateSkeleton;
+import com.deloitte.sfdc.dto.UserDTO;
+import com.deloitte.sfdc.dto.UserRequest;
+import com.deloitte.sfdc.interfaces.Services;
 import com.deloitte.sfdc.repository.TemplateRepository;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,9 +19,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -39,60 +40,21 @@ public class SFDCController {
             "<Workflow xmlns=\"http://soap.sforce.com/2006/04/metadata\">";
     private static final String outputFooter="</Workflow>";
 
-    @Autowired
-    private TemplateRepository repository;
 
-    public void testMongoConnection()
+    @Autowired
+    private Services service;
+
+    @PostMapping (value = "/createUser")
+    public boolean createUser(@RequestBody UserDTO userData)
     {
-    	TemplateSkeleton insertNewtemplate =new TemplateSkeleton();
-    	insertNewtemplate.setActive_id("true");
-    	insertNewtemplate.setId("99999");
-    	insertNewtemplate.setName_id("test Template");
-    	insertNewtemplate.setTemplateCode("5");
-    	
-    	//Sample code to save a record to Mongo
-    	try {
-    		repository.save(insertNewtemplate);
-    		System.out.println("Record succesfully saved to Mongo "+insertNewtemplate.toString());
-    	}
-    	catch(Exception e)
-    	{
-    		System.out.println("Exception during save "+e);
-    	}
-    	
-    	//Sample code to retrieve a record from Mongo
-    	try {
-    		Optional<TemplateSkeleton> result = repository.findBydocId("99999");
-    		if(result.isPresent())
-    		{
-    			System.out.println("Result obtained from DB for the id provided"+result.get());
-    		}
-    		else {
-    			System.out.println("NO Result obtained from DB for the id provided 99999");
-    		}
-    	}
-    	catch(Exception e)
-    	{
-    		System.out.println("Exception during save "+e);
-    	}
-    	
-    	
-    	//Sample code to delete a record from Mongo
-    	try {
-    		repository.delete("99999");
-    	System.out.println("Result deleted from DB for the id provided 99999");
-    	}
-    	catch(Exception e)
-    	{
-    		System.out.println("Delete could not be performed for the id provided 99999"+e);
-    	}
-    	
-    	for (TemplateSkeleton template : repository.findAll()) {
-  	      System.out.println(template);
-  	    }
-  	 
+        return service.createUser(userData);
     }
 
+    @PostMapping (value = "/validateUser")
+    public boolean validateUser(@RequestBody UserDTO userData)
+    {
+        return service.validateUser(userData);
+    }
 
     @PostMapping(value = "/generateCode", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Resource> uploadFile(@RequestParam MultipartFile file, @RequestParam String sourceOption) throws IOException {
