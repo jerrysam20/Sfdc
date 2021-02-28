@@ -1,12 +1,10 @@
 package com.deloitte.sfdc.controller;
 
 
+import com.deloitte.sfdc.dto.OrderDTO;
 import com.deloitte.sfdc.dto.SfdcUserInputObject;
-import com.deloitte.sfdc.dto.TemplateSkeleton;
 import com.deloitte.sfdc.dto.UserDTO;
-import com.deloitte.sfdc.dto.UserRequest;
 import com.deloitte.sfdc.interfaces.Services;
-import com.deloitte.sfdc.repository.TemplateRepository;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -29,7 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Optional;
+import java.util.List;
 
 
 @RestController
@@ -48,6 +46,18 @@ public class SFDCController {
     public boolean createUser(@RequestBody UserDTO userData)
     {
         return service.createUser(userData);
+    }
+
+    @PostMapping (value = "/createOrder")
+    public boolean createOrder(@RequestBody OrderDTO orderData)
+    {
+        return service.createOrder(orderData);
+    }
+
+    @GetMapping (value = "/getOrders")
+    public List<OrderDTO> createOrder(@RequestParam String orderType, @RequestParam String serviceType)
+    {
+        return service.getOrders(orderType,serviceType);
     }
 
     @PostMapping (value = "/validateUser")

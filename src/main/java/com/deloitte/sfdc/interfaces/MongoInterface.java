@@ -1,7 +1,6 @@
 package com.deloitte.sfdc.interfaces;
 
 import com.deloitte.sfdc.dto.UserDTO;
-import com.deloitte.sfdc.dto.UserRequest;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface MongoInterface extends MongoRepository<UserDTO, String> {

@@ -7,7 +7,41 @@ import { Input, Menu } from 'semantic-ui-react'
 
 
 class OrderPage extends Component {
-    state = { activeItem: 'home' }
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: [],
+            showTable: true
+        };
+    }
+
+    componentDidMount() {
+        document.title = 'Orders';
+        fetch('/getOrders?orderType=""&serviceType=""', {
+            method: 'get',
+            body: null
+        })
+            .then(res => res.json())
+            .then(
+                result => {
+
+                    this.setState({
+                        data: result,
+                        showTable: true
+                    });
+                },
+                // Note: it's important to handle errors here
+                // instead of a catch() block so that we don't swallow
+                // exceptions from actual bugs in components.
+                error => {
+                    this.setState({
+                        isLoaded: true,
+                        error
+                    });
+                }
+            );
+    }
+
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
     render() {
         const { activeItem } = this.state
@@ -38,9 +72,9 @@ class OrderPage extends Component {
                                 { title: 'Location', field: 'location' },
                                 { title: 'Model', field: 'model' },
                                 { title: 'Amount', field: 'amount', type: 'numeric' },
-                                { title: 'Status', field: 'status', lookup: { 1: 'Pending', 2: 'Completed', 3:"Delivered" } }
+                                { title: 'Status', field: 'orderStatus', lookup: { 1: 'Pending', 2: 'Completed', 3:"Delivered" } }
                             ]}
-                            data={[{ name: 'Jerry', location: 'Sarjapur',model: 'HB', amount: 5000, status: 1 },{ name: 'Anu', location: 'Sarjapur',model: 'LB', amount: 4000, status: 2 },{ name: 'Jijo', location: 'KR Puram',model: 'HB', amount: 5000, status: 3 },{ name: 'Justin', location: 'TC Palya',model: 'HB', amount: 7000, status: 3 }]}
+                           data={this.state.data}
                             title="Orders"
                             editable={{
                                 isEditable: rowData => rowData.name === 'a', // only name(a) rows would be editable

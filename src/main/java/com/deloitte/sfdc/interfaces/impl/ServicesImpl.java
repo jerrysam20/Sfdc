@@ -1,18 +1,16 @@
 package com.deloitte.sfdc.interfaces.impl;
 
+import com.deloitte.sfdc.dto.OrderDTO;
 import com.deloitte.sfdc.dto.UserDTO;
-import com.deloitte.sfdc.dto.UserRequest;
 import com.deloitte.sfdc.interfaces.MongoInterface;
+import com.deloitte.sfdc.interfaces.OrderRepository;
 import com.deloitte.sfdc.interfaces.Services;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,6 +19,9 @@ import java.util.List;
 public class ServicesImpl implements Services {
     @Autowired
     private MongoInterface repository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
 
     @Override
@@ -47,5 +48,24 @@ public class ServicesImpl implements Services {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean createOrder(OrderDTO orderData) {
+        try {
+            orderRepository.save(orderData);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+
+    }
+
+    @Override
+    public List<OrderDTO> getOrders(String orderType, String serviceType) {
+        List<OrderDTO> orderList=new ArrayList<OrderDTO>();
+
+        orderList = orderRepository.findAll();
+        return orderList;
     }
 }
