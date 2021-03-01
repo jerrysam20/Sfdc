@@ -69,7 +69,7 @@ public class ServicesImpl implements Services {
         if (type.equalsIgnoreCase("pendingOrders")) {
             orderList = orderRepository.findUserByOrderStatus(OrderStatus.PENDING.toString());
         } else if (type.equalsIgnoreCase("servicePending")) {
-            orderList = orderRepository.findUserByOrderStatus(OrderStatus.PENDING.toString());
+            orderList = orderRepository.findUserByServiceStatus(OrderStatus.PENDING.toString());
         } else {
             orderList = orderRepository.findAll();
         }
