@@ -164,7 +164,7 @@ class CreateOrder extends Component {
                                                 Order Status
                                             </Label>
                                             <Dropdown
-                                                placeholder='Select Friend'
+                                                placeholder='Select Order Status'
                                                 fluid
                                                 selection
                                                 options={orderStatusOptions}
@@ -181,7 +181,7 @@ class CreateOrder extends Component {
                                                 Service Status
                                             </Label>
                                             <Dropdown
-                                                placeholder='Select Friend'
+                                                placeholder='Select Service Status'
                                                 fluid
                                                 selection
                                                 options={serviceStatusOptions}
@@ -197,7 +197,7 @@ class CreateOrder extends Component {
                     </Segment>
 
 
-                    <Button primary floated='right'>Submit</Button>
+                    <Button primary floated='right'>Create</Button>
 
 
                 </div>

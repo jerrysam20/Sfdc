@@ -148,7 +148,7 @@ class OrderDetails extends Component {
                                                 Order Status
                                             </Label>
                                             <Dropdown
-                                                placeholder='Select Friend'
+                                                placeholder='Select Order Status'
                                                 fluid
                                                 selection
                                                 options={orderStatusOptions}
@@ -165,7 +165,7 @@ class OrderDetails extends Component {
                                                 Service Status
                                             </Label>
                                             <Dropdown
-                                                placeholder='Select Friend'
+                                                placeholder='Select Service Status'
                                                 fluid
                                                 selection
                                                 options={serviceStatusOptions}
@@ -181,7 +181,7 @@ class OrderDetails extends Component {
                     </Segment>
 
 
-                        <Button primary floated='right'>Submit</Button>
+                        <Button primary floated='right'>Update</Button>
 
 
                 </div>
