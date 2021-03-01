@@ -1,7 +1,20 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import MaterialTable from 'material-table'
-import {Button, Container, Divider, Dropdown, Grid, Header, Image, Label, List, Segment} from "semantic-ui-react";
+import {
+    Button,
+    Container,
+    Divider,
+    Dropdown,
+    Form,
+    Grid,
+    Header,
+    Image,
+    Label,
+    List,
+    Segment,
+    TextArea
+} from "semantic-ui-react";
 
 import { Input, Menu } from 'semantic-ui-react'
 const friendOptions = [
@@ -44,7 +57,7 @@ const friendOptions = [
 ]
 
 
-class OrderDetails extends Component {
+class CreateOrder extends Component {
 
 
     constructor(props) {
@@ -88,7 +101,7 @@ class OrderDetails extends Component {
         return (
             <Container>
                 <div style={{ maxWidth: '100%',marginTop:'80px',marginBottom:'80px' }}>
-                    <Segment>Order Details</Segment>
+                    <Segment>Create Order</Segment>
                     <Segment>
                         <Grid container columns={2} divided relaxed stackable>
                             <Grid.Column>
@@ -96,19 +109,21 @@ class OrderDetails extends Component {
                                     <List divided selection>
                                         <List.Item>
                                             <Label  style={{ width: '30%'}} horizontal>Order#</Label>
-                                            Q-0001
+                                            <Input placeholder='Enter Order#' />
                                         </List.Item>
                                         <List.Item>
                                             <Label style={{ width: '30%'}}  horizontal>Amount</Label>
-                                           5000
+                                            <Input placeholder='Enter Amount' />
                                         </List.Item>
                                         <List.Item>
                                             <Label style={{ width: '30%'}} horizontal>Order Date</Label>
-                                                25-06-2021
+                                            <Input placeholder='Enter Order Date' />
                                         </List.Item>
                                         <List.Item>
                                             <Label style={{ width: '30%'}} horizontal>Billing Address</Label>
-                                            B302, Signature classic apartments, Sompura Raod, Sarjapur-562125
+                                            <Form>
+                                                <TextArea placeholder='Enter Billing Address' />
+                                            </Form>
                                         </List.Item>
                                     </List>
                                 </Segment>
@@ -118,25 +133,27 @@ class OrderDetails extends Component {
                                     <List divided selection>
                                         <List.Item>
                                             <Label style={{ width: '30%'}} horizontal>Name</Label>
-                                            Jerry Sam
+                                            <Input placeholder='Enter Name' />
                                         </List.Item>
                                         <List.Item>
                                             <Label style={{ width: '30%'}} horizontal>Phone</Label>
-                                            7406846418
+                                            <Input placeholder='Enter number' />
                                         </List.Item>
                                         <List.Item>
                                             <Label style={{ width: '30%'}} horizontal>email</Label>
-                                           jerrysam20@gmail.com
+                                            <Input placeholder='Enter email' />
                                         </List.Item>
                                         <List.Item>
                                             <Label style={{ width: '30%'}} horizontal>Location</Label>
-                                            Sarjapur
+                                            <Input placeholder='Enter Location' />
                                         </List.Item>
                                         <List.Item>
                                             <Label style={{ width: '30%'}} horizontal>
-                                               Delivery Address
+                                                Delivery Address
                                             </Label>
-                                            B302, Signature classic apartments, Sompura Raod, Sarjapur-562125
+                                            <Form>
+                                                <TextArea placeholder='Enter Delivery Address' />
+                                            </Form>
                                         </List.Item>
 
                                     </List>
@@ -189,7 +206,7 @@ class OrderDetails extends Component {
                     </Segment>
 
 
-                        <Button primary floated='right'>Submit</Button>
+                    <Button primary floated='right'>Submit</Button>
 
 
                 </div>
@@ -199,4 +216,4 @@ class OrderDetails extends Component {
 }
 
 
-export default OrderDetails;
+export default CreateOrder;

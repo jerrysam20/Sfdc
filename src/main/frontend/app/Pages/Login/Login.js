@@ -36,7 +36,7 @@ handleSubmit = event => {
                     });
 
                         // eslint-disable-next-line react/prop-types
-                        this.props.history.push('/orders', {
+                        this.props.history.push('/orders?type=all', {
                             reportData: result,
                             mode: this.state.mode
                         });

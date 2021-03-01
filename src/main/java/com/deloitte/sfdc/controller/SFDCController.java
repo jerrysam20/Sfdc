@@ -55,9 +55,9 @@ public class SFDCController {
     }
 
     @GetMapping (value = "/getOrders")
-    public List<OrderDTO> createOrder(@RequestParam String orderType, @RequestParam String serviceType)
+    public List<OrderDTO> createOrder(@RequestParam String type)
     {
-        return service.getOrders(orderType,serviceType);
+        return service.getOrders(type);
     }
 
     @PostMapping (value = "/validateUser")

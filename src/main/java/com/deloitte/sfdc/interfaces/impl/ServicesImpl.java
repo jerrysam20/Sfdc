@@ -1,5 +1,6 @@
 package com.deloitte.sfdc.interfaces.impl;
 
+import com.deloitte.sfdc.constants.OrderStatus;
 import com.deloitte.sfdc.dto.OrderDTO;
 import com.deloitte.sfdc.dto.UserDTO;
 import com.deloitte.sfdc.interfaces.MongoInterface;
@@ -62,10 +63,18 @@ public class ServicesImpl implements Services {
     }
 
     @Override
-    public List<OrderDTO> getOrders(String orderType, String serviceType) {
-        List<OrderDTO> orderList=new ArrayList<OrderDTO>();
+    public List<OrderDTO> getOrders(String type) {
+        List<OrderDTO> orderList = new ArrayList<OrderDTO>();
 
-        orderList = orderRepository.findAll();
+        if (type.equalsIgnoreCase("pendingOrders")) {
+            orderList = orderRepository.findUserByOrderStatus(OrderStatus.PENDING.toString());
+        } else if (type.equalsIgnoreCase("servicePending")) {
+            orderList = orderRepository.findUserByOrderStatus(OrderStatus.PENDING.toString());
+        } else {
+            orderList = orderRepository.findAll();
+        }
+
+
         return orderList;
     }
 }

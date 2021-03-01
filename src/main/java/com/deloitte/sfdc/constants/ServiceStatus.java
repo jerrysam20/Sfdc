@@ -1,6 +1,7 @@
 package com.deloitte.sfdc.constants;
 
-public enum OrderStatus {
+public enum ServiceStatus{
+    NA,
     PENDING,
     COMPLETE
 }

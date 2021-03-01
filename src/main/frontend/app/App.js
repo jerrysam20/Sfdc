@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import HomePage from './Pages/Home/Home';
 import OrderPage from './Pages/Order/Order';
 import OrderDetailPage from './Pages/Order/OrderDetails';
+import CreateOrderPage from './Pages/Order/CreateOrder';
 import ErrorPage from './Pages/Error/Error';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import HeaderComponent from './Components/Header/Header';
@@ -39,7 +40,8 @@ function App() {
         <Switch>
           <Route exact path="/" component={LoginForm} />
           <Route exact path="/orders" component={OrderPage} />
-          <Route exact path="/orderdetails" component={OrderDetailPage} />
+          <Route exact path="/orderDetails" component={OrderDetailPage} />
+          <Route exact path="/createOrder" component={CreateOrderPage} />
           <Route exact path="/documentation" component={DocumentationPage} />
           <Route path="/error" component={ErrorPage} />
           <Route component={ErrorPage} />

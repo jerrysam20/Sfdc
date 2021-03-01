@@ -6,6 +6,11 @@ import {Container, Segment} from "semantic-ui-react";
 import { Input, Menu } from 'semantic-ui-react'
 
 
+const refreshPage = ()=>{
+    window.location.reload();
+}
+
+
 class OrderPage extends Component {
     constructor(props) {
         super(props);
@@ -16,8 +21,11 @@ class OrderPage extends Component {
     }
 
     componentDidMount() {
+        const search = this.props.location.search;
+        const params = new URLSearchParams(search);
+        const param = params.get('type');
         document.title = 'Orders';
-        fetch('/getOrders?orderType=""&serviceType=""', {
+        fetch('/getOrders?type='+param, {
             method: 'get',
             body: null
         })
@@ -42,7 +50,29 @@ class OrderPage extends Component {
             );
     }
 
-    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+
+    handleItemClick = (e, { name }) => {
+        this.setState({activeItem: name});
+        if(name=="Create Order"){
+            this.props.history.push('/createOrder', {
+            });
+        }
+       else if(name=="All Orders"){
+            this.props.history.push('/orders?type=all', {
+            });
+            window.location.reload();
+        }
+       else if(name=="Pending Orders"){
+            this.props.history.push('/orders?type=pendingOrders', {
+            });
+            window.location.reload();
+        }
+       else if(name=="Pending Service"){
+            this.props.history.push('/orders?type=servicePending', {
+            });
+            window.location.reload();
+        }
+    }
     render() {
         const { activeItem } = this.state
         return (
@@ -50,18 +80,23 @@ class OrderPage extends Component {
                     <div style={{ maxWidth: '100%',marginTop:'80px',marginBottom:'80px' }}>
                         <Menu pointing>
                             <Menu.Item
-                                name='Pending'
-                                active={activeItem === 'Pending'}
+                                name='All Orders'
+                                active={activeItem === 'All Orders'}
                                 onClick={this.handleItemClick}
                             />
                             <Menu.Item
-                                name='Completed'
-                                active={activeItem === 'Completed'}
+                                name='Pending Orders'
+                                active={activeItem === 'Pending Orders'}
                                 onClick={this.handleItemClick}
                             />
                             <Menu.Item
-                                name='Delivered'
-                                active={activeItem === 'Delivered'}
+                                name='Pending Service'
+                                active={activeItem === 'Pending Service'}
+                                onClick={this.handleItemClick}
+                            />
+                            <Menu.Item
+                                name='Create Order'
+                                active={activeItem === 'Create Order'}
                                 onClick={this.handleItemClick}
                             />
                         </Menu>
@@ -72,44 +107,15 @@ class OrderPage extends Component {
                                 { title: 'Location', field: 'location' },
                                 { title: 'Model', field: 'model' },
                                 { title: 'Amount', field: 'amount', type: 'numeric' },
-                                { title: 'Status', field: 'orderStatus', lookup: { 1: 'Pending', 2: 'Completed', 3:"Delivered" } }
+                                { title: 'Qty', field: 'quantity', type: 'numeric' },
+                                { title: 'OrderStatus', field: 'orderStatus' },
+                                { title: 'ServiceStatus', field: 'serviceStatus' }
                             ]}
                            data={this.state.data}
                             title="Orders"
                             editable={{
-                                isEditable: rowData => rowData.name === 'a', // only name(a) rows would be editable
-                                isEditHidden: rowData => rowData.name === 'x',
-                                isDeletable: rowData => rowData.name === 'b', // only name(b) rows would be deletable,
+                                isDeletable: rowData => rowData.name === rowData.name, // only name(b) rows would be deletable,
                                 isDeleteHidden: rowData => rowData.name === 'y',
-                                onBulkUpdate: changes =>
-                                    new Promise((resolve, reject) => {
-                                        setTimeout(() => {
-                                            /* setData([...data, newData]); */
-
-                                            resolve();
-                                        }, 1000);
-                                    }),
-                                onRowAddCancelled: rowData => console.log('Row adding cancelled'),
-                                onRowUpdateCancelled: rowData => console.log('Row editing cancelled'),
-                                onRowAdd: newData =>
-                                    new Promise((resolve, reject) => {
-                                        setTimeout(() => {
-                                            /* setData([...data, newData]); */
-
-                                            resolve();
-                                        }, 1000);
-                                    }),
-                                onRowUpdate: (newData, oldData) =>
-                                    new Promise((resolve, reject) => {
-                                        setTimeout(() => {
-                                            const dataUpdate = [...data];
-                                            const index = oldData.tableData.id;
-                                            dataUpdate[index] = newData;
-                                            setData([...dataUpdate]);
-
-                                            resolve();
-                                        }, 1000);
-                                    }),
                                 onRowDelete: oldData =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
@@ -125,6 +131,10 @@ class OrderPage extends Component {
                             // other props
                             options={{
                                 exportButton: true
+                            }}
+                            detailPanel={rowData => {
+                                this.props.history.push('/orderDetails', {
+                                });
                             }}
 
                         />
