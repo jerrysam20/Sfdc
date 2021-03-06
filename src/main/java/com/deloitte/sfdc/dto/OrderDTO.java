@@ -1,22 +1,47 @@
 package com.deloitte.sfdc.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class OrderDTO {
     private String id;
     private String emailId;
-    private long number;
+    private long mobileNumber;
     private String deliveryAddress;
     private String billingAddress;
     private String name;
     private String location;
-    private String model;
-    private int quantity;
     private double amount;
     private double amountPaid;
+    private double balanceAmount;
+    private String paymentMode;
     private String orderStatus;
-    private String serviceStatus;
     private Date orderDate;
+    private List<ProductDTO> productList;
+
+    public List<ProductDTO> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<ProductDTO> productList) {
+        this.productList = productList;
+    }
+
+    public double getBalanceAmount() {
+        return balanceAmount;
+    }
+
+    public void setBalanceAmount(double balanceAmount) {
+        this.balanceAmount = balanceAmount;
+    }
+
+    public String getPaymentMode() {
+        return paymentMode;
+    }
+
+    public void setPaymentMode(String paymentMode) {
+        this.paymentMode = paymentMode;
+    }
 
     public String getEmailId() {
         return emailId;
@@ -26,12 +51,12 @@ public class OrderDTO {
         this.emailId = emailId;
     }
 
-    public long getNumber() {
-        return number;
+    public long getMobileNumber() {
+        return mobileNumber;
     }
 
-    public void setNumber(long number) {
-        this.number = number;
+    public void setMobileNumber(long mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 
     public String getDeliveryAddress() {
@@ -50,13 +75,6 @@ public class OrderDTO {
         this.billingAddress = billingAddress;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
 
     public Date getOrderDate() {
         return orderDate;
@@ -90,13 +108,6 @@ public class OrderDTO {
         this.location = location;
     }
 
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
 
     public double getAmount() {
         return amount;
@@ -120,14 +131,6 @@ public class OrderDTO {
 
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
-    }
-
-    public String getServiceStatus() {
-        return serviceStatus;
-    }
-
-    public void setServiceStatus(String serviceStatus) {
-        this.serviceStatus = serviceStatus;
     }
 
 

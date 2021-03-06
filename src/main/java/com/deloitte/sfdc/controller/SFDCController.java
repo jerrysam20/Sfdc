@@ -2,6 +2,7 @@ package com.deloitte.sfdc.controller;
 
 
 import com.deloitte.sfdc.dto.OrderDTO;
+import com.deloitte.sfdc.dto.ServiceDTO;
 import com.deloitte.sfdc.dto.SfdcUserInputObject;
 import com.deloitte.sfdc.dto.UserDTO;
 import com.deloitte.sfdc.interfaces.Services;
@@ -54,10 +55,21 @@ public class SFDCController {
         return service.createOrder(orderData);
     }
 
+    @PostMapping (value = "/createService")
+    public boolean createService(@RequestBody ServiceDTO serviceDTO)
+    {
+        return service.createServiceOrder(serviceDTO);
+    }
+
     @GetMapping (value = "/getOrders")
-    public List<OrderDTO> createOrder(@RequestParam String type)
+    public List<OrderDTO> getOrders(@RequestParam String type)
     {
         return service.getOrders(type);
+    }
+    @GetMapping (value = "/getServiceOrders")
+    public List<ServiceDTO> getServiceOrders(@RequestParam String type)
+    {
+        return service.getServiceOrders(type);
     }
 
     @PostMapping (value = "/validateUser")

@@ -11,7 +11,6 @@ public interface OrderRepository extends MongoRepository<OrderDTO, String> {
 
     public List<OrderDTO> findUserByOrderStatus(String orderStatus);
 
-    public List<OrderDTO> findUserByServiceStatus(String serviceStatus);
 
 
 

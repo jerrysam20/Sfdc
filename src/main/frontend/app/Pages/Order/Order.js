@@ -103,13 +103,12 @@ class OrderPage extends Component {
                         <Segment>
                         <MaterialTable
                             columns={[
-                                { title: 'Name', field: 'name' },
-                                { title: 'Location', field: 'location' },
-                                { title: 'Model', field: 'model' },
-                                { title: 'Amount', field: 'amount', type: 'numeric' },
-                                { title: 'Qty', field: 'quantity', type: 'numeric' },
-                                { title: 'OrderStatus', field: 'orderStatus' },
-                                { title: 'ServiceStatus', field: 'serviceStatus' }
+                                { title: 'NAME', field: 'name' },
+                                { title: 'MOBILE NO', field: 'mobileNumber' },
+                                { title: 'LOCATION', field: 'location' },
+                                { title: 'AMOUNT', field: 'amount', type: 'numeric' },
+                                { title: 'ORDER DATE', field: 'orderDate', type: 'numeric' },
+                                { title: 'ORDER STATUS', field: 'orderStatus' }
                             ]}
                            data={this.state.data}
                             title="Orders"
