@@ -38,6 +38,29 @@ const serviceStatusOptions = [
 
 class OrderDetails extends Component {
 
+    handleItemClick = (e, { name }) => {
+        this.setState({activeItem: name});
+        if(name=="Create Order"){
+            this.props.history.push('/createOrder', {
+            });
+        }
+        else if(name=="All Orders"){
+            this.props.history.push('/orders?type=all', {
+            });
+            window.location.reload();
+        }
+        else if(name=="Pending Orders"){
+            this.props.history.push('/orders?type=pendingOrders', {
+            });
+            window.location.reload();
+        }
+        else if(name=="Pending Service"){
+            this.props.history.push('/services', {
+            });
+            window.location.reload();
+        }
+    }
+
 
     constructor(props) {
         super(props);
@@ -47,9 +70,12 @@ class OrderDetails extends Component {
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
+        const search = this.props.location.search;
+        const params = new URLSearchParams(search);
+        const param = params.get('orderNo');
         document.title = 'Orders';
-        fetch('/getOrders?orderType=""&serviceType=""', {
+        fetch('/getOrder?orderId='+param, {
             method: 'get',
             body: null
         })
@@ -80,6 +106,28 @@ class OrderDetails extends Component {
         return (
             <Container>
                 <div style={{ maxWidth: '100%',marginTop:'80px',marginBottom:'80px' }}>
+                    <Menu pointing>
+                        <Menu.Item
+                            name='All Orders'
+                            active={activeItem === 'All Orders'}
+                            onClick={this.handleItemClick}
+                        />
+                        <Menu.Item
+                            name='Pending Orders'
+                            active={activeItem === 'Pending Orders'}
+                            onClick={this.handleItemClick}
+                        />
+                        <Menu.Item
+                            name='Pending Service'
+                            active={activeItem === 'Pending Service'}
+                            onClick={this.handleItemClick}
+                        />
+                        <Menu.Item
+                            name='Create Order'
+                            active={activeItem === 'Create Order'}
+                            onClick={this.handleItemClick}
+                        />
+                    </Menu>
                     <Segment>Order Details</Segment>
                     <Segment>
                         <Grid container columns={2} divided relaxed stackable>
@@ -87,20 +135,36 @@ class OrderDetails extends Component {
                                 <Segment>
                                     <List divided selection>
                                         <List.Item>
-                                            <Label  style={{ width: '30%'}} horizontal>Order#</Label>
-                                            Q-0001
+                                            <Label  style={{ width: '30%'}} horizontal>ORDER# </Label>
+                                            <span style={{ color: 'green'}}>{this.state.data.id}</span>
                                         </List.Item>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}}  horizontal>Amount</Label>
-                                           5000
+                                            <Label style={{ width: '30%'}}  horizontal>ORDER DATE</Label>
+                                            <span style={{ color: 'green'}}>{this.state.data.orderDate}</span>
                                         </List.Item>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>Order Date</Label>
-                                                25-06-2021
+                                            <Label style={{ width: '30%'}} horizontal>DELIVERY DATE</Label>
+                                            <span style={{ color: 'green'}}>{this.state.data.orderDate}</span>
                                         </List.Item>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>Billing Address</Label>
-                                            B302, Signature classic apartments, Sompura Raod, Sarjapur-562125
+                                            <Label style={{ width: '30%'}} horizontal>TOTAL AMOUNT</Label>
+                                            <span style={{ color: 'green'}}>{this.state.data.amount}</span>
+                                        </List.Item>
+                                        <List.Item>
+                                            <Label style={{ width: '30%'}} horizontal>ADVANCE AMOUNT</Label>
+                                            <span style={{ color: 'green'}}>{this.state.data.amountPaid}</span>
+                                        </List.Item>
+                                        <List.Item>
+                                            <Label style={{ width: '30%'}} horizontal>BALANCE AMOUNT</Label>
+                                            <span style={{ color: 'green'}}>{this.state.data.balanceAmount}</span>
+                                        </List.Item>
+                                        <List.Item>
+                                            <Label style={{ width: '30%'}} horizontal>PAYMENT MODE</Label>
+                                            <span style={{ color: 'green'}}>{this.state.data.paymentMode}</span>
+                                        </List.Item>
+                                        <List.Item>
+                                            <Label style={{ width: '30%'}} horizontal>ORDER STATUS</Label>
+                                            <span style={{ color: 'green'}}>{this.state.data.orderStatus}</span>
                                         </List.Item>
                                     </List>
                                 </Segment>
@@ -109,26 +173,32 @@ class OrderDetails extends Component {
                                 <Segment>
                                     <List divided selection>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>Name</Label>
-                                            Jerry Sam
+                                            <Label style={{ width: '30%'}} horizontal>NAME</Label>
+                                            <span style={{ color: 'green'}}>{this.state.data.name}</span>
                                         </List.Item>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>Phone</Label>
-                                            7406846418
+                                            <Label style={{ width: '30%'}} horizontal>MOBILE NO</Label>
+                                            <span style={{ color: 'green'}}>{this.state.data.mobileNumber}</span>
                                         </List.Item>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>email</Label>
-                                           jerrysam20@gmail.com
+                                            <Label style={{ width: '30%'}} horizontal>EMAIL ID</Label>
+                                            <span style={{ color: 'green'}}>{this.state.data.emailId}</span>
                                         </List.Item>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>Location</Label>
-                                            Sarjapur
+                                            <Label style={{ width: '30%'}} horizontal>LOCATION</Label>
+                                            <span style={{ color: 'green'}}>{this.state.data.location}</span>
                                         </List.Item>
                                         <List.Item>
                                             <Label style={{ width: '30%'}} horizontal>
-                                               Delivery Address
+                                                BILLING ADDRESS
                                             </Label>
-                                            B302, Signature classic apartments, Sompura Raod, Sarjapur-562125
+                                            <span style={{ color: 'green'}}>{this.state.data.billingAddress}</span>
+                                        </List.Item>
+                                        <List.Item>
+                                            <Label style={{ width: '30%'}} horizontal>
+                                                DELIVERY ADDRESS
+                                            </Label>
+                                            <span style={{ color: 'green'}}>{this.state.data.deliveryAddress}</span>
                                         </List.Item>
 
                                     </List>
@@ -137,6 +207,43 @@ class OrderDetails extends Component {
                         </Grid>
 
 
+                    </Segment>
+                    <Segment>
+                        <MaterialTable
+                            columns={[
+                                { title: 'PRODUCT', field: 'productName' },
+                                { title: 'DESCRIPTION', field: 'description' },
+                                { title: 'QTY', field: 'quantity' },
+                                { title: 'AMOUNT', field: 'amount', type: 'numeric' },
+                                { title: 'TOTAL', field: 'total', type: 'numeric' }
+                            ]}
+                            data={this.state.data.productList}
+                            title="Orders"
+                            editable={{
+                                isDeletable: rowData => rowData.name === rowData.name, // only name(b) rows would be deletable,
+                                isDeleteHidden: rowData => rowData.name === 'y',
+                                onRowDelete: oldData =>
+                                    new Promise((resolve, reject) => {
+                                        setTimeout(() => {
+                                            const dataDelete = [...data];
+                                            const index = oldData.tableData.id;
+                                            dataDelete.splice(index, 1);
+                                            setData([...dataDelete]);
+
+                                            resolve();
+                                        }, 1000);
+                                    })
+                            }}
+                            // other props
+                            options={{
+                                exportButton: true
+                            }}
+                            detailPanel={rowData => {
+                                this.props.history.push('/orderDetails', {
+                                });
+                            }}
+
+                        />
                     </Segment>
                     <Segment>
                         <Grid container columns={2} divided relaxed stackable>

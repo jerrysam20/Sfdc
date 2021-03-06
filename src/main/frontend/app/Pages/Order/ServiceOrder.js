@@ -11,7 +11,7 @@ const refreshPage = ()=>{
 }
 
 
-class OrderPage extends Component {
+class ServiceOrder extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -25,7 +25,7 @@ class OrderPage extends Component {
         const params = new URLSearchParams(search);
         const param = params.get('type');
         document.title = 'Orders';
-        fetch('/getOrders?type='+param, {
+        fetch('/getServiceOrders?type='+param, {
             method: 'get',
             body: null
         })
@@ -57,17 +57,17 @@ class OrderPage extends Component {
             this.props.history.push('/createOrder', {
             });
         }
-       else if(name=="All Orders"){
+        else if(name=="All Orders"){
             this.props.history.push('/orders?type=all', {
             });
             window.location.reload();
         }
-       else if(name=="Pending Orders"){
+        else if(name=="Pending Orders"){
             this.props.history.push('/orders?type=pendingOrders', {
             });
             window.location.reload();
         }
-       else if(name=="Pending Service"){
+        else if(name=="Pending Service"){
             this.props.history.push('/services', {
             });
             window.location.reload();
@@ -77,41 +77,42 @@ class OrderPage extends Component {
         const { activeItem } = this.state
         return (
             <Container>
-                    <div style={{ maxWidth: '100%',marginTop:'80px',marginBottom:'80px' }}>
-                        <Menu pointing>
-                            <Menu.Item
-                                name='All Orders'
-                                active={activeItem === 'All Orders'}
-                                onClick={this.handleItemClick}
-                            />
-                            <Menu.Item
-                                name='Pending Orders'
-                                active={activeItem === 'Pending Orders'}
-                                onClick={this.handleItemClick}
-                            />
-                            <Menu.Item
-                                name='Pending Service'
-                                active={activeItem === 'Pending Service'}
-                                onClick={this.handleItemClick}
-                            />
-                            <Menu.Item
-                                name='Create Order'
-                                active={activeItem === 'Create Order'}
-                                onClick={this.handleItemClick}
-                            />
-                        </Menu>
-                        <Segment>
+                <div style={{ maxWidth: '100%',marginTop:'80px',marginBottom:'80px' }}>
+                    <Menu pointing>
+                        <Menu.Item
+                            name='All Orders'
+                            active={activeItem === 'All Orders'}
+                            onClick={this.handleItemClick}
+                        />
+                        <Menu.Item
+                            name='Pending Orders'
+                            active={activeItem === 'Pending Orders'}
+                            onClick={this.handleItemClick}
+                        />
+                        <Menu.Item
+                            name='Pending Service'
+                            active={activeItem === 'Pending Service'}
+                            onClick={this.handleItemClick}
+                        />
+                        <Menu.Item
+                            name='Create Order'
+                            active={activeItem === 'Create Order'}
+                            onClick={this.handleItemClick}
+                        />
+                    </Menu>
+                    <Segment>
                         <MaterialTable
                             columns={[
-                                { title: 'ORDER NO', field: 'id' },
+                                { title: 'DATE', field: 'date' },
                                 { title: 'NAME', field: 'name' },
-                                { title: 'MOBILE NO', field: 'mobileNumber' },
-                                { title: 'LOCATION', field: 'location' },
-                                { title: 'AMOUNT', field: 'amount', type: 'numeric' },
-                                { title: 'ORDER DATE', field: 'orderDate', type: 'numeric' },
-                                { title: 'ORDER STATUS', field: 'orderStatus' }
+                                { title: 'MOB', field: 'mobileNumber',type: 'numeric'  },
+                                { title: 'LOCATION', field: 'location'},
+                                { title: 'DESCRIPTION', field: 'description'},
+                                { title: 'STATUS', field: 'pending' },
+                                { title: 'SOURCE', field: 'Internal' },
+                                { title: 'AMOUNT', field: 'amount' }
                             ]}
-                           data={this.state.data}
+                            data={this.state.data}
                             title="Orders"
                             editable={{
                                 isDeletable: rowData => rowData.name === rowData.name, // only name(b) rows would be deletable,
@@ -133,18 +134,18 @@ class OrderPage extends Component {
                                 exportButton: true
                             }}
                             detailPanel={rowData => {
-                                this.props.history.push('/orderDetails?orderNo='+rowData.id, {
+                                this.props.history.push('/orderDetails', {
                                 });
                             }}
 
                         />
-                        </Segment>
+                    </Segment>
 
-                    </div>
+                </div>
             </Container>
         )
     }
 }
 
 
-export default OrderPage;
+export default ServiceOrder;

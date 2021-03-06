@@ -99,6 +99,18 @@ public class ServicesImpl implements Services {
 
     }
 
+    @Override
+    public OrderDTO getOrder(String orderId) {
+        return orderRepository.findOne(orderId);
+    }
+
+    @Override
+    public boolean deleteOrders() {
+        orderRepository.deleteAll();
+        serviceRepository.deleteAll();
+        return true;
+    }
+
     public static void main(String as[]) throws JsonProcessingException {
         ServiceDTO order=new ServiceDTO();
 

@@ -66,6 +66,18 @@ public class SFDCController {
     {
         return service.getOrders(type);
     }
+    @GetMapping (value = "/getOrder")
+    public OrderDTO getOrder(@RequestParam String orderId)
+    {
+        return service.getOrder(orderId);
+    }
+
+    @GetMapping (value = "/delete")
+    public boolean deleteOrders()
+    {
+        return service.deleteOrders();
+    }
+
     @GetMapping (value = "/getServiceOrders")
     public List<ServiceDTO> getServiceOrders(@RequestParam String type)
     {

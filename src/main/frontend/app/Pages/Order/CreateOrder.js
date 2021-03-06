@@ -48,7 +48,32 @@ const serviceStatusOptions = [
 ]
 
 
+
 class CreateOrder extends Component {
+
+
+    handleItemClick = (e, { name }) => {
+        this.setState({activeItem: name});
+        if(name=="Create Order"){
+            this.props.history.push('/createOrder', {
+            });
+        }
+        else if(name=="All Orders"){
+            this.props.history.push('/orders?type=all', {
+            });
+            window.location.reload();
+        }
+        else if(name=="Pending Orders"){
+            this.props.history.push('/orders?type=pendingOrders', {
+            });
+            window.location.reload();
+        }
+        else if(name=="Pending Service"){
+            this.props.history.push('/services', {
+            });
+            window.location.reload();
+        }
+    }
 
 
     constructor(props) {
@@ -92,6 +117,28 @@ class CreateOrder extends Component {
         return (
             <Container>
                 <div style={{ maxWidth: '100%',marginTop:'80px',marginBottom:'80px' }}>
+                    <Menu pointing>
+                        <Menu.Item
+                            name='All Orders'
+                            active={activeItem === 'All Orders'}
+                            onClick={this.handleItemClick}
+                        />
+                        <Menu.Item
+                            name='Pending Orders'
+                            active={activeItem === 'Pending Orders'}
+                            onClick={this.handleItemClick}
+                        />
+                        <Menu.Item
+                            name='Pending Service'
+                            active={activeItem === 'Pending Service'}
+                            onClick={this.handleItemClick}
+                        />
+                        <Menu.Item
+                            name='Create Order'
+                            active={activeItem === 'Create Order'}
+                            onClick={this.handleItemClick}
+                        />
+                    </Menu>
                     <Segment>Create Order</Segment>
                     <Segment>
                         <Grid container columns={2} divided relaxed stackable>
@@ -155,6 +202,45 @@ class CreateOrder extends Component {
 
                     </Segment>
                     <Segment>
+                        <MaterialTable
+                            columns={[
+                                { title: 'NAME', field: 'name' },
+                                { title: 'MOBILE NO', field: 'mobileNumber' },
+                                { title: 'LOCATION', field: 'location' },
+                                { title: 'AMOUNT', field: 'amount', type: 'numeric' },
+                                { title: 'ORDER DATE', field: 'orderDate', type: 'numeric' },
+                                { title: 'ORDER STATUS', field: 'orderStatus' }
+                            ]}
+                            data={this.state.data}
+                            title="Orders"
+                            editable={{
+                                isDeletable: rowData => rowData.name === rowData.name, // only name(b) rows would be deletable,
+                                isDeleteHidden: rowData => rowData.name === 'y',
+                                onRowDelete: oldData =>
+                                    new Promise((resolve, reject) => {
+                                        setTimeout(() => {
+                                            const dataDelete = [...data];
+                                            const index = oldData.tableData.id;
+                                            dataDelete.splice(index, 1);
+                                            setData([...dataDelete]);
+
+                                            resolve();
+                                        }, 1000);
+                                    })
+                            }}
+                            // other props
+                            options={{
+                                exportButton: true
+                            }}
+                            detailPanel={rowData => {
+                                this.props.history.push('/orderDetails', {
+                                });
+                            }}
+
+                        />
+                    </Segment>
+
+                    <Segment>
                         <Grid container columns={2} divided relaxed stackable>
                             <Grid.Column>
                                 <Segment>
@@ -174,30 +260,15 @@ class CreateOrder extends Component {
                                 </Segment>
                             </Grid.Column>
                             <Grid.Column>
-                                <Segment>
-                                    <List divided selection>
-                                        <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>
-                                                Service Status
-                                            </Label>
-                                            <Dropdown
-                                                placeholder='Select Service Status'
-                                                fluid
-                                                selection
-                                                options={serviceStatusOptions}
-                                            />
-                                        </List.Item>
-                                    </List>
-                                </Segment>
+
+                                    <Button primary floated='right'>Create</Button>
+
                             </Grid.Column>
                         </Grid>
-
-
 
                     </Segment>
 
 
-                    <Button primary floated='right'>Create</Button>
 
 
                 </div>

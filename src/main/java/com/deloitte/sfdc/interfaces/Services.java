@@ -19,4 +19,8 @@ public interface Services {
     boolean createServiceOrder(ServiceDTO service);
 
     List<ServiceDTO> getServiceOrders(String type);
+
+    OrderDTO getOrder(String orderId);
+
+    boolean deleteOrders();
 }
