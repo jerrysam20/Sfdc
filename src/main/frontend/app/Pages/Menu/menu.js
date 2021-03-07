@@ -67,9 +67,6 @@ class CustomMenu extends Component {
         return (
             <Segment style={{ marginTop: '6em' }}>
                     <Menu stackable pointing>
-                        <Menu.Item>
-                            <img src={logo} />
-                        </Menu.Item>
                         <Menu.Item
                             name='ALL ORDERS'
                             active={activeItem === 'ALL ORDERS'}

@@ -213,7 +213,7 @@ class OrderDetails extends Component {
                                 <Segment>
                                     <List divided selection>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>
+                                            <Label style={{ width: '40%'}} horizontal>
                                                 Order Status
                                             </Label>
                                             <Dropdown
