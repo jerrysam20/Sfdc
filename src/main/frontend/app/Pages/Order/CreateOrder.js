@@ -126,14 +126,6 @@ class CreateOrder extends Component {
                             <Segment color='red'>
                                 <List divided selection>
                                     <List.Item>
-                                        <span  style={{ width: '30%'}} >ORDER#  : </span>
-                                        <Input placeholder='Enter Order#' />
-                                    </List.Item>
-                                    <List.Item>
-                                        <span style={{ width: '30%'}}  >ORDER DATE  :</span>
-                                        <Input placeholder='Enter Order Date' />
-                                    </List.Item>
-                                    <List.Item>
                                         <span style={{ width: '30%'}} horizontal>DELIVERY DATE  :</span>
                                         <Input placeholder='Enter Delivery Date' />
                                     </List.Item>
@@ -144,10 +136,6 @@ class CreateOrder extends Component {
                                     <List.Item>
                                         <span style={{ width: '30%'}} horizontal>ADVANCE AMOUNT  :</span>
                                         <Input placeholder='Enter Advance Amount' />
-                                    </List.Item>
-                                    <List.Item>
-                                        <span style={{ width: '30%'}} horizontal>BALANCE AMOUNT  :</span>
-                                        <Input placeholder='Enter Balance Amount' />
                                     </List.Item>
                                     <List.Item>
                                         <span style={{ width: '30%'}} horizontal>PAYMENT MODE  :</span>
@@ -180,15 +168,11 @@ class CreateOrder extends Component {
                                         <Input placeholder='Enter Location' />
                                     </List.Item>
                                     <List.Item>
-                                            <span style={{ width: '30%'}} horizontal>
-                                                BILLING ADDRESS  :
-                                            </span>
+                                            <span style={{ width: '30%'}} horizontal>BILLING ADDRESS  : </span>
                                         <TextArea placeholder='Enter Billing Address' />
                                     </List.Item>
                                     <List.Item>
-                                            <span style={{ width: '30%'}} horizontal>
-                                                DELIVERY ADDRESS  :
-                                            </span>
+                                            <span style={{ width: '30%'}} horizontal>DELIVERY ADDRESS  : </span>
                                         <TextArea placeholder='Enter Delivery Address' />
                                     </List.Item>
 
@@ -209,7 +193,7 @@ class CreateOrder extends Component {
                             { title: 'TOTAL', field: 'total', type: 'numeric' }
                         ]}
                         data={this.state.data.productList}
-                        title="Orders"
+                        title="Products"
                         editable={{
                             isDeletable: rowData => rowData.name === rowData.name, // only name(b) rows would be deletable,
                             isDeleteHidden: rowData => rowData.name === 'y',
