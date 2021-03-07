@@ -45,6 +45,7 @@ const serviceStatusOptions = [
 
 
 class CreateOrder extends Component {
+    tableRef = React.createRef();
 
 
     handleItemClick = (e, { name }) => {
@@ -143,6 +144,8 @@ class CreateOrder extends Component {
     }
 
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+
+
     render() {
         const { activeItem } = this.state
         return (
@@ -290,6 +293,7 @@ class CreateOrder extends Component {
                 </Segment>
                 <Segment color='red'>
                     <MaterialTable
+                        tableRef={this.tableRef}
                         columns={[
                             { title: 'PRODUCT', field: 'productName' },
                             { title: 'DESCRIPTION', field: 'description' },
@@ -297,7 +301,13 @@ class CreateOrder extends Component {
                             { title: 'AMOUNT', field: 'amount', type: 'numeric' },
                             { title: 'TOTAL', field: 'total', type: 'numeric' }
                         ]}
-                        data={this.state.productList}
+                        data={query =>
+                            new Promise((resolve, reject) => {
+                                resolve({
+                                    data: this.state.productList
+                                })
+                            })
+                        }
                         title="Products"
                         editable={{
                             isDeletable: rowData => rowData.name === rowData.name, // only name(b) rows would be deletable,
@@ -314,6 +324,7 @@ class CreateOrder extends Component {
                                             "total":newData.total
                                         }
                                         this.state.productList.push(entry);
+                                        this.tableRef.current.onQueryChange();
                                         resolve();
                                     }, 1000);
                                 }),
