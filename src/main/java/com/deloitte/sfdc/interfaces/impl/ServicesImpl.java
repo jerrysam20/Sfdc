@@ -98,7 +98,7 @@ public class ServicesImpl implements Services {
         service.setId(sequenceDao.getNextSequenceId(SERVICE_SEQ_KEY));
         ServiceDTO serviceDTO=null;
         try {
-             serviceDTO=   serviceRepository.save(servicePopulator.populate(service));
+             serviceDTO=   serviceRepository.save(service);
         } catch (Exception e) {
             return null;
         }
