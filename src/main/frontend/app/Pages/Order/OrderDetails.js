@@ -146,35 +146,35 @@ class OrderDetails extends Component {
                                     <List divided selection>
                                         <List.Item>
                                             <span  style={{ width: '30%'}} >ORDER#  : </span>
-                                            <span style={{ color: 'brown'}}>{this.state.data.id}</span>
+                                            <span style={{ color: 'black'}}>{this.state.data.id}</span>
                                         </List.Item>
                                         <List.Item>
                                             <span style={{ width: '30%'}}  >ORDER DATE  :</span>
-                                            <span style={{ color: 'brown'}}>{this.state.data.orderDate}</span>
+                                            <span style={{ color: 'black'}}>{this.state.data.orderDate}</span>
                                         </List.Item>
                                         <List.Item>
                                             <span style={{ width: '30%'}} horizontal>DELIVERY DATE  :</span>
-                                            <span style={{ color: 'brown'}}>{this.state.data.orderDate}</span>
+                                            <span style={{ color: 'black'}}>{this.state.data.orderDate}</span>
                                         </List.Item>
                                         <List.Item>
                                             <span style={{ width: '30%'}} horizontal>TOTAL AMOUNT  :</span>
-                                            <span style={{ color: 'brown'}}>{this.state.data.amount}</span>
+                                            <span style={{ color: 'black'}}>{this.state.data.amount}</span>
                                         </List.Item>
                                         <List.Item>
                                             <span style={{ width: '30%'}} horizontal>ADVANCE AMOUNT  :</span>
-                                            <span style={{ color: 'brown'}}>{this.state.data.amountPaid}</span>
+                                            <span style={{ color: 'black'}}>{this.state.data.amountPaid}</span>
                                         </List.Item>
                                         <List.Item>
                                             <span style={{ width: '30%'}} horizontal>BALANCE AMOUNT  :</span>
-                                            <span style={{ color: 'brown'}}>{this.state.data.balanceAmount}</span>
+                                            <span style={{ color: 'black'}}>{this.state.data.balanceAmount}</span>
                                         </List.Item>
                                         <List.Item>
                                             <span style={{ width: '30%'}} horizontal>PAYMENT MODE  :</span>
-                                            <span style={{ color: 'brown'}}>{this.state.data.paymentMode}</span>
+                                            <span style={{ color: 'black'}}>{this.state.data.paymentMode}</span>
                                         </List.Item>
                                         <List.Item>
                                             <span style={{ width: '30%'}} horizontal>ORDER STATUS  :</span>
-                                            <span style={{ color: 'brown'}}>{this.state.data.orderStatus}</span>
+                                            <span style={{ color: 'black'}}>{this.state.data.orderStatus}</span>
                                         </List.Item>
                                     </List>
                                 </Segment>
@@ -184,31 +184,31 @@ class OrderDetails extends Component {
                                     <List divided selection>
                                         <List.Item>
                                             <span style={{ width: '30%'}} horizontal>NAME  :</span>
-                                            <span style={{ color: 'brown'}}>{this.state.data.name}</span>
+                                            <span style={{ color: 'black'}}>{this.state.data.name}</span>
                                         </List.Item>
                                         <List.Item>
                                             <span style={{ width: '30%'}} horizontal>MOBILE NO  :</span>
-                                            <span style={{ color: 'brown'}}>{this.state.data.mobileNumber}</span>
+                                            <span style={{ color: 'black'}}>{this.state.data.mobileNumber}</span>
                                         </List.Item>
                                         <List.Item>
                                             <span style={{ width: '30%'}} horizontal>EMAIL ID  :</span>
-                                            <span style={{ color: 'brown'}}>{this.state.data.emailId}</span>
+                                            <span style={{ color: 'black'}}>{this.state.data.emailId}</span>
                                         </List.Item>
                                         <List.Item>
                                             <span style={{ width: '30%'}} horizontal>LOCATION  :</span>
-                                            <span style={{ color: 'brown'}}>{this.state.data.location}</span>
+                                            <span style={{ color: 'black'}}>{this.state.data.location}</span>
                                         </List.Item>
                                         <List.Item>
                                             <span style={{ width: '30%'}} horizontal>
                                                 BILLING ADDRESS  :
                                             </span>
-                                            <span style={{ color: 'brown'}}>{this.state.data.billingAddress}</span>
+                                            <span style={{ color: 'black'}}>{this.state.data.billingAddress}</span>
                                         </List.Item>
                                         <List.Item>
                                             <span style={{ width: '30%'}} horizontal>
                                                 DELIVERY ADDRESS  :
                                             </span>
-                                            <span style={{ color: 'brown'}}>{this.state.data.deliveryAddress}</span>
+                                            <span style={{ color: 'black'}}>{this.state.data.deliveryAddress}</span>
                                         </List.Item>
 
                                     </List>
