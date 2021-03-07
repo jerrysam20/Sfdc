@@ -17,6 +17,7 @@ import {
 } from "semantic-ui-react";
 
 import { Input, Menu } from 'semantic-ui-react'
+import CustomMenu from "../Menu/menu";
 const orderStatusOptions = [
     {
         key: 'PENDING',
@@ -116,169 +117,161 @@ class CreateOrder extends Component {
         const { activeItem } = this.state
         return (
             <Container>
-                <div style={{ maxWidth: '100%',marginTop:'80px',marginBottom:'80px' }}>
-                    <Menu pointing>
-                        <Menu.Item
-                            name='All Orders'
-                            active={activeItem === 'All Orders'}
-                            onClick={this.handleItemClick}
-                        />
-                        <Menu.Item
-                            name='Pending Orders'
-                            active={activeItem === 'Pending Orders'}
-                            onClick={this.handleItemClick}
-                        />
-                        <Menu.Item
-                            name='Pending Service'
-                            active={activeItem === 'Pending Service'}
-                            onClick={this.handleItemClick}
-                        />
-                        <Menu.Item
-                            name='Create Order'
-                            active={activeItem === 'Create Order'}
-                            onClick={this.handleItemClick}
-                        />
-                    </Menu>
-                    <Segment>Create Order</Segment>
-                    <Segment>
-                        <Grid columns={2} container divided stackable>
-                            <Grid.Column>
-                                <Segment>
+                <CustomMenu/>
 
-                                    <Grid.Row>
-                                        <Grid.Column style={{ width: '30%'}}>
-                                            <Label horizontal>Order#</Label>
-                                        </Grid.Column>
-                                        <Grid.Column>
-                                            <Input placeholder='Enter Order#' />
-                                        </Grid.Column>
-                                    </Grid.Row>
+                <Segment>Create Order</Segment>
+                <Segment>
+                    <Grid container columns={2} divided relaxed stackable>
+                        <Grid.Column>
+                            <Segment color='red'>
+                                <List divided selection>
+                                    <List.Item>
+                                        <span  style={{ width: '30%'}} >ORDER#  : </span>
+                                        <Input placeholder='Enter Order#' />
+                                    </List.Item>
+                                    <List.Item>
+                                        <span style={{ width: '30%'}}  >ORDER DATE  :</span>
+                                        <Input placeholder='Enter Order Date' />
+                                    </List.Item>
+                                    <List.Item>
+                                        <span style={{ width: '30%'}} horizontal>DELIVERY DATE  :</span>
+                                        <Input placeholder='Enter Delivery Date' />
+                                    </List.Item>
+                                    <List.Item>
+                                        <span style={{ width: '30%'}} horizontal>TOTAL AMOUNT  :</span>
+                                        <Input placeholder='Enter Total Amount' />
+                                    </List.Item>
+                                    <List.Item>
+                                        <span style={{ width: '30%'}} horizontal>ADVANCE AMOUNT  :</span>
+                                        <Input placeholder='Enter Advance Amount' />
+                                    </List.Item>
+                                    <List.Item>
+                                        <span style={{ width: '30%'}} horizontal>BALANCE AMOUNT  :</span>
+                                        <Input placeholder='Enter Balance Amount' />
+                                    </List.Item>
+                                    <List.Item>
+                                        <span style={{ width: '30%'}} horizontal>PAYMENT MODE  :</span>
+                                        <Input placeholder='Enter Payment Mode' />
+                                    </List.Item>
+                                    <List.Item>
+                                        <span style={{ width: '30%'}} horizontal>ORDER STATUS  :</span>
+                                        <Input placeholder='Enter Order Status' />
+                                    </List.Item>
+                                </List>
+                            </Segment>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Segment color='red'>
+                                <List divided selection>
+                                    <List.Item>
+                                        <span style={{ width: '30%'}} horizontal>NAME  :</span>
+                                        <Input placeholder='Enter Name' />
+                                    </List.Item>
+                                    <List.Item>
+                                        <span style={{ width: '30%'}} horizontal>MOBILE NO  :</span>
+                                        <Input placeholder='Enter Mobile No' />
+                                    </List.Item>
+                                    <List.Item>
+                                        <span style={{ width: '30%'}} horizontal>EMAIL ID  :</span>
+                                        <Input placeholder='Enter Email Id' />
+                                    </List.Item>
+                                    <List.Item>
+                                        <span style={{ width: '30%'}} horizontal>LOCATION  :</span>
+                                        <Input placeholder='Enter Location' />
+                                    </List.Item>
+                                    <List.Item>
+                                            <span style={{ width: '30%'}} horizontal>
+                                                BILLING ADDRESS  :
+                                            </span>
+                                        <TextArea placeholder='Enter Billing Address' />
+                                    </List.Item>
+                                    <List.Item>
+                                            <span style={{ width: '30%'}} horizontal>
+                                                DELIVERY ADDRESS  :
+                                            </span>
+                                        <TextArea placeholder='Enter Delivery Address' />
+                                    </List.Item>
 
-
-                                    <Grid.Row>
-                                        <Grid.Column style={{ width: '30%'}}>
-                                            <Label horizontal>Amount</Label>
-                                        </Grid.Column>
-                                        <Grid.Column>
-                                            <Input placeholder='Enter Amount' />
-                                        </Grid.Column>
-                                    </Grid.Row>
-                                    <Grid.Row>
-                                        '  <Grid.Column style={{ width: '30%'}}>
-                                            <Label horizontal>Order Date</Label>
-                                           </Grid.Column>
-                                           <Grid.Column>
-                                            <Input placeholder='Enter Order Date' />
-                                          </Grid.Column>
-                                    </Grid.Row>
-                                </Segment>
-                            </Grid.Column>
-                            <Grid.Column>
-                                <Segment>
-                                    <List divided selection>
-                                        <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>Name</Label>
-                                            <Input placeholder='Enter Name' />
-                                        </List.Item>
-                                        <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>Phone</Label>
-                                            <Input placeholder='Enter number' />
-                                        </List.Item>
-                                        <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>email</Label>
-                                            <Input placeholder='Enter email' />
-                                        </List.Item>
-                                        <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>Location</Label>
-                                            <Input placeholder='Enter Location' />
-                                        </List.Item>
-                                        <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>
-                                                Delivery Address
-                                            </Label>
-                                            <Form>
-                                                <TextArea placeholder='Enter Delivery Address' />
-                                            </Form>
-                                        </List.Item>
-
-                                    </List>
-                                </Segment>
-                            </Grid.Column>
-                        </Grid>
+                                </List>
+                            </Segment>
+                        </Grid.Column>
+                    </Grid>
 
 
-                    </Segment>
-                    <Segment>
-                        <MaterialTable
-                            columns={[
-                                { title: 'NAME', field: 'name' },
-                                { title: 'MOBILE NO', field: 'mobileNumber' },
-                                { title: 'LOCATION', field: 'location' },
-                                { title: 'AMOUNT', field: 'amount', type: 'numeric' },
-                                { title: 'ORDER DATE', field: 'orderDate', type: 'numeric' },
-                                { title: 'ORDER STATUS', field: 'orderStatus' }
-                            ]}
-                            data={this.state.data}
-                            title="Orders"
-                            editable={{
-                                isDeletable: rowData => rowData.name === rowData.name, // only name(b) rows would be deletable,
-                                isDeleteHidden: rowData => rowData.name === 'y',
-                                onRowDelete: oldData =>
-                                    new Promise((resolve, reject) => {
-                                        setTimeout(() => {
-                                            const dataDelete = [...data];
-                                            const index = oldData.tableData.id;
-                                            dataDelete.splice(index, 1);
-                                            setData([...dataDelete]);
+                </Segment>
+                <Segment color='red'>
+                    <MaterialTable
+                        columns={[
+                            { title: 'PRODUCT', field: 'productName' },
+                            { title: 'DESCRIPTION', field: 'description' },
+                            { title: 'QTY', field: 'quantity' },
+                            { title: 'AMOUNT', field: 'amount', type: 'numeric' },
+                            { title: 'TOTAL', field: 'total', type: 'numeric' }
+                        ]}
+                        data={this.state.data.productList}
+                        title="Orders"
+                        editable={{
+                            isDeletable: rowData => rowData.name === rowData.name, // only name(b) rows would be deletable,
+                            isDeleteHidden: rowData => rowData.name === 'y',
+                            pagination:false,
+                            onRowAdd: newData =>
+                                new Promise((resolve, reject) => {
+                                    setTimeout(() => {
+                                        /* setData([...data, newData]); */
 
-                                            resolve();
-                                        }, 1000);
-                                    })
-                            }}
-                            // other props
-                            options={{
-                                exportButton: true
-                            }}
-                            detailPanel={rowData => {
-                                this.props.history.push('/orderDetails', {
-                                });
-                            }}
+                                        resolve();
+                                    }, 1000);
+                                }),
 
-                        />
-                    </Segment>
+                            onRowDelete: oldData =>
+                                new Promise((resolve, reject) => {
+                                    setTimeout(() => {
+                                        const dataDelete = [...data];
+                                        const index = oldData.tableData.id;
+                                        dataDelete.splice(index, 1);
+                                        setData([...dataDelete]);
 
-                    <Segment>
-                        <Grid container columns={2} divided relaxed stackable>
-                            <Grid.Column>
-                                <Segment>
-                                    <List divided selection>
-                                        <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>
-                                                Order Status
-                                            </Label>
-                                            <Dropdown
-                                                placeholder='Select Order Status'
-                                                fluid
-                                                selection
-                                                options={orderStatusOptions}
-                                            />
-                                        </List.Item>
-                                    </List>
-                                </Segment>
-                            </Grid.Column>
-                            <Grid.Column>
+                                        resolve();
+                                    }, 1000);
+                                })
+                        }}
+                        options={{
+                            paging: false
+                        }}
 
-                                    <Button primary floated='right'>Create</Button>
+                    />
+                </Segment>
+                <Segment>
+                    <Grid container columns={2} divided relaxed stackable>
+                        <Grid.Column>
+                            <Segment>
+                                <List divided selection>
+                                    <List.Item>
+                                        <Label style={{ width: '30%'}} horizontal>
+                                            Order Status
+                                        </Label>
+                                        <Dropdown
+                                            placeholder='Select Order Status'
+                                            fluid
+                                            selection
+                                            options={orderStatusOptions}
+                                        />
+                                    </List.Item>
+                                </List>
+                            </Segment>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Button primary floated='right'>Create</Button>
+                        </Grid.Column>
+                    </Grid>
 
-                            </Grid.Column>
-                        </Grid>
 
-                    </Segment>
+
+                </Segment>
 
 
 
 
-                </div>
             </Container>
         )
     }

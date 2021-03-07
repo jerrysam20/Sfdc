@@ -166,7 +166,7 @@ class OrderDetails extends Component {
 
 
                     </Segment>
-                    <Segment>
+                    <Segment color='red'>
                         <MaterialTable
                             columns={[
                                 { title: 'PRODUCT', field: 'productName' },
@@ -202,6 +202,9 @@ class OrderDetails extends Component {
                                         }, 1000);
                                     })
                             }}
+                            options={{
+                                paging: false
+                            }}
 
                         />
                     </Segment>
@@ -225,21 +228,7 @@ class OrderDetails extends Component {
                                 </Segment>
                             </Grid.Column>
                             <Grid.Column>
-                                <Segment>
-                                    <List divided selection>
-                                        <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>
-                                                Service Status
-                                            </Label>
-                                            <Dropdown
-                                                placeholder='Select Service Status'
-                                                fluid
-                                                selection
-                                                options={serviceStatusOptions}
-                                            />
-                                        </List.Item>
-                                    </List>
-                                </Segment>
+                                    <Button primary floated='right'>Update</Button>
                             </Grid.Column>
                         </Grid>
 
@@ -248,7 +237,7 @@ class OrderDetails extends Component {
                     </Segment>
 
 
-                        <Button primary floated='right'>Update</Button>
+
 
             </Container>
         )
