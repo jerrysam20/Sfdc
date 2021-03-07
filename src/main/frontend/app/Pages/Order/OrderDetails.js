@@ -38,30 +38,6 @@ const serviceStatusOptions = [
 
 class OrderDetails extends Component {
 
-    handleItemClick = (e, { name }) => {
-        this.setState({activeItem: name});
-        if(name=="Create Order"){
-            this.props.history.push('/createOrder', {
-            });
-        }
-        else if(name=="All Orders"){
-            this.props.history.push('/orders?type=all', {
-            });
-            window.location.reload();
-        }
-        else if(name=="Pending Orders"){
-            this.props.history.push('/orders?type=pendingOrders', {
-            });
-            window.location.reload();
-        }
-        else if(name=="Pending Service"){
-            this.props.history.push('/services', {
-            });
-            window.location.reload();
-        }
-    }
-
-
     constructor(props) {
         super(props);
         this.state = {
@@ -106,28 +82,6 @@ class OrderDetails extends Component {
         return (
             <Container>
                 <div style={{ maxWidth: '100%',marginTop:'80px',marginBottom:'80px' }}>
-                    <Menu pointing>
-                        <Menu.Item
-                            name='All Orders'
-                            active={activeItem === 'All Orders'}
-                            onClick={this.handleItemClick}
-                        />
-                        <Menu.Item
-                            name='Pending Orders'
-                            active={activeItem === 'Pending Orders'}
-                            onClick={this.handleItemClick}
-                        />
-                        <Menu.Item
-                            name='Pending Service'
-                            active={activeItem === 'Pending Service'}
-                            onClick={this.handleItemClick}
-                        />
-                        <Menu.Item
-                            name='Create Order'
-                            active={activeItem === 'Create Order'}
-                            onClick={this.handleItemClick}
-                        />
-                    </Menu>
                     <Segment>Order Details</Segment>
                     <Segment>
                         <Grid container columns={2} divided relaxed stackable>

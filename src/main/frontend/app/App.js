@@ -7,6 +7,7 @@ import OrderPage from './Pages/Order/Order';
 import ServicePage from './Pages/Order/ServiceOrder';
 import OrderDetailPage from './Pages/Order/OrderDetails';
 import CreateOrderPage from './Pages/Order/CreateOrder';
+import CustomMenu from './Pages/Menu/menu'
 import ErrorPage from './Pages/Error/Error';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import HeaderComponent from './Components/Header/Header';
@@ -14,6 +15,7 @@ import FooterComponent from './Components/Footer/Footer';
 import DocumentationPage from './Pages/Documentation/Documentation';
 import img1 from './assets/bg.jpg'
 import LoginForm from "./Pages/Login/Login";
+import {Segment} from "semantic-ui-react";
 
 function App() {
   const footerOptions = [
@@ -36,7 +38,9 @@ function App() {
   ];
   return (
     <div className="appBody" style={{backgroundImage: "url(" + img1 + ")"}}>
-      <HeaderComponent/>
+      <Segment style={{overflow: 'auto', maxHeight: 1000 }}>
+        <HeaderComponent/>
+      <CustomMenu/>
       <Router>
         <Switch>
           <Route exact path="/" component={LoginForm} />
@@ -50,7 +54,9 @@ function App() {
         </Switch>
       </Router>
       <FooterComponent footerOptions={footerOptions} />
+      </Segment>
     </div>
+
   );
 }
 

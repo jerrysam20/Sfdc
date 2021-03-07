@@ -1,8 +1,11 @@
 import React from 'react';
 import './Header.css';
 import { Navbar, Nav, Row, Col } from 'react-bootstrap';
+import {Container, Dropdown, Image, Menu, Segment} from "semantic-ui-react";
+import logo from '../../assets/logo.png';
+import {withRouter} from "react-router";
 
-export default class HeaderComponent extends React.Component {
+class HeaderComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,41 +13,44 @@ export default class HeaderComponent extends React.Component {
     };
   }
 
+  handleItemClick = (e, { name }) => {
+    this.setState({activeItem: name});
+    const { history } = this.props;
+    if(name=="CREATE ORDER"){
+      this.props.history.push('/createOrder', {
+      });
+      window.location.reload();
+    }
+    else if(name=="ALL ORDERS"){
+      this.props.history.push('/orders?type=all', {
+      });
+      window.location.reload();
+    }
+    else if(name=="PENDING ORDERS"){
+      this.props.history.push('/orders?type=pendingOrders', {
+      });
+      window.location.reload();
+    }
+    else if(name=="SERVICES"){
+      this.props.history.push('/services', {
+      });
+      window.location.reload();
+    }
+  }
+
   render() {
     const { pageLink } = this.state;
+    const { activeItem } = this.state
     return (
-      <div className="header">
-        <Navbar bg="dark" variant="dark">
-          <Row>
-            <Col sm={1}>
-              <Navbar.Brand href="/">
-                {/* <span className="deloitte">Deloitte</span>
-                <span className="deloitte-dot" /> */}
-                <strong className="deloitte">Radian Ergo</strong>
-              </Navbar.Brand>
-            </Col>
-            <Col sm={8} />
-            <Col sm={3} className="nav-buttons">
-              <Nav className="mr-auto">
-                <Nav.Link
-                  className={`${pageLink === '' ? 'active-link' : ''}`}
-                  href="/"
-                >
-                  Home
-                </Nav.Link>
-                <Nav.Link
-                  className={`${
-                    pageLink === 'Contact us' ? 'active-link' : ''
-                  }`}
-                  href="/documentation"
-                >
-                  Contact us
-                </Nav.Link>
-              </Nav>
-            </Col>
-          </Row>
-        </Navbar>
-      </div>
+        <Menu fixed='top' inverted stackable pointing>
+            <Menu.Item as='a' header>
+              <Image size='mini' src={logo}/>
+              RADIAN ERGO
+            </Menu.Item>
+            <Menu.Item as='a'>Home</Menu.Item>
+            <Menu.Item as='a'>Contact Us</Menu.Item>
+        </Menu>
     );
   }
 }
+export default withRouter(HeaderComponent);

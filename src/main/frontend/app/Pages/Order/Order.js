@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom'
 import MaterialTable from 'material-table'
 import {Container, Segment} from "semantic-ui-react";
 
-import { Input, Menu } from 'semantic-ui-react'
-
 
 const refreshPage = ()=>{
     window.location.reload();
@@ -14,6 +12,7 @@ const refreshPage = ()=>{
 class OrderPage extends Component {
     constructor(props) {
         super(props);
+        console.log(this.props)
         this.state = {
             data: [],
             showTable: true
@@ -51,55 +50,10 @@ class OrderPage extends Component {
     }
 
 
-    handleItemClick = (e, { name }) => {
-        this.setState({activeItem: name});
-        if(name=="Create Order"){
-            this.props.history.push('/createOrder', {
-            });
-        }
-       else if(name=="All Orders"){
-            this.props.history.push('/orders?type=all', {
-            });
-            window.location.reload();
-        }
-       else if(name=="Pending Orders"){
-            this.props.history.push('/orders?type=pendingOrders', {
-            });
-            window.location.reload();
-        }
-       else if(name=="Pending Service"){
-            this.props.history.push('/services', {
-            });
-            window.location.reload();
-        }
-    }
     render() {
         const { activeItem } = this.state
         return (
             <Container>
-                    <div style={{ maxWidth: '100%',marginTop:'80px',marginBottom:'80px' }}>
-                        <Menu pointing>
-                            <Menu.Item
-                                name='All Orders'
-                                active={activeItem === 'All Orders'}
-                                onClick={this.handleItemClick}
-                            />
-                            <Menu.Item
-                                name='Pending Orders'
-                                active={activeItem === 'Pending Orders'}
-                                onClick={this.handleItemClick}
-                            />
-                            <Menu.Item
-                                name='Pending Service'
-                                active={activeItem === 'Pending Service'}
-                                onClick={this.handleItemClick}
-                            />
-                            <Menu.Item
-                                name='Create Order'
-                                active={activeItem === 'Create Order'}
-                                onClick={this.handleItemClick}
-                            />
-                        </Menu>
                         <Segment>
                         <MaterialTable
                             columns={[
@@ -139,8 +93,6 @@ class OrderPage extends Component {
 
                         />
                         </Segment>
-
-                    </div>
             </Container>
         )
     }

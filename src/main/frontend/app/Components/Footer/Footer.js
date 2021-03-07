@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Footer.css';
+import {Container, Grid, Header, List, Segment} from "semantic-ui-react";
 
 export default class FooterComponent extends React.Component {
   constructor(props) {
@@ -10,66 +11,40 @@ export default class FooterComponent extends React.Component {
 
   render() {
     return (
-      <div className="footer">
-        <footer className="site-footer footer">
-          <div className="container">
-            <div className="row">
-              <div className="col-sm-12 col-md-6">
-                <h6>About</h6>
-                <p className="text-justify">
-                <strong>Radian Ergo</strong>
-                </p>
-              </div>
-
-              <div className="col-xs-6 col-md-3">
-                <h6>Categories</h6>
-                <ul className="footer-links">
-                  {this.props.footerOptions.map(item => (
-                    <li>
-                      <a href={item.url}>{item.label}</a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div className="container">
-            <div className="row">
-              <div className="col-md-8 col-sm-6 col-xs-12">
-                {/* <p className="copyright-text">
-                  Copyright &copy; 2017 All Rights Reserved by
-                  <a href="#">Scanfcode</a>.
-                </p> */}
-              </div>
-
-              <div className="col-md-4 col-sm-6 col-xs-12">
-                <ul className="social-icons">
-                  <li>
-                    <a className="facebook" href="#">
-                      <i className="fa fa-facebook"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a className="twitter" href="#">
-                      <i className="fa fa-twitter"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dribbble" href="#">
-                      <i className="fa fa-dribbble"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a className="linkedin" href="#">
-                      <i className="fa fa-linkedin"></i>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </footer>
-      </div>
+        <Segment inverted vertical style={{ padding: '5em 0em' }}>
+          <Container>
+            <Grid divided inverted stackable>
+              <Grid.Row>
+                <Grid.Column width={3}>
+                  <Header inverted as='h4' content='About' />
+                  <List link inverted>
+                    <List.Item as='a'>Sitemap</List.Item>
+                    <List.Item as='a'>Contact Us</List.Item>
+                    <List.Item as='a'>Religious Ceremonies</List.Item>
+                    <List.Item as='a'>Gazebo Plans</List.Item>
+                  </List>
+                </Grid.Column>
+                <Grid.Column width={3}>
+                  <Header inverted as='h4' content='Services' />
+                  <List link inverted>
+                    <List.Item as='a'>Banana Pre-Order</List.Item>
+                    <List.Item as='a'>DNA FAQ</List.Item>
+                    <List.Item as='a'>How To Access</List.Item>
+                    <List.Item as='a'>Favorite X-Men</List.Item>
+                  </List>
+                </Grid.Column>
+                <Grid.Column width={7}>
+                  <Header as='h4' inverted>
+                    Footer Header
+                  </Header>
+                  <p>
+                    Extra space for a call to action inside the footer that could help re-engage users.
+                  </p>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </Container>
+        </Segment>
     );
   }
 }

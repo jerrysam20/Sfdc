@@ -141,29 +141,36 @@ class CreateOrder extends Component {
                     </Menu>
                     <Segment>Create Order</Segment>
                     <Segment>
-                        <Grid container columns={2} divided relaxed stackable>
+                        <Grid columns={2} container divided stackable>
                             <Grid.Column>
                                 <Segment>
-                                    <List divided selection>
-                                        <List.Item>
-                                            <Label  style={{ width: '30%'}} horizontal>Order#</Label>
+
+                                    <Grid.Row>
+                                        <Grid.Column style={{ width: '30%'}}>
+                                            <Label horizontal>Order#</Label>
+                                        </Grid.Column>
+                                        <Grid.Column>
                                             <Input placeholder='Enter Order#' />
-                                        </List.Item>
-                                        <List.Item>
-                                            <Label style={{ width: '30%'}}  horizontal>Amount</Label>
+                                        </Grid.Column>
+                                    </Grid.Row>
+
+
+                                    <Grid.Row>
+                                        <Grid.Column style={{ width: '30%'}}>
+                                            <Label horizontal>Amount</Label>
+                                        </Grid.Column>
+                                        <Grid.Column>
                                             <Input placeholder='Enter Amount' />
-                                        </List.Item>
-                                        <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>Order Date</Label>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                    <Grid.Row>
+                                        '  <Grid.Column style={{ width: '30%'}}>
+                                            <Label horizontal>Order Date</Label>
+                                           </Grid.Column>
+                                           <Grid.Column>
                                             <Input placeholder='Enter Order Date' />
-                                        </List.Item>
-                                        <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>Billing Address</Label>
-                                            <Form>
-                                                <TextArea placeholder='Enter Billing Address' />
-                                            </Form>
-                                        </List.Item>
-                                    </List>
+                                          </Grid.Column>
+                                    </Grid.Row>
                                 </Segment>
                             </Grid.Column>
                             <Grid.Column>
