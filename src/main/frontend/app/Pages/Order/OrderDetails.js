@@ -176,11 +176,10 @@ class OrderDetails extends Component {
                                 { title: 'TOTAL', field: 'total', type: 'numeric' }
                             ]}
                             data={this.state.data.productList}
-                            title="Orders"
+                            title="Products"
                             editable={{
                                 isDeletable: rowData => rowData.name === rowData.name, // only name(b) rows would be deletable,
                                 isDeleteHidden: rowData => rowData.name === 'y',
-                                pagination:false,
                                 onRowAdd: newData =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {

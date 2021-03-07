@@ -64,8 +64,8 @@ class ServiceOrder extends Component {
                                 { title: 'MOB', field: 'mobileNumber',type: 'numeric'  },
                                 { title: 'LOCATION', field: 'location'},
                                 { title: 'DESCRIPTION', field: 'description'},
-                                { title: 'STATUS', field: 'pending' },
-                                { title: 'SOURCE', field: 'Internal' },
+                                { title: 'STATUS', field: 'serviceStatus' },
+                                { title: 'SOURCE', field: 'source' },
                                 { title: 'AMOUNT', field: 'amount' }
                             ]}
                             data={this.state.data}
@@ -73,6 +73,14 @@ class ServiceOrder extends Component {
                             editable={{
                                 isDeletable: rowData => rowData.name === rowData.name, // only name(b) rows would be deletable,
                                 isDeleteHidden: rowData => rowData.name === 'y',
+                                onRowAdd: newData =>
+                                    new Promise((resolve, reject) => {
+                                        setTimeout(() => {
+                                            /* setData([...data, newData]); */
+
+                                            resolve();
+                                        }, 1000);
+                                    }),
                                 onRowDelete: oldData =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
