@@ -5,14 +5,14 @@ import java.util.List;
 public class OrderDTO {
     private Long id;
     private String emailId;
-    private long mobileNumber;
+    private Long mobileNumber;
     private String deliveryAddress;
     private String billingAddress;
     private String name;
     private String location;
-    private double amount;
-    private double amountPaid;
-    private double balanceAmount;
+    private Long amount;
+    private Long amountPaid;
+    private Long balanceAmount;
     private String formattedAmount;
     private String paymentMode;
     private String orderStatus;
@@ -39,7 +39,7 @@ public class OrderDTO {
         return balanceAmount;
     }
 
-    public void setBalanceAmount(double balanceAmount) {
+    public void setBalanceAmount(Long balanceAmount) {
         this.balanceAmount = balanceAmount;
     }
 
@@ -121,7 +121,7 @@ public class OrderDTO {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 
@@ -129,7 +129,7 @@ public class OrderDTO {
         return amountPaid;
     }
 
-    public void setAmountPaid(double amountPaid) {
+    public void setAmountPaid(Long amountPaid) {
         this.amountPaid = amountPaid;
     }
 

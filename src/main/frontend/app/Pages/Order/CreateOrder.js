@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom'
 import MaterialTable from 'material-table'
 import {
     Button,
-    Container,
+    Container, Dimmer,
     Grid,
     Label,
-    List,
+    List, Loader,
     Segment
 } from "semantic-ui-react";
 
@@ -89,7 +89,8 @@ class CreateOrder extends Component {
             billingAddress:null,
             deliveryAddress:null,
             orderId:null,
-            productList:[]
+            productList:[],
+            loaderActive:false
 
         };
     }
@@ -98,6 +99,9 @@ class CreateOrder extends Component {
 
     handleSubmit=(e) => {
 
+        this.setState({
+            loaderActive: true
+        });
         let request={
             "emailId":this.state.emailId,
             "mobileNumber":this.state.mobileNumber,
@@ -150,6 +154,11 @@ class CreateOrder extends Component {
         const { activeItem } = this.state
         return (
             <Container>
+                <Dimmer
+                    active = {this.state.loaderActive}
+                    page={true}>
+                    <Loader />
+                </Dimmer>
                 <CustomMenu/>
                 <Form
                     ref="form"

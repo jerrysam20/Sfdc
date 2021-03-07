@@ -12,7 +12,6 @@ body {
     min-height: 400px;
 }
 .appBody{
-    opacity:0.8;
     background-color: #ffffff;
     position:fixed;
     width:100%;

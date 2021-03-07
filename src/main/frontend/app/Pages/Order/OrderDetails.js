@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import MaterialTable from 'material-table'
-import {Button, Container, Grid, Label, List, Segment} from "semantic-ui-react";
+import {Button, Container, Dimmer, Grid, Label, List, Loader, Segment} from "semantic-ui-react";
 
 import {Form,Input,TextArea,Dropdown} from 'semantic-ui-react-form-validator'
 import CustomMenu from "../Menu/menu";
@@ -46,10 +46,14 @@ class OrderDetails extends Component {
             productList:[],
             showTable: true,
             data: [],
-            id:null
+            orderId:null,
+            loaderActive:true
         };
     }
-    updateOrder(){
+    handleSubmit=(e) => {
+        this.setState({
+            loaderActive: true
+        });
         let request={
             "id":this.state.orderId,
             "orderStatus":this.state.orderStatus,
@@ -63,7 +67,6 @@ class OrderDetails extends Component {
             },
             body: JSON.stringify(request)
         })
-            .then(res => res.json())
             .then(
                 result => {
 
@@ -104,7 +107,8 @@ class OrderDetails extends Component {
                     this.setState({
                         data: result,
                         showTable: true,
-                        productList:result.productList
+                        productList:result.productList,
+                        loaderActive:false
                     });
                 },
                 // Note: it's important to handle errors here
@@ -125,10 +129,15 @@ class OrderDetails extends Component {
         return (
 
             <Container>
+                <Dimmer
+                    active = {this.state.loaderActive}
+                    page={true}>
+                    <Loader />
+                </Dimmer>
                 <CustomMenu/>
                 <Form
                     ref="form"
-                    onSubmit={this.updateOrder}>
+                    onSubmit={this.handleSubmit}>
                 <Segment>Order Details</Segment>
                     <Segment>
                         <Grid container columns={2} divided relaxed stackable>
@@ -234,7 +243,7 @@ class OrderDetails extends Component {
                                              "total":newData.total
                                          }
                                          this.state.productList.push(entry);
-                                          this.updateOrder();
+                                          this.handleSubmit();
                                             resolve();
                                         }, 1000);
                                     }),
@@ -246,7 +255,7 @@ class OrderDetails extends Component {
                                             const index = oldData.tableData.id;
                                             dataDelete.splice(index, 1);
                                             this.state.productList=dataDelete;
-                                            this.updateOrder();
+                                            this.handleSubmit();
                                             resolve();
                                         }, 1000);
                                     })

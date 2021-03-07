@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import MaterialTable from 'material-table'
-import {Container, Segment} from "semantic-ui-react";
+import {Container, Dimmer, Loader, Segment} from "semantic-ui-react";
 
 import { Input, Menu } from 'semantic-ui-react'
 import CustomMenu from "../Menu/menu";
@@ -17,9 +17,48 @@ class ServiceOrder extends Component {
         super(props);
         this.state = {
             data: [],
-            showTable: true
+            showTable: true,
+            newData:null,
+            orderId:null,
+            loaderActive:true
         };
     }
+
+    handleSubmit=(e) => {
+        this.setState({
+            loaderActive: true
+        });
+       let request=this.state.newData;
+
+        fetch('/createService', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(request)
+        })
+            .then(res => res.json())
+            .then(
+                result => {
+
+                    this.setState({
+                        orderId: result
+                    });
+                    window.location.reload();
+                },
+                // Note: it's important to handle errors here
+                // instead of a catch() block so that we don't swallow
+                // exceptions from actual bugs in components.
+                error => {
+                    this.setState({
+                        isLoaded: true,
+                        error
+                    });
+                }
+            );
+
+    }
+
 
     componentDidMount() {
         const search = this.props.location.search;
@@ -36,7 +75,8 @@ class ServiceOrder extends Component {
 
                     this.setState({
                         data: result,
-                        showTable: true
+                        showTable: true,
+                        loaderActive: false
                     });
                 },
                 // Note: it's important to handle errors here
@@ -55,6 +95,11 @@ class ServiceOrder extends Component {
         const { activeItem } = this.state
         return (
             <Container>
+                <Dimmer
+                    active = {this.state.loaderActive}
+                    page={true}>
+                    <Loader />
+                </Dimmer>
                 <CustomMenu/>
                 <Segment color='red'>
                         <MaterialTable
@@ -71,35 +116,19 @@ class ServiceOrder extends Component {
                             data={this.state.data}
                             title="Orders"
                             editable={{
-                                isDeletable: rowData => rowData.name === rowData.name, // only name(b) rows would be deletable,
-                                isDeleteHidden: rowData => rowData.name === 'y',
                                 onRowAdd: newData =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
-                                            /* setData([...data, newData]); */
-
+                                            this.state.newData=newData;
+                                            this.handleSubmit();
                                             resolve();
                                         }, 1000);
                                     }),
-                                onRowDelete: oldData =>
-                                    new Promise((resolve, reject) => {
-                                        setTimeout(() => {
-                                            const dataDelete = [...data];
-                                            const index = oldData.tableData.id;
-                                            dataDelete.splice(index, 1);
-                                            setData([...dataDelete]);
 
-                                            resolve();
-                                        }, 1000);
-                                    })
                             }}
                             // other props
                             options={{
                                 exportButton: true
-                            }}
-                            detailPanel={rowData => {
-                                this.props.history.push('/orderDetails', {
-                                });
                             }}
 
                         />

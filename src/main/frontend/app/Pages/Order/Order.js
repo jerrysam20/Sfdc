@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import MaterialTable from 'material-table'
-import {Container, Segment} from "semantic-ui-react";
+import {Container, Dimmer, Loader, Segment} from "semantic-ui-react";
 import HeaderComponent from "../../Components/Header/Header";
 import CustomMenu from "../Menu/menu";
 
@@ -17,7 +17,8 @@ class OrderPage extends Component {
         console.log(this.props)
         this.state = {
             data: [],
-            showTable: true
+            showTable: true,
+            loaderActive:true
         };
     }
 
@@ -36,8 +37,10 @@ class OrderPage extends Component {
 
                     this.setState({
                         data: result,
-                        showTable: true
+                        showTable: true,
+                        loaderActive: false
                     });
+
                 },
                 // Note: it's important to handle errors here
                 // instead of a catch() block so that we don't swallow
@@ -56,6 +59,11 @@ class OrderPage extends Component {
         const { activeItem } = this.state
         return (
             <Container>
+                       <Dimmer
+                       active = {this.state.loaderActive}
+                        page={true}>
+                       <Loader />
+                       </Dimmer>
                        <CustomMenu/>
                         <Segment color='red'>
                         <MaterialTable
