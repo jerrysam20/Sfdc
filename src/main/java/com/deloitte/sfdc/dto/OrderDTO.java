@@ -117,7 +117,7 @@ public class OrderDTO {
     }
 
 
-    public double getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
@@ -125,7 +125,7 @@ public class OrderDTO {
         this.amount = amount;
     }
 
-    public double getAmountPaid() {
+    public Long getAmountPaid() {
         return amountPaid;
     }
 
