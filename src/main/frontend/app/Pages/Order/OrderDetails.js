@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import MaterialTable from 'material-table'
-import {Button, Container, Divider, Dropdown, Grid, Header, Image, Label, List, Segment} from "semantic-ui-react";
+import {Button, Container, Grid, Label, List, Segment} from "semantic-ui-react";
 
-import { Input, Menu } from 'semantic-ui-react'
-import HeaderComponent from "../../Components/Header/Header";
+import {Form,Input,TextArea,Dropdown} from 'semantic-ui-react-form-validator'
 import CustomMenu from "../Menu/menu";
 const orderStatusOptions = [
     {
@@ -43,15 +42,56 @@ class OrderDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            orderStatus: null,
+            productList:[],
+            showTable: true,
             data: [],
-            showTable: true
+            id:null
         };
+    }
+    updateOrder(){
+        let request={
+            "id":this.state.orderId,
+            "orderStatus":this.state.orderStatus,
+            "productList":this.state.productList
+        };
+
+        fetch('/updateOrder', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(request)
+        })
+            .then(res => res.json())
+            .then(
+                result => {
+
+                    this.setState({
+                        orderId: result
+                    });
+                    window.location.reload();
+                },
+                // Note: it's important to handle errors here
+                // instead of a catch() block so that we don't swallow
+                // exceptions from actual bugs in components.
+                error => {
+                    this.setState({
+                        isLoaded: true,
+                        error
+                    });
+                }
+            );
+
     }
 
     componentWillMount() {
         const search = this.props.location.search;
         const params = new URLSearchParams(search);
         const param = params.get('orderNo');
+        this.setState({
+            orderId: param
+        });
         document.title = 'Orders';
         fetch('/getOrder?orderId='+param, {
             method: 'get',
@@ -85,7 +125,9 @@ class OrderDetails extends Component {
 
             <Container>
                 <CustomMenu/>
-
+                <Form
+                    ref="form"
+                    onSubmit={this.updateOrder}>
                 <Segment>Order Details</Segment>
                     <Segment>
                         <Grid container columns={2} divided relaxed stackable>
@@ -183,8 +225,15 @@ class OrderDetails extends Component {
                                 onRowAdd: newData =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
-                                            /* setData([...data, newData]); */
-
+                                         let entry={
+                                             "productName":newData.productName,
+                                             "description":newData.description,
+                                             "quantity":newData.quantity,
+                                             "amount":newData.amount,
+                                             "total":newData.total
+                                         }
+                                         this.state.productList.push(entry);
+                                          this.updateOrder();
                                             resolve();
                                         }, 1000);
                                     }),
@@ -217,9 +266,12 @@ class OrderDetails extends Component {
                                                 Order Status
                                             </Label>
                                             <Dropdown
-                                                placeholder='Select Order Status'
-                                                fluid
-                                                selection
+                                                placeholder="Enter Order Status"
+                                                onChange={(e,{value})=>{this.setState({orderStatus:value})}}
+                                                value={this.state.orderStatus}
+                                                validators={['required']}
+                                                errorMessages={['this field is required']}
+                                                errorMessages={['You must select one option']}
                                                 options={orderStatusOptions}
                                             />
                                         </List.Item>
@@ -227,17 +279,11 @@ class OrderDetails extends Component {
                                 </Segment>
                             </Grid.Column>
                             <Grid.Column>
-                                    <Button primary floated='right'>Update</Button>
+                                <Button color="teal">Update</Button>
                             </Grid.Column>
                         </Grid>
-
-
-
                     </Segment>
-
-
-
-
+                </Form>
             </Container>
         )
     }

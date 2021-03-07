@@ -53,6 +53,10 @@ public class SFDCController {
     public Long createOrder(@RequestBody OrderDTO orderData) throws Exception {
         return service.createOrder(orderData);
     }
+    @PostMapping (value = "/updateOrder")
+    public Long updateOrder(@RequestBody OrderDTO orderData) throws Exception {
+        return service.updateOrder(orderData);
+    }
 
     @PostMapping (value = "/createService")
     public Long createService(@RequestBody ServiceDTO serviceDTO) throws Exception {

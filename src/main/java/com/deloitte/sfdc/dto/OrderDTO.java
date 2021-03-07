@@ -3,7 +3,7 @@ package com.deloitte.sfdc.dto;
 import java.util.List;
 
 public class OrderDTO {
-    private long id;
+    private Long id;
     private String emailId;
     private long mobileNumber;
     private String deliveryAddress;
@@ -92,11 +92,11 @@ public class OrderDTO {
         this.orderDate = orderDate;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

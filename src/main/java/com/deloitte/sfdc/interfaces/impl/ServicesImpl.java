@@ -4,11 +4,10 @@ import com.deloitte.sfdc.Helper.OrderPopulator;
 import com.deloitte.sfdc.Helper.ServicePopulator;
 import com.deloitte.sfdc.constants.OrderStatus;
 import com.deloitte.sfdc.dto.OrderDTO;
+import com.deloitte.sfdc.dto.ProductDTO;
 import com.deloitte.sfdc.dto.ServiceDTO;
 import com.deloitte.sfdc.dto.UserDTO;
 import com.deloitte.sfdc.interfaces.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -124,11 +123,27 @@ public class ServicesImpl implements Services {
         return true;
     }
 
-    public static void main(String as[]) throws JsonProcessingException {
-        ServiceDTO order=new ServiceDTO();
+    @Override
+    public Long updateOrder(OrderDTO orderData) {
+        OrderDTO orderDTO = null;
+        if (null != orderData && orderData.getId() != null) {
 
+            orderDTO = orderRepository.findOne(orderData.getId());
+        }
+        if (null != orderDTO) {
+            if(null!=orderDTO.getProductList()) {
+                orderData.getProductList().addAll(orderDTO.getProductList());
+            }
+            orderDTO.setProductList(orderData.getProductList());
+            if(StringUtils.isNotBlank(orderData.getOrderStatus())) {
+                orderDTO.setOrderStatus(orderData.getOrderStatus());
+            }
+            orderRepository.save(orderDTO);
+            return orderDTO.getId();
+        }
+        return null;
 
-        ObjectMapper obj=new ObjectMapper();
-       System.out.println( obj.writeValueAsString(order));
     }
+
+
 }

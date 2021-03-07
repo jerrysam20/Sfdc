@@ -87,7 +87,8 @@ class CreateOrder extends Component {
             location:null,
             billingAddress:null,
             deliveryAddress:null,
-            orderId:null
+            orderId:null,
+            productList:[]
 
         };
     }
@@ -107,7 +108,7 @@ class CreateOrder extends Component {
             "amountPaid":this.state.amountPaid,
             "paymentMode":this.state.paymentMode,
             "orderStatus":this.state.orderStatus,
-            "productList":null
+            "productList":this.state.productList
         };
 
         fetch('/createOrder', {
@@ -296,7 +297,7 @@ class CreateOrder extends Component {
                             { title: 'AMOUNT', field: 'amount', type: 'numeric' },
                             { title: 'TOTAL', field: 'total', type: 'numeric' }
                         ]}
-                        data={this.state.data.productList}
+                        data={this.state.productList}
                         title="Products"
                         editable={{
                             isDeletable: rowData => rowData.name === rowData.name, // only name(b) rows would be deletable,
@@ -305,8 +306,14 @@ class CreateOrder extends Component {
                             onRowAdd: newData =>
                                 new Promise((resolve, reject) => {
                                     setTimeout(() => {
-                                        /* setData([...data, newData]); */
-
+                                        let entry={
+                                            "productName":newData.productName,
+                                            "description":newData.description,
+                                            "quantity":newData.quantity,
+                                            "amount":newData.amount,
+                                            "total":newData.total
+                                        }
+                                        this.state.productList.push(entry);
                                         resolve();
                                     }, 1000);
                                 }),

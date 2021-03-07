@@ -23,4 +23,6 @@ public interface Services {
     OrderDTO getOrder(long orderId);
 
     boolean deleteOrders();
+
+    Long updateOrder(OrderDTO orderData);
 }
