@@ -4,6 +4,7 @@ import MaterialTable from 'material-table'
 import {Container, Segment} from "semantic-ui-react";
 
 import { Input, Menu } from 'semantic-ui-react'
+import CustomMenu from "../Menu/menu";
 
 
 const refreshPage = ()=>{
@@ -54,8 +55,8 @@ class ServiceOrder extends Component {
         const { activeItem } = this.state
         return (
             <Container>
-                <div style={{ maxWidth: '100%',marginTop:'80px',marginBottom:'80px' }}>
-                    <Segment>
+                <CustomMenu/>
+                <Segment color='red'>
                         <MaterialTable
                             columns={[
                                 { title: 'DATE', field: 'date' },
@@ -95,8 +96,6 @@ class ServiceOrder extends Component {
 
                         />
                     </Segment>
-
-                </div>
             </Container>
         )
     }

@@ -4,6 +4,8 @@ import MaterialTable from 'material-table'
 import {Button, Container, Divider, Dropdown, Grid, Header, Image, Label, List, Segment} from "semantic-ui-react";
 
 import { Input, Menu } from 'semantic-ui-react'
+import HeaderComponent from "../../Components/Header/Header";
+import CustomMenu from "../Menu/menu";
 const orderStatusOptions = [
     {
         key: 'PENDING',
@@ -80,79 +82,81 @@ class OrderDetails extends Component {
     render() {
         const { activeItem } = this.state
         return (
+
             <Container>
-                <div style={{ maxWidth: '100%',marginTop:'80px',marginBottom:'80px' }}>
-                    <Segment>Order Details</Segment>
+                <CustomMenu/>
+
+                <Segment>Order Details</Segment>
                     <Segment>
                         <Grid container columns={2} divided relaxed stackable>
                             <Grid.Column>
-                                <Segment>
+                                <Segment color='red'>
                                     <List divided selection>
                                         <List.Item>
-                                            <Label  style={{ width: '30%'}} horizontal>ORDER# </Label>
-                                            <span style={{ color: 'green'}}>{this.state.data.id}</span>
+                                            <span  style={{ width: '30%'}} >ORDER#  : </span>
+                                            <span style={{ color: 'brown'}}>{this.state.data.id}</span>
                                         </List.Item>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}}  horizontal>ORDER DATE</Label>
-                                            <span style={{ color: 'green'}}>{this.state.data.orderDate}</span>
+                                            <span style={{ width: '30%'}}  >ORDER DATE  :</span>
+                                            <span style={{ color: 'brown'}}>{this.state.data.orderDate}</span>
                                         </List.Item>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>DELIVERY DATE</Label>
-                                            <span style={{ color: 'green'}}>{this.state.data.orderDate}</span>
+                                            <span style={{ width: '30%'}} horizontal>DELIVERY DATE  :</span>
+                                            <span style={{ color: 'brown'}}>{this.state.data.orderDate}</span>
                                         </List.Item>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>TOTAL AMOUNT</Label>
-                                            <span style={{ color: 'green'}}>{this.state.data.amount}</span>
+                                            <span style={{ width: '30%'}} horizontal>TOTAL AMOUNT  :</span>
+                                            <span style={{ color: 'brown'}}>{this.state.data.amount}</span>
                                         </List.Item>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>ADVANCE AMOUNT</Label>
-                                            <span style={{ color: 'green'}}>{this.state.data.amountPaid}</span>
+                                            <span style={{ width: '30%'}} horizontal>ADVANCE AMOUNT  :</span>
+                                            <span style={{ color: 'brown'}}>{this.state.data.amountPaid}</span>
                                         </List.Item>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>BALANCE AMOUNT</Label>
-                                            <span style={{ color: 'green'}}>{this.state.data.balanceAmount}</span>
+                                            <span style={{ width: '30%'}} horizontal>BALANCE AMOUNT  :</span>
+                                            <span style={{ color: 'brown'}}>{this.state.data.balanceAmount}</span>
                                         </List.Item>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>PAYMENT MODE</Label>
-                                            <span style={{ color: 'green'}}>{this.state.data.paymentMode}</span>
+                                            <span style={{ width: '30%'}} horizontal>PAYMENT MODE  :</span>
+                                            <span style={{ color: 'brown'}}>{this.state.data.paymentMode}</span>
                                         </List.Item>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>ORDER STATUS</Label>
-                                            <span style={{ color: 'green'}}>{this.state.data.orderStatus}</span>
+                                            <span style={{ width: '30%'}} horizontal>ORDER STATUS  :</span>
+                                            <span style={{ color: 'brown'}}>{this.state.data.orderStatus}</span>
                                         </List.Item>
                                     </List>
                                 </Segment>
                             </Grid.Column>
                             <Grid.Column>
-                                <Segment>
+                                <Segment color='red'>
                                     <List divided selection>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>NAME</Label>
-                                            <span style={{ color: 'green'}}>{this.state.data.name}</span>
+                                            <span style={{ width: '30%'}} horizontal>NAME  :</span>
+                                            <span style={{ color: 'brown'}}>{this.state.data.name}</span>
                                         </List.Item>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>MOBILE NO</Label>
-                                            <span style={{ color: 'green'}}>{this.state.data.mobileNumber}</span>
+                                            <span style={{ width: '30%'}} horizontal>MOBILE NO  :</span>
+                                            <span style={{ color: 'brown'}}>{this.state.data.mobileNumber}</span>
                                         </List.Item>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>EMAIL ID</Label>
-                                            <span style={{ color: 'green'}}>{this.state.data.emailId}</span>
+                                            <span style={{ width: '30%'}} horizontal>EMAIL ID  :</span>
+                                            <span style={{ color: 'brown'}}>{this.state.data.emailId}</span>
                                         </List.Item>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>LOCATION</Label>
-                                            <span style={{ color: 'green'}}>{this.state.data.location}</span>
+                                            <span style={{ width: '30%'}} horizontal>LOCATION  :</span>
+                                            <span style={{ color: 'brown'}}>{this.state.data.location}</span>
                                         </List.Item>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>
-                                                BILLING ADDRESS
-                                            </Label>
-                                            <span style={{ color: 'green'}}>{this.state.data.billingAddress}</span>
+                                            <span style={{ width: '30%'}} horizontal>
+                                                BILLING ADDRESS  :
+                                            </span>
+                                            <span style={{ color: 'brown'}}>{this.state.data.billingAddress}</span>
                                         </List.Item>
                                         <List.Item>
-                                            <Label style={{ width: '30%'}} horizontal>
-                                                DELIVERY ADDRESS
-                                            </Label>
-                                            <span style={{ color: 'green'}}>{this.state.data.deliveryAddress}</span>
+                                            <span style={{ width: '30%'}} horizontal>
+                                                DELIVERY ADDRESS  :
+                                            </span>
+                                            <span style={{ color: 'brown'}}>{this.state.data.deliveryAddress}</span>
                                         </List.Item>
 
                                     </List>
@@ -176,6 +180,16 @@ class OrderDetails extends Component {
                             editable={{
                                 isDeletable: rowData => rowData.name === rowData.name, // only name(b) rows would be deletable,
                                 isDeleteHidden: rowData => rowData.name === 'y',
+                                pagination:false,
+                                onRowAdd: newData =>
+                                    new Promise((resolve, reject) => {
+                                        setTimeout(() => {
+                                            /* setData([...data, newData]); */
+
+                                            resolve();
+                                        }, 1000);
+                                    }),
+
                                 onRowDelete: oldData =>
                                     new Promise((resolve, reject) => {
                                         setTimeout(() => {
@@ -187,14 +201,6 @@ class OrderDetails extends Component {
                                             resolve();
                                         }, 1000);
                                     })
-                            }}
-                            // other props
-                            options={{
-                                exportButton: true
-                            }}
-                            detailPanel={rowData => {
-                                this.props.history.push('/orderDetails', {
-                                });
                             }}
 
                         />
@@ -244,8 +250,6 @@ class OrderDetails extends Component {
 
                         <Button primary floated='right'>Update</Button>
 
-
-                </div>
             </Container>
         )
     }

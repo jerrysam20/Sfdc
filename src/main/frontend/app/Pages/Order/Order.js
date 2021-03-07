@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import MaterialTable from 'material-table'
 import {Container, Segment} from "semantic-ui-react";
+import HeaderComponent from "../../Components/Header/Header";
+import CustomMenu from "../Menu/menu";
 
 
 const refreshPage = ()=>{
@@ -54,7 +56,8 @@ class OrderPage extends Component {
         const { activeItem } = this.state
         return (
             <Container>
-                        <Segment>
+                       <CustomMenu/>
+                        <Segment color='red'>
                         <MaterialTable
                             columns={[
                                 { title: 'ORDER NO', field: 'id' },

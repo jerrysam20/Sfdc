@@ -60,7 +60,7 @@ class CustomMenu extends Component {
     render() {
         const { activeItem } = this.state
         return (
-            <Container style={{ marginTop: '6em' }}>
+            <Segment style={{ marginTop: '6em' }}>
                     <Menu stackable pointing>
                         <Menu.Item>
                             <img src={logo} />
@@ -91,7 +91,7 @@ class CustomMenu extends Component {
                             onClick={this.handleItemClick}
                         />
                     </Menu>
-            </Container>
+            </Segment>
         )
     }
 }

@@ -40,7 +40,6 @@ function App() {
     <div className="appBody" style={{backgroundImage: "url(" + img1 + ")"}}>
       <Segment style={{overflow: 'auto', maxHeight: 1000 }}>
         <HeaderComponent/>
-      <CustomMenu/>
       <Router>
         <Switch>
           <Route exact path="/" component={LoginForm} />
