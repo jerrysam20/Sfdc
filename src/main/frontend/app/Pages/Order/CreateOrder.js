@@ -332,11 +332,11 @@ class CreateOrder extends Component {
                             onRowDelete: oldData =>
                                 new Promise((resolve, reject) => {
                                     setTimeout(() => {
-                                        const dataDelete = [...data];
+                                        const dataDelete = this.state.productList;
                                         const index = oldData.tableData.id;
                                         dataDelete.splice(index, 1);
-                                        setData([...dataDelete]);
-
+                                        this.state.productList=dataDelete;
+                                        this.tableRef.current.onQueryChange();
                                         resolve();
                                     }, 1000);
                                 })

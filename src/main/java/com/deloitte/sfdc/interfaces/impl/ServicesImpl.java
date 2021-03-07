@@ -131,9 +131,6 @@ public class ServicesImpl implements Services {
             orderDTO = orderRepository.findOne(orderData.getId());
         }
         if (null != orderDTO) {
-            if(null!=orderDTO.getProductList()) {
-                orderData.getProductList().addAll(orderDTO.getProductList());
-            }
             orderDTO.setProductList(orderData.getProductList());
             if(StringUtils.isNotBlank(orderData.getOrderStatus())) {
                 orderDTO.setOrderStatus(orderData.getOrderStatus());
