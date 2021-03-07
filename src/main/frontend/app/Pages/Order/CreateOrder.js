@@ -109,8 +109,8 @@ class CreateOrder extends Component {
             "billingAddress":this.state.billingAddress,
             "name":this.state.name,
             "location":this.state.location,
-            "amount":this.state.amount,
-            "amountPaid":this.state.amountPaid,
+            "amount":this.state.totalAmount,
+            "amountPaid":this.state.advanceAmount,
             "paymentMode":this.state.paymentMode,
             "orderStatus":this.state.orderStatus,
             "productList":this.state.productList
