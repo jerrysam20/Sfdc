@@ -60,7 +60,6 @@ class OrderPage extends Component {
                         <Segment color='red'>
                         <MaterialTable
                             columns={[
-                                { title: 'ORDER NO', field: 'id' },
                                 { title: 'NAME', field: 'name' },
                                 { title: 'MOBILE NO', field: 'mobileNumber' },
                                 { title: 'LOCATION', field: 'location' },
@@ -70,21 +69,6 @@ class OrderPage extends Component {
                             ]}
                            data={this.state.data}
                             title="Orders"
-                            editable={{
-                                isDeletable: rowData => rowData.name === rowData.name, // only name(b) rows would be deletable,
-                                isDeleteHidden: rowData => rowData.name === 'y',
-                                onRowDelete: oldData =>
-                                    new Promise((resolve, reject) => {
-                                        setTimeout(() => {
-                                            const dataDelete = [...data];
-                                            const index = oldData.tableData.id;
-                                            dataDelete.splice(index, 1);
-                                            setData([...dataDelete]);
-
-                                            resolve();
-                                        }, 1000);
-                                    })
-                            }}
                             // other props
                             options={{
                                 exportButton: true
