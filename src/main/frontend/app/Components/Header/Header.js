@@ -48,7 +48,6 @@ class HeaderComponent extends React.Component {
               RADIAN ERGO
             </Menu.Item>
             <Menu.Item as='a'>Home</Menu.Item>
-            <Menu.Item as='a'>Contact Us</Menu.Item>
         </Menu>
     );
   }
