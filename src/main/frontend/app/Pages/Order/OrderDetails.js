@@ -103,7 +103,8 @@ class OrderDetails extends Component {
 
                     this.setState({
                         data: result,
-                        showTable: true
+                        showTable: true,
+                        productList:result.productList
                     });
                 },
                 // Note: it's important to handle errors here
