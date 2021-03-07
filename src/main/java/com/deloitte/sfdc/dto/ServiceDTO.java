@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ServiceDTO {
 
-    private String id;
+    private long id;
     private String name;
     private long mobileNumber;
     private String location;
@@ -12,13 +12,13 @@ public class ServiceDTO {
     private String serviceStatus;
     private String source;
     private double amount;
-    private Date date;
+    private String date;
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -78,11 +78,11 @@ public class ServiceDTO {
         this.amount = amount;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }

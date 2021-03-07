@@ -12,15 +12,15 @@ public interface Services {
 
     boolean validateUser(UserDTO userData);
 
-    boolean createOrder(OrderDTO orderData);
+    boolean createOrder(OrderDTO orderData) throws Exception;
 
     List<OrderDTO> getOrders(String type);
 
-    boolean createServiceOrder(ServiceDTO service);
+    boolean createServiceOrder(ServiceDTO service) throws Exception;
 
     List<ServiceDTO> getServiceOrders(String type);
 
-    OrderDTO getOrder(String orderId);
+    OrderDTO getOrder(long orderId);
 
     boolean deleteOrders();
 }

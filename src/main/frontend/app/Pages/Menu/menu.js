@@ -44,7 +44,12 @@ class CustomMenu extends Component {
             window.location.reload();
         }
         else if(name=="PENDING ORDERS"){
-            this.props.history.push('/orders?type=pendingOrders', {
+            this.props.history.push('/orders?type=pending', {
+            });
+            window.location.reload();
+        }
+        else if(name=="COMPLETED ORDERS"){
+            this.props.history.push('/orders?type=complete', {
             });
             window.location.reload();
         }

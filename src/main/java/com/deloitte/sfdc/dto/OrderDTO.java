@@ -1,10 +1,9 @@
 package com.deloitte.sfdc.dto;
 
-import java.util.Date;
 import java.util.List;
 
 public class OrderDTO {
-    private String id;
+    private long id;
     private String emailId;
     private long mobileNumber;
     private String deliveryAddress;
@@ -14,10 +13,19 @@ public class OrderDTO {
     private double amount;
     private double amountPaid;
     private double balanceAmount;
+    private String formattedAmount;
     private String paymentMode;
     private String orderStatus;
-    private Date orderDate;
+    private String orderDate;
     private List<ProductDTO> productList;
+
+    public String getFormattedAmount() {
+        return formattedAmount;
+    }
+
+    public void setFormattedAmount(String formattedAmount) {
+        this.formattedAmount = formattedAmount;
+    }
 
     public List<ProductDTO> getProductList() {
         return productList;
@@ -76,19 +84,19 @@ public class OrderDTO {
     }
 
 
-    public Date getOrderDate() {
+    public String getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

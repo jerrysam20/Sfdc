@@ -1,14 +1,12 @@
 package com.deloitte.sfdc.interfaces.impl;
 
+import com.deloitte.sfdc.Helper.OrderPopulator;
+import com.deloitte.sfdc.Helper.ServicePopulator;
 import com.deloitte.sfdc.constants.OrderStatus;
 import com.deloitte.sfdc.dto.OrderDTO;
-import com.deloitte.sfdc.dto.ProductDTO;
 import com.deloitte.sfdc.dto.ServiceDTO;
 import com.deloitte.sfdc.dto.UserDTO;
-import com.deloitte.sfdc.interfaces.MongoInterface;
-import com.deloitte.sfdc.interfaces.OrderRepository;
-import com.deloitte.sfdc.interfaces.ServiceRepository;
-import com.deloitte.sfdc.interfaces.Services;
+import com.deloitte.sfdc.interfaces.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +29,15 @@ public class ServicesImpl implements Services {
 
     @Autowired
     private ServiceRepository serviceRepository;
+
+    @Autowired
+    private SequenceDao sequenceDao;
+
+    OrderPopulator orderPopulator=new OrderPopulator();
+    ServicePopulator servicePopulator=new ServicePopulator();
+
+    private static final String ORDER_SEQ_KEY = "Order";
+    private static final String SERVICE_SEQ_KEY = "Service";
 
 
     @Override
@@ -60,9 +67,10 @@ public class ServicesImpl implements Services {
     }
 
     @Override
-    public boolean createOrder(OrderDTO orderData) {
+    public boolean createOrder(OrderDTO orderData) throws Exception {
+        orderData.setId(sequenceDao.getNextSequenceId(ORDER_SEQ_KEY));
         try {
-            orderRepository.save(orderData);
+            orderRepository.save(orderPopulator.populate(orderData));
         } catch (Exception e) {
             return false;
         }
@@ -73,9 +81,12 @@ public class ServicesImpl implements Services {
     @Override
     public List<OrderDTO> getOrders(String type) {
         List<OrderDTO> orderList = new ArrayList<OrderDTO>();
-        if (type.equalsIgnoreCase("pendingOrders")) {
-            orderList = orderRepository.findUserByOrderStatus(OrderStatus.PENDING.toString());
-        } else {
+        if (type.equalsIgnoreCase("pending")) {
+            orderList = orderRepository.findOrdersByOrderStatus(OrderStatus.PENDING.toString());
+        }
+        else if (type.equalsIgnoreCase("complete")) {
+            orderList = orderRepository.findOrdersByOrderStatus(OrderStatus.COMPLETE.toString());
+        }else {
             orderList = orderRepository.findAll();
         }
 
@@ -84,9 +95,10 @@ public class ServicesImpl implements Services {
     }
 
     @Override
-    public boolean createServiceOrder(ServiceDTO service) {
+    public boolean createServiceOrder(ServiceDTO service) throws Exception {
+        service.setId(sequenceDao.getNextSequenceId(SERVICE_SEQ_KEY));
         try {
-            serviceRepository.save(service);
+            serviceRepository.save(servicePopulator.populate(service));
         } catch (Exception e) {
             return false;
         }
@@ -100,7 +112,7 @@ public class ServicesImpl implements Services {
     }
 
     @Override
-    public OrderDTO getOrder(String orderId) {
+    public OrderDTO getOrder(long orderId) {
         return orderRepository.findOne(orderId);
     }
 

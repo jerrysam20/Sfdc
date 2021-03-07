@@ -50,14 +50,12 @@ public class SFDCController {
     }
 
     @PostMapping (value = "/createOrder")
-    public boolean createOrder(@RequestBody OrderDTO orderData)
-    {
+    public boolean createOrder(@RequestBody OrderDTO orderData) throws Exception {
         return service.createOrder(orderData);
     }
 
     @PostMapping (value = "/createService")
-    public boolean createService(@RequestBody ServiceDTO serviceDTO)
-    {
+    public boolean createService(@RequestBody ServiceDTO serviceDTO) throws Exception {
         return service.createServiceOrder(serviceDTO);
     }
 
@@ -67,7 +65,7 @@ public class SFDCController {
         return service.getOrders(type);
     }
     @GetMapping (value = "/getOrder")
-    public OrderDTO getOrder(@RequestParam String orderId)
+    public OrderDTO getOrder(@RequestParam long orderId)
     {
         return service.getOrder(orderId);
     }

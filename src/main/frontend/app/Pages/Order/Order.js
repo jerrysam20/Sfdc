@@ -64,7 +64,7 @@ class OrderPage extends Component {
                                 { title: 'NAME', field: 'name' },
                                 { title: 'MOBILE NO', field: 'mobileNumber' },
                                 { title: 'LOCATION', field: 'location' },
-                                { title: 'AMOUNT', field: 'amount', type: 'numeric' },
+                                { title: 'AMOUNT', field: 'formattedAmount', type: 'numeric' },
                                 { title: 'ORDER DATE', field: 'orderDate', type: 'numeric' },
                                 { title: 'ORDER STATUS', field: 'orderStatus' }
                             ]}

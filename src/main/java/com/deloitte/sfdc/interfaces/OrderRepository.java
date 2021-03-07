@@ -5,11 +5,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
-public interface OrderRepository extends MongoRepository<OrderDTO, String> {
+public interface OrderRepository extends MongoRepository<OrderDTO, Long> {
 
-    public List<OrderDTO> findUserByEmailId(String emailId);
 
-    public List<OrderDTO> findUserByOrderStatus(String orderStatus);
+    public List<OrderDTO> findOrdersByOrderStatus(String orderStatus);
 
     public OrderDTO findOrderById(String id);
 
