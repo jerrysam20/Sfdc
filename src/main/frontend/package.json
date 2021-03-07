@@ -67,6 +67,7 @@
     "redux-simple-router": "^2.0.4",
     "redux-thunk": "^2.0.1",
     "semantic-ui-react": "^0.88.2",
+    "semantic-ui-react-form-validator": "^1.0.2",
     "styled-components": "^4.4.1",
     "sui-editable-table": "0.0.1",
     "url-loader": "^3.0.0",

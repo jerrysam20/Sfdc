@@ -12,11 +12,11 @@ public interface Services {
 
     boolean validateUser(UserDTO userData);
 
-    boolean createOrder(OrderDTO orderData) throws Exception;
+    Long createOrder(OrderDTO orderData) throws Exception;
 
     List<OrderDTO> getOrders(String type);
 
-    boolean createServiceOrder(ServiceDTO service) throws Exception;
+    Long createServiceOrder(ServiceDTO service) throws Exception;
 
     List<ServiceDTO> getServiceOrders(String type);
 

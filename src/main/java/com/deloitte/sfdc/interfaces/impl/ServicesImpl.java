@@ -67,14 +67,14 @@ public class ServicesImpl implements Services {
     }
 
     @Override
-    public boolean createOrder(OrderDTO orderData) throws Exception {
+    public Long createOrder(OrderDTO orderData) throws Exception {
         orderData.setId(sequenceDao.getNextSequenceId(ORDER_SEQ_KEY));
         try {
-            orderRepository.save(orderPopulator.populate(orderData));
+            OrderDTO order= orderRepository.save(orderPopulator.populate(orderData));
         } catch (Exception e) {
-            return false;
+            return null;
         }
-        return true;
+        return orderData.getId();
 
     }
 
@@ -95,14 +95,15 @@ public class ServicesImpl implements Services {
     }
 
     @Override
-    public boolean createServiceOrder(ServiceDTO service) throws Exception {
+    public Long createServiceOrder(ServiceDTO service) throws Exception {
         service.setId(sequenceDao.getNextSequenceId(SERVICE_SEQ_KEY));
+        ServiceDTO serviceDTO=null;
         try {
-            serviceRepository.save(servicePopulator.populate(service));
+             serviceDTO=   serviceRepository.save(servicePopulator.populate(service));
         } catch (Exception e) {
-            return false;
+            return null;
         }
-        return true;
+        return serviceDTO.getId();
     }
 
     @Override

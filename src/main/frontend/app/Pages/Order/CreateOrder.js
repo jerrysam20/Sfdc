@@ -4,19 +4,13 @@ import MaterialTable from 'material-table'
 import {
     Button,
     Container,
-    Divider,
-    Dropdown,
-    Form,
     Grid,
-    Header,
-    Image,
     Label,
     List,
-    Segment,
-    TextArea
+    Segment
 } from "semantic-ui-react";
 
-import { Input, Menu } from 'semantic-ui-react'
+import {Form,Input,TextArea,Dropdown} from 'semantic-ui-react-form-validator'
 import CustomMenu from "../Menu/menu";
 const orderStatusOptions = [
     {
@@ -81,24 +75,59 @@ class CreateOrder extends Component {
         super(props);
         this.state = {
             data: [],
-            showTable: true
+            showTable: true,
+            deliveryDate:null,
+            totalAmount:0,
+            advanceAmount:0,
+            paymentMode:null,
+            orderStatus:null,
+            name:null,
+            mobileNumber:null,
+            emailId:null,
+            location:null,
+            billingAddress:null,
+            deliveryAddress:null,
+            orderId:null
+
         };
     }
 
-    componentDidMount() {
-        document.title = 'Orders';
-        fetch('/getOrders?orderType=""&serviceType=""', {
-            method: 'get',
-            body: null
+
+
+    handleSubmit=(e) => {
+
+        let request={
+            "emailId":this.state.emailId,
+            "mobileNumber":this.state.mobileNumber,
+            "deliveryAddress":this.state.deliveryAddress,
+            "billingAddress":this.state.billingAddress,
+            "name":this.state.name,
+            "location":this.state.location,
+            "amount":this.state.amount,
+            "amountPaid":this.state.amountPaid,
+            "paymentMode":this.state.paymentMode,
+            "orderStatus":this.state.orderStatus,
+            "productList":null
+        };
+
+        fetch('/createOrder', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(request)
         })
             .then(res => res.json())
             .then(
                 result => {
 
                     this.setState({
-                        data: result,
-                        showTable: true
+                        orderId: result
                     });
+                    if(this.state.orderId){
+                        this.props.history.push('/orderDetails?orderNo='+this.state.orderId, {
+                        });
+                    }
                 },
                 // Note: it's important to handle errors here
                 // instead of a catch() block so that we don't swallow
@@ -118,7 +147,9 @@ class CreateOrder extends Component {
         return (
             <Container>
                 <CustomMenu/>
-
+                <Form
+                    ref="form"
+                    onSubmit={this.handleSubmit}>
                 <Segment>Create Order</Segment>
                 <Segment>
                     <Grid container columns={2} divided relaxed stackable>
@@ -127,23 +158,52 @@ class CreateOrder extends Component {
                                 <List divided selection>
                                     <List.Item>
                                         <span style={{ width: '30%'}} horizontal>DELIVERY DATE  :</span>
-                                        <Input placeholder='Enter Delivery Date' />
+                                        <Input
+                                            id='form-input-delivery-date'
+                                            type="text"
+                                            placeholder="Enter Delivery Date"
+                                            onChange={(e)=>{this.setState({deliveryDate:e.target.value})}}
+                                            value={this.state.deliveryDate}
+                                            validators={['required']}
+                                            errorMessages={['this field is required']}
+                                            width={6}
+                                        />
                                     </List.Item>
                                     <List.Item>
                                         <span style={{ width: '30%'}} horizontal>TOTAL AMOUNT  :</span>
-                                        <Input placeholder='Enter Total Amount' />
+                                        <Input
+                                            type="text"
+                                            placeholder="Enter Total Amount"
+                                            onChange={(e)=>{this.setState({totalAmount:e.target.value})}}
+                                            value={this.state.totalAmount}
+                                            validators={['required','isNumber']}
+                                            errorMessages={['this field is required','Enter numeric characters']}
+                                            width={6}
+                                        />
                                     </List.Item>
                                     <List.Item>
                                         <span style={{ width: '30%'}} horizontal>ADVANCE AMOUNT  :</span>
-                                        <Input placeholder='Enter Advance Amount' />
+                                        <Input
+                                            type="text"
+                                            placeholder="Enter Advance Amount"
+                                            onChange={(e)=>{this.setState({advanceAmount:e.target.value})}}
+                                            value={this.state.advanceAmount}
+                                            validators={['required','isNumber']}
+                                            errorMessages={['this field is required','Enter numeric characters']}
+                                            width={6}
+                                        />
                                     </List.Item>
                                     <List.Item>
                                         <span style={{ width: '30%'}} horizontal>PAYMENT MODE  :</span>
-                                        <Input placeholder='Enter Payment Mode' />
-                                    </List.Item>
-                                    <List.Item>
-                                        <span style={{ width: '30%'}} horizontal>ORDER STATUS  :</span>
-                                        <Input placeholder='Enter Order Status' />
+                                        <Input
+                                            type="text"
+                                            placeholder="Enter Payment Mode"
+                                            onChange={(e)=>{this.setState({paymentMode:e.target.value})}}
+                                            value={this.state.paymentMode}
+                                            validators={['required']}
+                                            errorMessages={['this field is required']}
+                                            width={6}
+                                        />
                                     </List.Item>
                                 </List>
                             </Segment>
@@ -153,27 +213,71 @@ class CreateOrder extends Component {
                                 <List divided selection>
                                     <List.Item>
                                         <span style={{ width: '30%'}} horizontal>NAME  :</span>
-                                        <Input placeholder='Enter Name' />
+                                        <Input
+                                            type="text"
+                                            placeholder="Enter Name"
+                                            onChange={(e)=>{this.setState({name:e.target.value})}}
+                                            value={this.state.name}
+                                            validators={['required']}
+                                            errorMessages={['this field is required']}
+                                            width={6}
+                                        />
                                     </List.Item>
                                     <List.Item>
                                         <span style={{ width: '30%'}} horizontal>MOBILE NO  :</span>
-                                        <Input placeholder='Enter Mobile No' />
+                                        <Input
+                                            type="text"
+                                            placeholder="Enter Mobile No"
+                                            onChange={(e)=>{this.setState({mobileNumber:e.target.value})}}
+                                            value={this.state.mobileNumber}
+                                            validators={['required','isNumber']}
+                                            errorMessages={['this field is required','Enter numeric characters']}
+                                            width={6}
+                                        />
                                     </List.Item>
                                     <List.Item>
                                         <span style={{ width: '30%'}} horizontal>EMAIL ID  :</span>
-                                        <Input placeholder='Enter Email Id' />
+                                        <Input
+                                            type="text"
+                                            placeholder="Enter Email Id"
+                                            onChange={(e)=>{this.setState({emailId:e.target.value})}}
+                                            value={this.state.emailId}
+                                            validators={['required']}
+                                            errorMessages={['this field is required']}
+                                            width={6}
+                                        />
                                     </List.Item>
                                     <List.Item>
                                         <span style={{ width: '30%'}} horizontal>LOCATION  :</span>
-                                        <Input placeholder='Enter Location' />
+                                        <Input
+                                            type="text"
+                                            placeholder="Enter Location"
+                                            onChange={(e)=>{this.setState({location:e.target.value})}}
+                                            value={this.state.location}
+                                            validators={['required']}
+                                            errorMessages={['this field is required']}
+                                            width={6}
+                                        />
                                     </List.Item>
                                     <List.Item>
                                             <span style={{ width: '30%'}} horizontal>BILLING ADDRESS  : </span>
-                                        <TextArea placeholder='Enter Billing Address' />
+                                        <TextArea
+                                            placeholder="Billing Address"
+                                            validators={['required']}
+                                            errorMessages={['this field is required']}
+                                            value={this.state.billingAddress}
+                                            onChange={e=>{this.setState({billingAddress:e.target.value})}}
+                                        />
                                     </List.Item>
                                     <List.Item>
                                             <span style={{ width: '30%'}} horizontal>DELIVERY ADDRESS  : </span>
-                                        <TextArea placeholder='Enter Delivery Address' />
+                                        <TextArea
+                                            placeholder="Delivery Address"
+                                            validators={['required']}
+                                            errorMessages={['this field is required']}
+                                            value={this.state.deliveryAddress}
+                                            onChange={e=>{this.setState({deliveryAddress:e.target.value})}}
+                                        />
                                     </List.Item>
 
                                 </List>
@@ -235,9 +339,12 @@ class CreateOrder extends Component {
                                             Order Status
                                         </Label>
                                         <Dropdown
-                                            placeholder='Select Order Status'
-                                            fluid
-                                            selection
+                                            placeholder="Enter Order Status"
+                                            onChange={(e,{value})=>{this.setState({orderStatus:value})}}
+                                            value={this.state.orderStatus}
+                                            validators={['required']}
+                                            errorMessages={['this field is required']}
+                                            errorMessages={['You must select one option']}
                                             options={orderStatusOptions}
                                         />
                                     </List.Item>
@@ -245,17 +352,12 @@ class CreateOrder extends Component {
                             </Segment>
                         </Grid.Column>
                         <Grid.Column>
-                            <Button primary floated='right'>Create</Button>
+                            <Button color="teal">Create</Button>
                         </Grid.Column>
                     </Grid>
 
-
-
                 </Segment>
-
-
-
-
+                </Form>
             </Container>
         )
     }
