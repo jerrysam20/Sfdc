@@ -37,7 +37,6 @@ class ServiceOrder extends Component {
             },
             body: JSON.stringify(request)
         })
-            .then(res => res.json())
             .then(
                 result => {
 
@@ -54,6 +53,7 @@ class ServiceOrder extends Component {
                         isLoaded: true,
                         error
                     });
+                    window.location.reload();
                 }
             );
 
@@ -85,6 +85,7 @@ class ServiceOrder extends Component {
                 error => {
                     this.setState({
                         isLoaded: true,
+                        loaderActive: false,
                         error
                     });
                 }
@@ -104,13 +105,13 @@ class ServiceOrder extends Component {
                 <Segment color='red'>
                         <MaterialTable
                             columns={[
-                                { title: 'DATE', field: 'date' },
-                                { title: 'NAME', field: 'name' },
-                                { title: 'MOB', field: 'mobileNumber',type: 'numeric'  },
-                                { title: 'LOCATION', field: 'location'},
-                                { title: 'DESCRIPTION', field: 'description'},
-                                { title: 'STATUS', field: 'serviceStatus' },
-                                { title: 'SOURCE', field: 'source' },
+                                { title: 'DATE', field: 'date',validate: rowData => rowData.date !== '' },
+                                { title: 'NAME', field: 'name',validate: rowData => rowData.name !== '' },
+                                { title: 'MOB', field: 'mobileNumber',type: 'numeric',validate: rowData => rowData.mobileNumber !== ''  },
+                                { title: 'LOCATION', field: 'location',validate: rowData => rowData.location !== ''},
+                                { title: 'DESCRIPTION', field: 'description',validate: rowData => rowData.description !== ''},
+                                { title: 'STATUS', field: 'serviceStatus',validate: rowData => rowData.serviceStatus !== '' },
+                                { title: 'SOURCE', field: 'source',validate: rowData => rowData.source !== '' },
                                 { title: 'AMOUNT', field: 'amount' }
                             ]}
                             data={this.state.data}

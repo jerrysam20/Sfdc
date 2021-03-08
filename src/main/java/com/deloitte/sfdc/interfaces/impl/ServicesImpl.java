@@ -97,12 +97,16 @@ public class ServicesImpl implements Services {
     public Long createServiceOrder(ServiceDTO service) throws Exception {
         service.setId(sequenceDao.getNextSequenceId(SERVICE_SEQ_KEY));
         ServiceDTO serviceDTO=null;
-        try {
-             serviceDTO=   serviceRepository.save(service);
-        } catch (Exception e) {
-            return null;
+        if(StringUtils.isNotBlank(service.getDate()) && StringUtils.isNotBlank(service.getName())) {
+            try {
+                serviceDTO = serviceRepository.save(service);
+            } catch (Exception e) {
+                return null;
+            }
+            return serviceDTO.getId();
         }
-        return serviceDTO.getId();
+        return null;
+
     }
 
     @Override
