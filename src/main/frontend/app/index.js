@@ -11,7 +11,7 @@ import registerServiceWorker from './serviceWorker';
 const styleLink = document.createElement('link');
 styleLink.rel = 'stylesheet';
 styleLink.href =
-  'https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css';
+  'https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css';
 
 
 const styleLink2 = document.createElement('link');
