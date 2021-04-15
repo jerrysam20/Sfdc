@@ -131,7 +131,7 @@ public class SFDCController {
                 XSSFSheet worksheet = workbook.getSheetAt(0);
                 System.out.println("Sheet retrieved "+worksheet.getSheetName());
                 inputList = new ArrayList<>();
-                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
                 //I've Header and I'm ignoring header for that I've +1 in loop
                 for(int i=worksheet.getFirstRowNum()+1;i<=worksheet.getLastRowNum();i++){
                     SfdcUserInputObject inputRow= new SfdcUserInputObject();
@@ -143,6 +143,7 @@ public class SFDCController {
                         if (j == 0) {
                             Date date = ce.getDateCellValue();
                             String reportDate = df.format(date);
+                            reportDate=reportDate.replaceAll("/","");
                             input.setDate(reportDate);
 
                         }
@@ -225,7 +226,7 @@ public class SFDCController {
                    "<VOUCHER VCHTYPE=\"Payment\" ACTION=\"Create\">\n" +
                    "<VOUCHERTYPENAME>Payment</VOUCHERTYPENAME>\n" +
                    "<DATE>{date}</DATE>\n" +
-                   "<PARTYLEDGERNAME>ACash</PARTYLEDGERNAME>\n" +
+                   "<PARTYLEDGERNAME>{partyledgername}</PARTYLEDGERNAME>\n" +
                    "<NARRATION>{narration}</NARRATION>\n" +
                    "<REFERENCE></REFERENCE>\n" +
                    "<VOUCHERNUMBER></VOUCHERNUMBER>\n" +
@@ -250,6 +251,7 @@ public class SFDCController {
                    "</ALLLEDGERENTRIES.LIST>";
             voucherTemplate=  voucherTemplate.replaceAll("\\{date}",inputRow.getDate());
             voucherTemplate=  voucherTemplate.replaceFirst("\\{narration}",inputRow.getNarration());
+            voucherTemplate=  voucherTemplate.replaceFirst("\\{partyledgername}",inputRow.getCredit());
             ledgerTemplate=  ledgerTemplate.replaceFirst("\\{debit}",inputRow.getDebit());
             ledgerTemplate=  ledgerTemplate.replaceFirst("\\{credit}",inputRow.getCredit());
             ledgerTemplate=  ledgerTemplate.replaceAll("\\{amount}",inputRow.getAmount());
