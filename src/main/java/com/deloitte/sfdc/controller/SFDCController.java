@@ -34,7 +34,7 @@ import java.util.List;
 @RestController
 public class SFDCController {
 
-    private static final String OUTPUT_FILE_PATH="src/main/resources/reports/sample.txt";
+    private static final String OUTPUT_FILE_PATH="src/main/resources/reports/sample.xml";
     private static final String outputHeader="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<Workflow xmlns=\"http://soap.sforce.com/2006/04/metadata\">";
     private static final String outputFooter="</Workflow>";
