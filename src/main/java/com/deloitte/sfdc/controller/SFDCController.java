@@ -25,7 +25,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -128,17 +131,20 @@ public class SFDCController {
                 XSSFSheet worksheet = workbook.getSheetAt(0);
                 System.out.println("Sheet retrieved "+worksheet.getSheetName());
                 inputList = new ArrayList<>();
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                 //I've Header and I'm ignoring header for that I've +1 in loop
                 for(int i=worksheet.getFirstRowNum()+1;i<=worksheet.getLastRowNum();i++){
                     SfdcUserInputObject inputRow= new SfdcUserInputObject();
                     TallyInputObject input=new TallyInputObject();
                     Row ro=worksheet.getRow(i);
                     if(null !=ro && null !=ro.getCell(0)){
-                    for(int j=ro.getFirstCellNum();j<=ro.getLastCellNum()-1;j++) {
+                    for(int j=ro.getFirstCellNum();j<=ro.getLastCellNum();j++) {
                         Cell ce = ro.getCell(j);
-                        ce.setCellType(CellType.STRING);
                         if (j == 0) {
-                            input.setDate(ce.getStringCellValue());
+                            Date date = ce.getDateCellValue();
+                            String reportDate = df.format(date);
+                            input.setDate(reportDate);
+
                         }
                         if (j == 1) {
                         }
@@ -149,7 +155,7 @@ public class SFDCController {
                             input.setCredit(ce.getStringCellValue());
                         }
                         if (j == 4) {
-                            input.setAmount(ce.getStringCellValue());
+                            input.setAmount(String.valueOf(ce.getNumericCellValue()));
                         }
                         if (j == 5) {
                             input.setNarration(ce.getStringCellValue());
