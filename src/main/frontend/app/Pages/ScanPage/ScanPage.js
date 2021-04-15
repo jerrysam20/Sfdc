@@ -163,7 +163,7 @@ export default class ScanPage extends React.Component {
               });
               const element = document.createElement("a");
               element.href = URL.createObjectURL(result);
-              element.download = "myFile.txt";
+              element.download = "myFile.xml";
               document.body.appendChild(element);
               element.click();
             },
