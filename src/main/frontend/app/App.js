@@ -7,6 +7,7 @@ import OrderPage from './Pages/Order/Order';
 import ServicePage from './Pages/Order/ServiceOrder';
 import OrderDetailPage from './Pages/Order/OrderDetails';
 import CreateOrderPage from './Pages/Order/CreateOrder';
+import ScanPage from './Pages/ScanPage/ScanPage';
 import CustomMenu from './Pages/Menu/menu'
 import ErrorPage from './Pages/Error/Error';
 //import 'bootstrap/dist/css/bootstrap.min.css';
@@ -43,6 +44,7 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/" component={LoginForm} />
+          <Route exact path="/generateCode" component={ScanPage} />
           <Route exact path="/orders" component={OrderPage} />
           <Route exact path="/services" component={ServicePage} />
           <Route exact path="/orderDetails" component={OrderDetailPage} />

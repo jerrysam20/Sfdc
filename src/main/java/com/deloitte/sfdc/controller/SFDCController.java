@@ -1,14 +1,12 @@
 package com.deloitte.sfdc.controller;
 
 
-import com.deloitte.sfdc.dto.OrderDTO;
-import com.deloitte.sfdc.dto.ServiceDTO;
-import com.deloitte.sfdc.dto.SfdcUserInputObject;
-import com.deloitte.sfdc.dto.UserDTO;
+import com.deloitte.sfdc.dto.*;
 import com.deloitte.sfdc.interfaces.Services;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -38,6 +36,28 @@ public class SFDCController {
     private static final String outputHeader="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<Workflow xmlns=\"http://soap.sforce.com/2006/04/metadata\">";
     private static final String outputFooter="</Workflow>";
+
+    private static final String headerTemplate="<HEADER>\n" +
+            "<TALLYREQUEST>Import Data</TALLYREQUEST>\n" +
+            "</HEADER>";
+
+    private static final String envelope_Start_Tag="<ENVELOPE>";
+    private static final String envelope_End_Tag="</ENVELOPE>";
+    private static final String body_Start_Tag="<BODY>";
+    private static final String body_End_Tag="</BODY>";
+    private static final String importdata_Start_Tag="<IMPORTDATA>";
+    private static final String importdata_End_Tag="</IMPORTDATA>";
+    private static final String requestData_Start_Tag="<REQUESTDATA>";
+    private static final String requestData_end_Tag="</REQUESTDATA>";
+
+
+
+    private static final String requestDesc="<REQUESTDESC>\n" +
+            "<REPORTNAME>All Masters</REPORTNAME>\n" +
+            "<STATICVARIABLES>\n" +
+            "<SVCURRENTCOMPANY>X</SVCURRENTCOMPANY>\n" +
+            "</STATICVARIABLES>\n" +
+            "</REQUESTDESC>";
 
 
     @Autowired
@@ -98,74 +118,49 @@ public class SFDCController {
 
       //testMongoConnection();
         XSSFWorkbook workbook;
-        ArrayList<SfdcUserInputObject> inputList = null;
+
+        ArrayList<TallyInputObject> inputList = null;
         try {
             workbook = new XSSFWorkbook(file.getInputStream());
             if(null!=workbook)
             {
                 System.out.println("Workbook retrieved "+workbook.getNumberOfSheets());
-                XSSFSheet worksheet = workbook.getSheetAt(3);
+                XSSFSheet worksheet = workbook.getSheetAt(0);
                 System.out.println("Sheet retrieved "+worksheet.getSheetName());
                 inputList = new ArrayList<>();
                 //I've Header and I'm ignoring header for that I've +1 in loop
                 for(int i=worksheet.getFirstRowNum()+1;i<=worksheet.getLastRowNum();i++){
                     SfdcUserInputObject inputRow= new SfdcUserInputObject();
+                    TallyInputObject input=new TallyInputObject();
                     Row ro=worksheet.getRow(i);
-                    if(null !=ro && null !=ro.getCell(0) && ro.getCell(0).getStringCellValue().equals("Object")){
-                    for(int j=ro.getFirstCellNum();j<=ro.getLastCellNum();j++) {
+                    if(null !=ro && null !=ro.getCell(0)){
+                    for(int j=ro.getFirstCellNum();j<=ro.getLastCellNum()-1;j++) {
                         Cell ce = ro.getCell(j);
+                        ce.setCellType(CellType.STRING);
                         if (j == 0) {
-                            //If you have Header in text It'll throw exception because it won't get NumericValue
-                            inputRow.setObject(ce.getStringCellValue());
+                            input.setDate(ce.getStringCellValue());
                         }
                         if (j == 1) {
-                            inputRow.setRuleName(ce.getStringCellValue());
                         }
                         if (j == 2) {
-                            inputRow.setDescription(ce.getStringCellValue());
+                            input.setDebit(ce.getStringCellValue());
                         }
                         if (j == 3) {
-                            inputRow.setEvalCriteria(ce.getStringCellValue());
+                            input.setCredit(ce.getStringCellValue());
                         }
                         if (j == 4) {
-                            inputRow.setRuleCriteria(ce.getStringCellValue());
+                            input.setAmount(ce.getStringCellValue());
                         }
                         if (j == 5) {
-                            inputRow.setCriteria(ce.getStringCellValue());
+                            input.setNarration(ce.getStringCellValue());
                         }
                         if (j == 6) {
-                            inputRow.setSpecifyWorkflowAction(ce.getStringCellValue());
-                        }
-                        if (j == 7) {
-                            inputRow.setAddWorkFlowAction(ce.getStringCellValue());
-                        }
-                        if (j == 8) {
-                            inputRow.setActionName(ce.getStringCellValue());
-                        }
-                        if (j == 9) {
-                            inputRow.setName(ce.getStringCellValue());
-                        }
-                        if (j == 10) {
-                            inputRow.setUniqueName(ce.getStringCellValue());
-                        }
-                        if (j == 11) {
-                            inputRow.setWorkflowDescription(ce.getStringCellValue());
-                        }
-                        if (j == 13) {
-                            inputRow.setFieldToUpdate(ce.getStringCellValue());
-                        }
-                        if (j == 14) {
-                            inputRow.setReevaluateWorkflowOptions(ce.getStringCellValue());
-                        }
-                        if (j == 15) {
-                            inputRow.setNewFieldValue(ce.getStringCellValue());
-                        }
-                        if (j == 16) {
-                            inputRow.setFormulaEditor(ce.getStringCellValue());
+                            input.setVoucherType(ce.getStringCellValue());
                         }
 
+
                     }
-                        inputList.add(inputRow);
+                        inputList.add(input);
                     }
 
                 }
@@ -185,7 +180,7 @@ public class SFDCController {
     }
 
 
-    public ResponseEntity<Resource> generateFile(ArrayList<SfdcUserInputObject> inputList){
+    public ResponseEntity<Resource> generateFile(ArrayList<TallyInputObject> inputList){
 
 
         createFile(inputList);
@@ -212,88 +207,72 @@ public class SFDCController {
                 .body(resource);
     }
 
-    private void createFile(ArrayList<SfdcUserInputObject> inputList) {
+    private void createFile(ArrayList<TallyInputObject> inputList) {
 
-        StringBuilder fieldsTemplate=new StringBuilder();
-        StringBuilder rulesTemplate=new StringBuilder();
+        StringBuilder vouchersTemplate=new StringBuilder();
+        StringBuilder ledgersTemplate=new StringBuilder();
         StringBuilder overallTemplate=new StringBuilder();
 
-        for(SfdcUserInputObject inputRow:inputList){
-            String fieldtemplate="<fieldUpdates>\n" +
-                    "        <fullName>{fullname}</fullName>\n" +
-                    "        <description>{description}</description>\n" +
-                    "        <field>{field}</field>\n" +
-                    "        <literalValue>{literalvalue}</literalValue>\n" +
-                    "        <formula>{formula}<formula>\n" +
-                    "        <name>{name}</name>\n" +
-                    "        <notifyAssignee>{notifyassignee}</notifyAssignee>\n" +
-                    "        <operation>{operation}</operation>\n" +
-                    "        <protected>{protected}</protected>\n" +
-                    "    </fieldUpdates>";
+        for(TallyInputObject inputRow:inputList) {
+           String voucherTemplate="<TALLYMESSAGE\n" +
+                   "xmlns:UDF=\"TallyUDF\">\n" +
+                   "<VOUCHER VCHTYPE=\"Payment\" ACTION=\"Create\">\n" +
+                   "<VOUCHERTYPENAME>Payment</VOUCHERTYPENAME>\n" +
+                   "<DATE>{date}</DATE>\n" +
+                   "<PARTYLEDGERNAME>ACash</PARTYLEDGERNAME>\n" +
+                   "<NARRATION>{narration}</NARRATION>\n" +
+                   "<REFERENCE></REFERENCE>\n" +
+                   "<VOUCHERNUMBER></VOUCHERNUMBER>\n" +
+                   "<EFFECTIVEDATE>{date}</EFFECTIVEDATE>\n" +
+                   "{ledgerlist}\n" +
+                   "</VOUCHER>\n" +
+                   "</TALLYMESSAGE>";
 
-            String ruleTemplate=" <rules>\n" +
-                    "        <fullName>{fullname}</fullName>\n" +
-                    "        <actions>\n" +
-                    "            <name>{actionname}</name>\n" +
-                    "            <type>{actiontype}</type>\n" +
-                    "        </actions>\n" +
-                    "        <active>{active}</active>\n" +
-                    "        <criteriaItems>\n" +
-                    "            <field>{criteriafield}</field>\n" +
-                    "            <operation>{criteriaoperation}</operation>\n" +
-                    "        </criteriaItems>\n" +
-                    "        <description>{workflowdescription}</description>\n" +
-                    "        <triggerType>{triggertype}</triggerType>\n" +
-                    "    </rules>\n" +
-                    "    ";
-            fieldtemplate=  fieldtemplate.replaceFirst("\\{fullname}",inputRow.getUniqueName());
-            fieldtemplate=  fieldtemplate.replaceFirst("\\{description}",inputRow.getWorkflowDescription());
-            fieldtemplate=  fieldtemplate.replaceFirst("\\{field}",inputRow.getFieldToUpdate());
-            fieldtemplate=  fieldtemplate.replaceFirst("\\{literalvalue}",inputRow.getNewFieldValue());
-            fieldtemplate=  fieldtemplate.replaceFirst("\\{formula}",inputRow.getFormulaEditor());
-            fieldtemplate= fieldtemplate.replaceFirst("\\{name}",inputRow.getName());
-            fieldtemplate= fieldtemplate.replaceFirst("\\{notifyassignee}","false");
-            if(StringUtils.isNotEmpty(inputRow.getNewFieldValue())) {
-                fieldtemplate=  fieldtemplate.replaceFirst("\\{operation}", "Literal");
-            }
-            else if(StringUtils.isNotEmpty(inputRow.getFormulaEditor())) {
-                fieldtemplate=   fieldtemplate.replaceFirst("\\{operation}", "Formula");
-            }
-            else{
-                fieldtemplate=   fieldtemplate.replaceFirst("\\{operation}", "");
-            }
-            fieldtemplate= fieldtemplate.replaceFirst("\\{protected}","false");
-            fieldsTemplate.append(fieldtemplate);
-            fieldsTemplate.append("\n");
-            ruleTemplate=   ruleTemplate.replaceFirst("\\{fullname}",inputRow.getRuleName());
-            ruleTemplate=   ruleTemplate.replaceFirst("\\{actionname}",inputRow.getUniqueName());
-            ruleTemplate=   ruleTemplate.replaceFirst("\\{actiontype}","FieldUpdate");
-            ruleTemplate=   ruleTemplate.replaceFirst("\\{active}","true");
-            ruleTemplate=   ruleTemplate.replaceFirst("\\{criteriafield}",inputRow.getFieldToUpdate());
-            if(inputRow.getCriteria().contains("!=")){
-                ruleTemplate=   ruleTemplate.replaceFirst("\\{criteriaoperation}","notEqual");
-            }else {
-                ruleTemplate = ruleTemplate.replaceFirst("\\{criteriaoperation}", "equals");
-            }
-            ruleTemplate=   ruleTemplate.replaceFirst("\\{workflowdescription}",inputRow.getDescription());
-            if(inputRow.getEvalCriteria().equals("created")) {
-                ruleTemplate = ruleTemplate.replaceFirst("\\{triggertype}", "onCreateOnly");
-            }
-            else if(inputRow.getEvalCriteria().equals("created, and everytime it's edited")) {
-                ruleTemplate = ruleTemplate.replaceFirst("\\{triggertype}", "onAllChanges");
-            }
-            else if(inputRow.getEvalCriteria().equals("created, and any time it's edited to subsequently meet criteria")) {
-                ruleTemplate = ruleTemplate.replaceFirst("\\{triggertype}", "onCreateOrTriggeringUpdate");
-            }
-            rulesTemplate.append(ruleTemplate);
-            rulesTemplate.append("\n");
+           String ledgerTemplate="<ALLLEDGERENTRIES.LIST>\n" +
+                   "<REMOVEZEROENTRIES>No</REMOVEZEROENTRIES>\n" +
+                   "<ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>\n" +
+                   "<LEDGERFROMITEM>No</LEDGERFROMITEM>\n" +
+                   "<LEDGERNAME>{debit}</LEDGERNAME>\n" +
+                   "<AMOUNT>- {amount}</AMOUNT>\n" +
+                   "</ALLLEDGERENTRIES.LIST>\n" +
+                   "<ALLLEDGERENTRIES.LIST>\n" +
+                   "<REMOVEZEROENTRIES>No</REMOVEZEROENTRIES>\n" +
+                   "<ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>\n" +
+                   "<LEDGERFROMITEM>No</LEDGERFROMITEM>\n" +
+                   "<LEDGERNAME>{credit}</LEDGERNAME>\n" +
+                   "<AMOUNT> {amount}</AMOUNT>\n" +
+                   "</ALLLEDGERENTRIES.LIST>";
+            voucherTemplate=  voucherTemplate.replaceAll("\\{date}",inputRow.getDate());
+            voucherTemplate=  voucherTemplate.replaceFirst("\\{narration}",inputRow.getNarration());
+            ledgerTemplate=  ledgerTemplate.replaceFirst("\\{debit}",inputRow.getDebit());
+            ledgerTemplate=  ledgerTemplate.replaceFirst("\\{credit}",inputRow.getCredit());
+            ledgerTemplate=  ledgerTemplate.replaceAll("\\{amount}",inputRow.getAmount());
+            voucherTemplate=  voucherTemplate.replaceFirst("\\{ledgerlist}",ledgerTemplate);
+            vouchersTemplate.append(voucherTemplate);
+            vouchersTemplate.append("\n");
         }
-        overallTemplate.append(outputHeader);
-        overallTemplate.append("\n");
-        overallTemplate.append(fieldsTemplate);
-        overallTemplate.append(rulesTemplate);
-        overallTemplate.append(outputFooter);
 
+        overallTemplate.append(envelope_Start_Tag);
+        overallTemplate.append("\n");
+        overallTemplate.append(headerTemplate);
+        overallTemplate.append("\n");
+        overallTemplate.append(body_Start_Tag);
+        overallTemplate.append("\n");
+        overallTemplate.append(importdata_Start_Tag);
+        overallTemplate.append("\n");
+        overallTemplate.append(requestDesc);
+        overallTemplate.append("\n");
+        overallTemplate.append(requestData_Start_Tag);
+        overallTemplate.append("\n");
+        overallTemplate.append(vouchersTemplate);
+        overallTemplate.append("\n");
+        overallTemplate.append(requestData_end_Tag);
+        overallTemplate.append("\n");
+        overallTemplate.append(importdata_End_Tag);
+        overallTemplate.append("\n");
+        overallTemplate.append(body_End_Tag);
+        overallTemplate.append("\n");
+        overallTemplate.append(envelope_End_Tag);
         try {
             File myObj = new File(OUTPUT_FILE_PATH);
             if (myObj.createNewFile()) {
