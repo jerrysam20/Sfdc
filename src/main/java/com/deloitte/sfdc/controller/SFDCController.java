@@ -6,7 +6,6 @@ import com.deloitte.sfdc.interfaces.Services;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -118,8 +117,112 @@ public class SFDCController {
     @PostMapping(value = "/generateCode", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Resource> uploadFile(@RequestParam MultipartFile file, @RequestParam String sourceOption) throws IOException {
        System.out.println(file);
+        ArrayList<TallyInputObject> inputList=null;
+       if(sourceOption.equalsIgnoreCase("Single Entry")) {
+            inputList = generateInputList(file);
+       }
 
-      //testMongoConnection();
+       else{
+           inputList = generateInputListMultiEdit(file);
+       }
+        System.out.println(inputList);
+
+        return generateFile(inputList);
+
+
+    }
+
+    private ArrayList<TallyInputObject> generateInputListMultiEdit(MultipartFile file) {
+
+        //testMongoConnection();
+        XSSFWorkbook workbook;
+
+        ArrayList<TallyInputObject> inputList = null;
+        try {
+            workbook = new XSSFWorkbook(file.getInputStream());
+            if (null != workbook) {
+                System.out.println("Workbook retrieved " + workbook.getNumberOfSheets());
+                XSSFSheet worksheet = workbook.getSheetAt(1);
+                System.out.println("Sheet retrieved " + worksheet.getSheetName());
+                inputList = new ArrayList<>();
+                DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+                List<CreditVO> creditList = new ArrayList<>();
+                List<DebitVO> debitList = new ArrayList<>();
+                TallyInputObject input = new TallyInputObject();
+
+
+
+                Row row = worksheet.getRow(1);
+                if (null != row && null != row.getCell(0)) {
+                    for (int j = row.getFirstCellNum(); j <= row.getLastCellNum(); j++) {
+                        Cell ce = row.getCell(j);
+                        if (j == 0) {
+                            Date date = ce.getDateCellValue();
+                            String reportDate = df.format(date);
+                            reportDate = reportDate.replaceAll("/", "");
+                            input.setDate(reportDate);
+
+                        }
+                        if (j == 1) {
+                        }
+                        if (j == 2) {
+                            input.setNarration(ce.getStringCellValue());
+                        }
+                        if (j == 3) {
+                            input.setVoucherType(ce.getStringCellValue());
+                        }
+
+                    }
+                }
+
+
+                for (int i = worksheet.getFirstRowNum() + 1; i <= worksheet.getLastRowNum(); i++) {
+                    DebitVO debit = new DebitVO();
+                    CreditVO credit = new CreditVO();
+                    Row ro = worksheet.getRow(i);
+                    if (null != ro && null != ro.getCell(0)) {
+                        for (int j = ro.getFirstCellNum(); j <= ro.getLastCellNum(); j++) {
+                            Cell ce = ro.getCell(j);
+                            if (j == 4) {
+                                debit.setDebitName(ce.getStringCellValue());
+
+                            }
+                            if (j == 5) {
+                                debit.setDebitAmount(String.valueOf(ce.getNumericCellValue()));
+                            }
+                            if (j == 6) {
+                                credit.setCreditName(ce.getStringCellValue());
+                            }
+                            if (j == 7) {
+                                credit.setCreditAmount(String.valueOf(ce.getNumericCellValue()));
+                            }
+
+                        }
+                        if(StringUtils.isNotBlank(credit.getCreditName())) {
+                            creditList.add(credit);
+                        }
+                        if(StringUtils.isNotBlank(debit.getDebitName())) {
+                            debitList.add(debit);
+                        }
+
+                    }
+
+                }
+                input.setCreditList(creditList);
+                input.setDebitList(debitList);
+                inputList.add(input);
+            }
+
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return inputList;
+    }
+
+    private ArrayList<TallyInputObject> generateInputList(MultipartFile file){
+        //testMongoConnection();
         XSSFWorkbook workbook;
 
         ArrayList<TallyInputObject> inputList = null;
@@ -132,41 +235,54 @@ public class SFDCController {
                 System.out.println("Sheet retrieved "+worksheet.getSheetName());
                 inputList = new ArrayList<>();
                 DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+                CreditVO credit=new CreditVO();
+                List<CreditVO> creditList=new ArrayList<>();
+                List<DebitVO> debitList=new ArrayList<>();
+
+                DebitVO debit=new DebitVO();
                 //I've Header and I'm ignoring header for that I've +1 in loop
                 for(int i=worksheet.getFirstRowNum()+1;i<=worksheet.getLastRowNum();i++){
                     SfdcUserInputObject inputRow= new SfdcUserInputObject();
                     TallyInputObject input=new TallyInputObject();
                     Row ro=worksheet.getRow(i);
                     if(null !=ro && null !=ro.getCell(0)){
-                    for(int j=ro.getFirstCellNum();j<=ro.getLastCellNum();j++) {
-                        Cell ce = ro.getCell(j);
-                        if (j == 0) {
-                            Date date = ce.getDateCellValue();
-                            String reportDate = df.format(date);
-                            reportDate=reportDate.replaceAll("/","");
-                            input.setDate(reportDate);
+                        for(int j=ro.getFirstCellNum();j<=ro.getLastCellNum();j++) {
+                            Cell ce = ro.getCell(j);
+                            if (j == 0) {
+                                Date date = ce.getDateCellValue();
+                                String reportDate = df.format(date);
+                                reportDate=reportDate.replaceAll("/","");
+                                input.setDate(reportDate);
+
+                            }
+                            if (j == 1) {
+                            }
+                            if (j == 2) {
+                                debit.setDebitName(ce.getStringCellValue());
+                            }
+                            if (j == 3) {
+                                credit.setCreditName(ce.getStringCellValue());
+                            }
+                            if (j == 4) {
+                                debit.setDebitAmount(String.valueOf(ce.getNumericCellValue()));
+                                credit.setCreditAmount(String.valueOf(ce.getNumericCellValue()));
+                            }
+                            if (j == 5) {
+                                input.setNarration(ce.getStringCellValue());
+                            }
+                            if (j == 6) {
+                                input.setVoucherType(ce.getStringCellValue());
+                            }
 
                         }
-                        if (j == 1) {
+                        if(StringUtils.isNotBlank(credit.getCreditName())) {
+                            creditList.add(credit);
                         }
-                        if (j == 2) {
-                            input.setDebit(ce.getStringCellValue());
+                        if(StringUtils.isNotBlank(debit.getDebitName())) {
+                            debitList.add(debit);
                         }
-                        if (j == 3) {
-                            input.setCredit(ce.getStringCellValue());
-                        }
-                        if (j == 4) {
-                            input.setAmount(String.valueOf(ce.getNumericCellValue()));
-                        }
-                        if (j == 5) {
-                            input.setNarration(ce.getStringCellValue());
-                        }
-                        if (j == 6) {
-                            input.setVoucherType(ce.getStringCellValue());
-                        }
-
-
-                    }
+                        input.setCreditList(creditList);
+                        input.setDebitList(debitList);
                         inputList.add(input);
                     }
 
@@ -179,11 +295,7 @@ public class SFDCController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        System.out.println(inputList);
-
-        return generateFile(inputList);
-
-
+        return inputList;
     }
 
 
@@ -235,27 +347,45 @@ public class SFDCController {
                    "</VOUCHER>\n" +
                    "</TALLYMESSAGE>";
 
-           String ledgerTemplate="<ALLLEDGERENTRIES.LIST>\n" +
-                   "<REMOVEZEROENTRIES>No</REMOVEZEROENTRIES>\n" +
-                   "<ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>\n" +
-                   "<LEDGERFROMITEM>No</LEDGERFROMITEM>\n" +
-                   "<LEDGERNAME>{debit}</LEDGERNAME>\n" +
-                   "<AMOUNT>- {amount}</AMOUNT>\n" +
-                   "</ALLLEDGERENTRIES.LIST>\n" +
-                   "<ALLLEDGERENTRIES.LIST>\n" +
-                   "<REMOVEZEROENTRIES>No</REMOVEZEROENTRIES>\n" +
-                   "<ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>\n" +
-                   "<LEDGERFROMITEM>No</LEDGERFROMITEM>\n" +
-                   "<LEDGERNAME>{credit}</LEDGERNAME>\n" +
-                   "<AMOUNT> {amount}</AMOUNT>\n" +
-                   "</ALLLEDGERENTRIES.LIST>";
+
+
             voucherTemplate=  voucherTemplate.replaceAll("\\{date}",inputRow.getDate());
             voucherTemplate=  voucherTemplate.replaceFirst("\\{narration}",inputRow.getNarration());
-            voucherTemplate=  voucherTemplate.replaceFirst("\\{partyledgername}",inputRow.getCredit());
-            ledgerTemplate=  ledgerTemplate.replaceFirst("\\{debit}",inputRow.getDebit());
-            ledgerTemplate=  ledgerTemplate.replaceFirst("\\{credit}",inputRow.getCredit());
-            ledgerTemplate=  ledgerTemplate.replaceAll("\\{amount}",inputRow.getAmount());
-            voucherTemplate=  voucherTemplate.replaceFirst("\\{ledgerlist}",ledgerTemplate);
+
+
+            for(DebitVO debit:inputRow.getDebitList()){
+
+                String debitLedgerTemplate="<ALLLEDGERENTRIES.LIST>\n" +
+                        "<REMOVEZEROENTRIES>No</REMOVEZEROENTRIES>\n" +
+                        "<ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>\n" +
+                        "<LEDGERFROMITEM>No</LEDGERFROMITEM>\n" +
+                        "<LEDGERNAME>{debit}</LEDGERNAME>\n" +
+                        "<AMOUNT>- {amount}</AMOUNT>\n" +
+                        "</ALLLEDGERENTRIES.LIST>";
+
+                debitLedgerTemplate=  debitLedgerTemplate.replaceFirst("\\{debit}",debit.getDebitName());
+                debitLedgerTemplate=  debitLedgerTemplate.replaceFirst("\\{amount}",debit.getDebitAmount());
+                ledgersTemplate.append(debitLedgerTemplate);
+
+            }
+            for(CreditVO credit:inputRow.getCreditList()){
+
+                String creditLedgerTemplate="<ALLLEDGERENTRIES.LIST>\n" +
+                        "<REMOVEZEROENTRIES>No</REMOVEZEROENTRIES>\n" +
+                        "<ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>\n" +
+                        "<LEDGERFROMITEM>No</LEDGERFROMITEM>\n" +
+                        "<LEDGERNAME>{credit}</LEDGERNAME>\n" +
+                        "<AMOUNT> {amount}</AMOUNT>\n" +
+                        "</ALLLEDGERENTRIES.LIST>";
+
+                creditLedgerTemplate=  creditLedgerTemplate.replaceFirst("\\{credit}",credit.getCreditName());
+                creditLedgerTemplate=  creditLedgerTemplate.replaceFirst("\\{amount}",credit.getCreditAmount());
+                voucherTemplate=  voucherTemplate.replaceFirst("\\{partyledgername}",credit.getCreditName());
+                ledgersTemplate.append(creditLedgerTemplate);
+
+            }
+
+            voucherTemplate=  voucherTemplate.replaceFirst("\\{ledgerlist}", String.valueOf(ledgersTemplate));
             vouchersTemplate.append(voucherTemplate);
             vouchersTemplate.append("\n");
         }

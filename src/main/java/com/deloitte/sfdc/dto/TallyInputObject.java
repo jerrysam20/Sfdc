@@ -1,14 +1,31 @@
 package com.deloitte.sfdc.dto;
 
+import java.util.List;
+
 public class TallyInputObject {
 
     private String date;
     private String voucherNumber;
-    private String debit;
-    private String credit;
-    private String amount;
+    private List<DebitVO> debitList;
+    private List<CreditVO> creditList;
     private String narration;
     private String voucherType;
+
+    public List<DebitVO> getDebitList() {
+        return debitList;
+    }
+
+    public void setDebitList(List<DebitVO> debitList) {
+        this.debitList = debitList;
+    }
+
+    public List<CreditVO> getCreditList() {
+        return creditList;
+    }
+
+    public void setCreditList(List<CreditVO> creditList) {
+        this.creditList = creditList;
+    }
 
     public String getDate() {
         return date;
@@ -26,29 +43,6 @@ public class TallyInputObject {
         this.voucherNumber = voucherNumber;
     }
 
-    public String getDebit() {
-        return debit;
-    }
-
-    public void setDebit(String debit) {
-        this.debit = debit;
-    }
-
-    public String getCredit() {
-        return credit;
-    }
-
-    public void setCredit(String credit) {
-        this.credit = credit;
-    }
-
-    public String getAmount() {
-        return amount;
-    }
-
-    public void setAmount(String amount) {
-        this.amount = amount;
-    }
 
     public String getNarration() {
         return narration;

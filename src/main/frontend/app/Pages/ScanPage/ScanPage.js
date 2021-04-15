@@ -19,33 +19,15 @@ export default class ScanPage extends React.Component {
       selectedFormattedDate: moment(new Date()).format('YYYYMMDD'),
       sourceOptionsData: [
         {
-          label: 'Triggers',
-          value: 'Triggers',
+          label: 'Single Entry',
+          value: 'Single Entry',
           version: 6,
           source: 'sourceOption'
         },
         {
-          label: 'Integration Callouts',
-          value: 'Integration Callouts',
+          label: 'Multiple Entry',
+          value: 'Multiple Entry',
           version: 7,
-          source: 'sourceOption'
-        },
-        {
-          label: 'Workflows',
-          value: 'Workflows',
-          version: 8,
-          source: 'sourceOption'
-        },
-        {
-          label: 'Approval Process',
-          value: 'Approval Process',
-          version: 9,
-          source: 'sourceOption'
-        },
-        {
-          label: 'Batch Class',
-          value: 'Batch Class',
-          version: 10,
           source: 'sourceOption'
         }
       ],
@@ -55,33 +37,15 @@ export default class ScanPage extends React.Component {
       selectedSourceVersion: '',
       availableOptionsData: [
         {
-          label: 'Triggers',
-          value: 'Triggers',
+          label: 'Single Entry',
+          value: 'Single Entry',
           version: 6,
           source: 'availableOption'
         },
         {
-          label: 'Integration Callouts',
-          value: 'Integration Callouts',
+          label: 'Multiple Entry',
+          value: 'Multiple Entry',
           version: 7,
-          source: 'availableOption'
-        },
-        {
-          label: 'Workflows',
-          value: 'Workflows',
-          version: 8,
-          source: 'availableOption'
-        },
-        {
-          label: 'Approval Process',
-          value: 'Approval Process',
-          version: 9,
-          source: 'availableOption'
-        },
-        {
-          label: 'Batch Class',
-          value: 'Batch Class',
-          version: 10,
           source: 'availableOption'
         }
       ],
