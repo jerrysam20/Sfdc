@@ -180,21 +180,22 @@ public class SFDCController {
                     DebitVO debit = new DebitVO();
                     CreditVO credit = new CreditVO();
                     Row ro = worksheet.getRow(i);
-                    if (null != ro && null != ro.getCell(0)) {
+                    if (null != ro) {
                         for (int j = ro.getFirstCellNum(); j <= ro.getLastCellNum(); j++) {
                             Cell ce = ro.getCell(j);
+
                             if (j == 4) {
-                                debit.setDebitName(ce.getStringCellValue());
+                                debit.setDebitName(null !=ce?ce.getStringCellValue():"");
 
                             }
                             if (j == 5) {
-                                debit.setDebitAmount(String.valueOf(ce.getNumericCellValue()));
+                                debit.setDebitAmount(null !=ce?String.valueOf(ce.getNumericCellValue()):"");
                             }
                             if (j == 6) {
-                                credit.setCreditName(ce.getStringCellValue());
+                                credit.setCreditName(null !=ce?ce.getStringCellValue():"");
                             }
                             if (j == 7) {
-                                credit.setCreditAmount(String.valueOf(ce.getNumericCellValue()));
+                                credit.setCreditAmount(null !=ce?String.valueOf(ce.getNumericCellValue()):"");
                             }
 
                         }
