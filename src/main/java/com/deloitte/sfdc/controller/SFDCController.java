@@ -336,8 +336,8 @@ public class SFDCController {
         for(TallyInputObject inputRow:inputList) {
            String voucherTemplate="<TALLYMESSAGE\n" +
                    "xmlns:UDF=\"TallyUDF\">\n" +
-                   "<VOUCHER VCHTYPE=\"Payment\" ACTION=\"Create\">\n" +
-                   "<VOUCHERTYPENAME>Payment</VOUCHERTYPENAME>\n" +
+                   "<VOUCHER VCHTYPE=\"{type}\" ACTION=\"Create\">\n" +
+                   "<VOUCHERTYPENAME>{type}</VOUCHERTYPENAME>\n" +
                    "<DATE>{date}</DATE>\n" +
                    "<PARTYLEDGERNAME>{partyledgername}</PARTYLEDGERNAME>\n" +
                    "<NARRATION>{narration}</NARRATION>\n" +
@@ -352,7 +352,7 @@ public class SFDCController {
 
             voucherTemplate=  voucherTemplate.replaceAll("\\{date}",inputRow.getDate());
             voucherTemplate=  voucherTemplate.replaceFirst("\\{narration}",inputRow.getNarration());
-
+            voucherTemplate=voucherTemplate.replaceAll("\\{type}",inputRow.getVoucherType());
 
             for(DebitVO debit:inputRow.getDebitList()){
 
