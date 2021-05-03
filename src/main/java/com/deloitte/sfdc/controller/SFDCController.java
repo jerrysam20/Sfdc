@@ -147,88 +147,110 @@ public class SFDCController {
                 System.out.println("Sheet retrieved " + worksheet.getSheetName());
                 inputList = new ArrayList<>();
                 DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-                List<CreditVO> creditList = new ArrayList<>();
-                List<DebitVO> debitList = new ArrayList<>();
-                TallyInputObject input = new TallyInputObject();
-
-
-
-                Row row = worksheet.getRow(1);
-                if (null != row && null != row.getCell(0)) {
-                    for (int j = row.getFirstCellNum(); j <= row.getLastCellNum(); j++) {
-                        Cell ce = row.getCell(j);
-                        if (j == 0) {
-                            Date date = ce.getDateCellValue();
-                            String reportDate = df.format(date);
-                            reportDate = reportDate.replaceAll("/", "");
-                            input.setDate(reportDate);
-
-                        }
-                        if (j == 1) {
-                        }
-                        if (j == 2) {
-                            if(null !=ce && ce.getCellType() == CellType.STRING) {
-                                input.setNarration(ce.getStringCellValue());
-                            }
-                            else if(null !=ce &&  ce.getCellType() == CellType.NUMERIC) {
-                                input.setNarration(null != ce ? String.valueOf( ce.getNumericCellValue()): "");
-                            }
-                        }
-                        if (j == 3) {
-                            input.setVoucherType(ce.getStringCellValue());
-                        }
-
-                    }
-                }
+                int rownum=0;
 
 
                 for (int i = worksheet.getFirstRowNum() + 1; i <= worksheet.getLastRowNum(); i++) {
-                    DebitVO debit = new DebitVO();
-                    CreditVO credit = new CreditVO();
-                    Row ro = worksheet.getRow(i);
-                    if (null != ro) {
-                        for (int j = ro.getFirstCellNum(); j <= ro.getLastCellNum(); j++) {
-                            Cell ce = ro.getCell(j);
 
-                            if (j == 4) {
-                                if(null !=ce && ce.getCellType() == CellType.STRING) {
-                                    debit.setDebitName(null != ce ? ce.getStringCellValue() : "");
-                                }
-                                else if(null !=ce && ce.getCellType() == CellType.NUMERIC) {
-                                    debit.setDebitName(null != ce ? String.valueOf( ce.getNumericCellValue()): "");
-                                }
+                    List<CreditVO> creditList = new ArrayList<>();
+                    List<DebitVO> debitList = new ArrayList<>();
+
+
+                    TallyInputObject input = new TallyInputObject();
+
+
+                    Row row = worksheet.getRow(i);
+                    if (null != row && null != row.getCell(0) && null !=row.getCell(0).getDateCellValue() && StringUtils.isNotBlank(row.getCell(0).getDateCellValue().toString())) {
+                        rownum = i;
+
+                        for (int j = row.getFirstCellNum(); j <= row.getLastCellNum(); j++) {
+                            Cell ce = row.getCell(j);
+                            if (j == 0) {
+                                Date date = ce.getDateCellValue();
+                                String reportDate = df.format(date);
+                                reportDate = reportDate.replaceAll("/", "");
+                                input.setDate(reportDate);
 
                             }
-                            if (j == 5) {
-                                debit.setDebitAmount(null !=ce?String.valueOf(ce.getNumericCellValue()):"");
+                            if (j == 1) {
                             }
-                            if (j == 6) {
-                                if(null !=ce && ce.getCellType() == CellType.STRING) {
-                                    credit.setCreditName(null != ce ? ce.getStringCellValue() : "");
+                            if (j == 2) {
+                                if(null !=ce){
+                                    ce.setCellType(CellType.STRING);
                                 }
-                                else if(null !=ce &&  ce.getCellType() == CellType.NUMERIC) {
-                                    credit.setCreditName(null != ce ? String.valueOf( ce.getNumericCellValue()): "");
+                                if (null != ce && ce.getCellType() == CellType.STRING) {
+                                    input.setNarration(ce.getStringCellValue());
+                                } else if (null != ce && ce.getCellType() == CellType.NUMERIC) {
+                                    input.setNarration(null != ce ? String.valueOf(ce.getNumericCellValue()) : "");
                                 }
                             }
-                            if (j == 7) {
-                                credit.setCreditAmount(null !=ce?String.valueOf(ce.getNumericCellValue()):"");
+                            if (j == 3) {
+                                input.setVoucherType(ce.getStringCellValue());
                             }
 
                         }
-                        if(StringUtils.isNotBlank(credit.getCreditName())) {
-                            creditList.add(credit);
-                        }
-                        if(StringUtils.isNotBlank(debit.getDebitName())) {
-                            debitList.add(debit);
-                        }
 
+
+                        for (int k = rownum; k <= worksheet.getLastRowNum(); k++) {
+
+                            DebitVO debit = new DebitVO();
+                            CreditVO credit = new CreditVO();
+                            Row ro = worksheet.getRow(k);
+                            if (i !=k && ro.getCell(0) != null && ro.getCell(0).getCellType() != CellType.BLANK  &&  StringUtils.isNotBlank(String.valueOf(ro.getCell(0).getNumericCellValue()))){
+                                i=k-1;
+                                break;
+                            }
+
+                            if (null != ro) {
+                                for (int j = ro.getFirstCellNum(); j <= ro.getLastCellNum(); j++) {
+                                    Cell ce = ro.getCell(j);
+
+                                    if (j == 4) {
+                                        if(null !=ce){
+                                            ce.setCellType(CellType.STRING);
+                                        }
+                                        if (null != ce && ce.getCellType() == CellType.STRING) {
+                                            debit.setDebitName(null != ce ? ce.getStringCellValue() : "");
+                                        } else if (null != ce && ce.getCellType() == CellType.NUMERIC) {
+                                            debit.setDebitName(null != ce ? String.valueOf(ce.getNumericCellValue()) : "");
+                                        }
+
+                                    }
+                                    if (j == 5) {
+                                        debit.setDebitAmount(null != ce ? String.valueOf(ce.getNumericCellValue()) : "");
+                                    }
+                                    if (j == 6) {
+                                        if(null !=ce){
+                                            ce.setCellType(CellType.STRING);
+                                        }
+                                        if (null != ce && ce.getCellType() == CellType.STRING) {
+                                            credit.setCreditName(null != ce ? ce.getStringCellValue() : "");
+                                        } else if (null != ce && ce.getCellType() == CellType.NUMERIC) {
+                                            credit.setCreditName(null != ce ? String.valueOf(ce.getNumericCellValue()) : "");
+                                        }
+                                    }
+                                    if (j == 7) {
+                                        credit.setCreditAmount(null != ce ? String.valueOf(ce.getNumericCellValue()) : "");
+                                    }
+
+                                }
+                                if (StringUtils.isNotBlank(credit.getCreditName())) {
+                                    creditList.add(credit);
+                                }
+                                if (StringUtils.isNotBlank(debit.getDebitName())) {
+                                    debitList.add(debit);
+                                }
+
+                            }
+
+                        }
+                        input.setCreditList(creditList);
+                        input.setDebitList(debitList);
+                        inputList.add(input);
                     }
-
                 }
-                input.setCreditList(creditList);
-                input.setDebitList(debitList);
-                inputList.add(input);
             }
+
 
 
         } catch (IOException e) {
@@ -346,10 +368,10 @@ public class SFDCController {
     private void createFile(ArrayList<TallyInputObject> inputList) {
 
         StringBuilder vouchersTemplate=new StringBuilder();
-        StringBuilder ledgersTemplate=new StringBuilder();
         StringBuilder overallTemplate=new StringBuilder();
 
         for(TallyInputObject inputRow:inputList) {
+            StringBuilder ledgersTemplate=new StringBuilder();
            String voucherTemplate="<TALLYMESSAGE\n" +
                    "xmlns:UDF=\"TallyUDF\">\n" +
                    "<VOUCHER VCHTYPE=\"{type}\" ACTION=\"Create\">\n" +
