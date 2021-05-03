@@ -6,6 +6,7 @@ import com.deloitte.sfdc.interfaces.Services;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -166,7 +167,12 @@ public class SFDCController {
                         if (j == 1) {
                         }
                         if (j == 2) {
-                            input.setNarration(ce.getStringCellValue());
+                            if(null !=ce && ce.getCellType() == CellType.STRING) {
+                                input.setNarration(ce.getStringCellValue());
+                            }
+                            else if(null !=ce &&  ce.getCellType() == CellType.NUMERIC) {
+                                input.setNarration(null != ce ? String.valueOf( ce.getNumericCellValue()): "");
+                            }
                         }
                         if (j == 3) {
                             input.setVoucherType(ce.getStringCellValue());
@@ -185,14 +191,24 @@ public class SFDCController {
                             Cell ce = ro.getCell(j);
 
                             if (j == 4) {
-                                debit.setDebitName(null !=ce?ce.getStringCellValue():"");
+                                if(null !=ce && ce.getCellType() == CellType.STRING) {
+                                    debit.setDebitName(null != ce ? ce.getStringCellValue() : "");
+                                }
+                                else if(null !=ce && ce.getCellType() == CellType.NUMERIC) {
+                                    debit.setDebitName(null != ce ? String.valueOf( ce.getNumericCellValue()): "");
+                                }
 
                             }
                             if (j == 5) {
                                 debit.setDebitAmount(null !=ce?String.valueOf(ce.getNumericCellValue()):"");
                             }
                             if (j == 6) {
-                                credit.setCreditName(null !=ce?ce.getStringCellValue():"");
+                                if(null !=ce && ce.getCellType() == CellType.STRING) {
+                                    credit.setCreditName(null != ce ? ce.getStringCellValue() : "");
+                                }
+                                else if(null !=ce &&  ce.getCellType() == CellType.NUMERIC) {
+                                    credit.setCreditName(null != ce ? String.valueOf( ce.getNumericCellValue()): "");
+                                }
                             }
                             if (j == 7) {
                                 credit.setCreditAmount(null !=ce?String.valueOf(ce.getNumericCellValue()):"");
