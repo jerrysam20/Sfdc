@@ -179,7 +179,7 @@ public class SFDCController {
                                     ce.setCellType(CellType.STRING);
                                 }
                                 if (null != ce && ce.getCellType() == CellType.STRING) {
-                                    input.setNarration(ce.getStringCellValue());
+                                    input.setNarration(ce.getStringCellValue().replaceAll("&amp;","&").replaceAll("&","&amp;"));
                                 } else if (null != ce && ce.getCellType() == CellType.NUMERIC) {
                                     input.setNarration(null != ce ? String.valueOf(ce.getNumericCellValue()) : "");
                                 }
@@ -210,7 +210,7 @@ public class SFDCController {
                                             ce.setCellType(CellType.STRING);
                                         }
                                         if (null != ce && ce.getCellType() == CellType.STRING) {
-                                            debit.setDebitName(null != ce ? ce.getStringCellValue() : "");
+                                            debit.setDebitName(null != ce ? ce.getStringCellValue().replaceAll("&amp;","&").replaceAll("&","&amp;") : "");
                                         } else if (null != ce && ce.getCellType() == CellType.NUMERIC) {
                                             debit.setDebitName(null != ce ? String.valueOf(ce.getNumericCellValue()) : "");
                                         }
@@ -224,7 +224,7 @@ public class SFDCController {
                                             ce.setCellType(CellType.STRING);
                                         }
                                         if (null != ce && ce.getCellType() == CellType.STRING) {
-                                            credit.setCreditName(null != ce ? ce.getStringCellValue() : "");
+                                            credit.setCreditName(null != ce ? ce.getStringCellValue().replaceAll("&amp;","&").replaceAll("&","&amp;") : "");
                                         } else if (null != ce && ce.getCellType() == CellType.NUMERIC) {
                                             credit.setCreditName(null != ce ? String.valueOf(ce.getNumericCellValue()) : "");
                                         }
